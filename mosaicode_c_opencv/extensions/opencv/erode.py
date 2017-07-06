@@ -4,17 +4,17 @@
 This module contains the Erode class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Erode(Plugin):
+class Erode(BlockModel):
     """
     This class contains methods related the Erode class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.masksize = "3x3"
         self.iterations = 1
 

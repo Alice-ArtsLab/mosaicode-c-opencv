@@ -4,17 +4,17 @@
 This module contains the MinMax class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class MinMax(Plugin):
+class MinMax(BlockModel):
     """
     This class contains methods related the MinMax class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.minX = 0
         self.maxX = 500
         self.minY = 0

@@ -4,17 +4,17 @@
 This module contains the NewRect class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class NewRect(Plugin):
+class NewRect(BlockModel):
     """
     This class contains methods related the NewRect class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.help = "Creates new rectangle"
         self.label = "New Rectangle"
         self.color = "50:50:200:150"

@@ -4,17 +4,17 @@
 This module contains the Canny class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Canny(Plugin):
+class Canny(BlockModel):
     """
     This class contains methods related the Canny class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.help = "Operacão de filtragem que implementa o algoritmo " + \
             "Canny para detecção de contornos e bordas." + \
             "\nPropriedades\nLimiar 1 e Limiar 2: os dois valores" + \

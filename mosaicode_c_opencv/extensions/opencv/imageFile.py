@@ -4,17 +4,17 @@
 This module contains the ImageFile class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class ImageFile(Plugin):
+class ImageFile(BlockModel):
     """
     This class contains methods related the ImageFile class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.help = "Realiza a aquisição de uma imagem a " + \
             "partir de algum dispositivo, " + \
             "seja este uma mídia ou um dispositivo de " + \

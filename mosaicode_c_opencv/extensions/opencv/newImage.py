@@ -4,17 +4,17 @@
 This module contains the NewImage class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class NewImage(Plugin):
+class NewImage(BlockModel):
     """
     This class contains methods related the NewImage class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.width = "640"
         self.height = "480"
 

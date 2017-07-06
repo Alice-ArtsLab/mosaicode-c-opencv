@@ -4,17 +4,17 @@
 This module contains the Sum class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Sum(Plugin):
+class Sum(BlockModel):
     """
     This class contains methods related the Sum class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Realiza a soma de duas imagens."

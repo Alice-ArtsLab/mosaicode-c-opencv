@@ -4,17 +4,17 @@
 This module contains the Smooth class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Smooth(Plugin):
+class Smooth(BlockModel):
     """
     This class contains methods related the Smooth class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.smooth_type = "CV_GAUSSIAN"
         self.param1 = 7
         self.param2 = 9

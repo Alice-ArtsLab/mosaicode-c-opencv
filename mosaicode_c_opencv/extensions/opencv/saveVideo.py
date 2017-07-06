@@ -4,17 +4,17 @@
 This module contains the SaveVideo class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class SaveVideo(Plugin):
+class SaveVideo(BlockModel):
     """
     This class contains methods related the SaveVideo class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.filename = "~/Output.mpeg"
         self.framerate = 25.0
         self.codecSelection = "MPEG1"

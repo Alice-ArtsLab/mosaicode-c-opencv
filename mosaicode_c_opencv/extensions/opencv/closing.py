@@ -4,17 +4,17 @@
 This module contains the Closing class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Closing(Plugin):
+class Closing(BlockModel):
     """
     This class contains methods related the Closing class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.masksize = "7x7"
 
         # Appearance

@@ -4,17 +4,17 @@
 This module contains the Threshold class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Threshold(Plugin):
+class Threshold(BlockModel):
     """
     This class contains methods related the Threshold class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.threshold = 122
         self.maxValue = 255
         self.thresholdType = "CV_THRESH_BINARY"

@@ -4,17 +4,17 @@
 This module contains the Or class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Or(Plugin):
+class Or(BlockModel):
     """
     This class contains methods related the Or class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Permite a operação lógica 'OU' entre as " + \

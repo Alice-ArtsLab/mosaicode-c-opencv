@@ -4,17 +4,17 @@
 This module contains the Exp class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Exp(Plugin):
+class Exp(BlockModel):
     """
     This class contains methods related the Exp class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Aplica a função exponencial a uma imagem, ou seja, " + \

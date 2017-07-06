@@ -4,17 +4,17 @@
 This module contains the HaarDetect class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class HaarDetect(Plugin):
+class HaarDetect(BlockModel):
     """
     This class contains methods related the HaarDetect class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.cascade_name = "/usr/share/mosaicode/images/" + \
             "haarcascade_frontalface_alt2.xml"
         self.min_neighbors = 2

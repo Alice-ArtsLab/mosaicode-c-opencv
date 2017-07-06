@@ -4,17 +4,17 @@
 This module contains the NewDouble class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class NewDouble(Plugin):
+class NewDouble(BlockModel):
     """
     This class contains methods related the NewDouble class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.doubleVal = 1
 
         # Appearance

@@ -4,17 +4,17 @@
 This module contains the Laplace class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Laplace(Plugin):
+class Laplace(BlockModel):
     """
     This class contains methods related the laplace class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.help = "Operação de filtragem que calcula o " + \
             "Laplaciano de uma imagem," + \
             "realçando cantos e bordas de objetos."

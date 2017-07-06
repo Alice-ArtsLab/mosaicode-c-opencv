@@ -5,17 +5,17 @@ This module contains the Opening class.
 """
 
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Opening(Plugin):
+class Opening(BlockModel):
     """
     This class contains methods related the Opening class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.masksize = "3x3"
 
         # Appearance

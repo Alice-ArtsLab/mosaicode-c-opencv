@@ -4,17 +4,17 @@
 This module contains the Pow class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Pow(Plugin):
+class Pow(BlockModel):
     """
     This class contains methods related the Pow class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         # Appearance
         self.help = "Eleva cada ponto de uma " + \
             "imagem a um valor fixo de potência."

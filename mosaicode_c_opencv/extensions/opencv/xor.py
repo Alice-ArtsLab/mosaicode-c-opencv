@@ -4,17 +4,17 @@
 This module contains the Xor class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Xor(Plugin):
+class Xor(BlockModel):
     """
     This class contains methods related the Xor class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Realiza a operação lógica XOR entre duas imagens."

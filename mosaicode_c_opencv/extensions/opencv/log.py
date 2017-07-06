@@ -4,17 +4,17 @@
 This module contains the Log class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Log(Plugin):
+class Log(BlockModel):
     """
     This class contains methods related the Log class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Aplica a função logarítmica a uma imagem, ou seja," + \

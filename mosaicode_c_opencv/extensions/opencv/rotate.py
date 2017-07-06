@@ -4,17 +4,17 @@
 This module contains the Rotate class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Rotate(Plugin):
+class Rotate(BlockModel):
     """
     This class contains methods related the Rotate class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.isCenter = True
         self.isScalling = True
         self.isFilling = True

@@ -5,17 +5,17 @@ This module contains the DecomposeRGB class.
 """
 
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class DecomposeRGB(Plugin):
+class DecomposeRGB(BlockModel):
     """
     This class contains methods related the DecomposeRGB class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "BLOCO Decomposição RGB."

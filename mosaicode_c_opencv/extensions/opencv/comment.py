@@ -4,17 +4,17 @@
 This module contains the Comment class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Comment(Plugin):
+class Comment(BlockModel):
     """
     This class contains methods related the Comment class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.comment = ""
 
         # Appearance

@@ -5,17 +5,17 @@ This module contains the CropImage class.
 """
 
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class CropImage(Plugin):
+class CropImage(BlockModel):
     """
     This class contains methods related the CropImage class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.x0 = 0
         self.y0 = 0
         self.width = 640

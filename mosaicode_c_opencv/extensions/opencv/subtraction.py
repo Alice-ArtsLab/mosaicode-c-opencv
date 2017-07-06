@@ -4,17 +4,17 @@
 This module contains the Subtraction class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Subtraction(Plugin):
+class Subtraction(BlockModel):
     """
     This class contains methods related the Subtraction class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Realiza a subtração de duas imagens."

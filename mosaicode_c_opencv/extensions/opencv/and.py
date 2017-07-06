@@ -4,17 +4,17 @@
 This module contains the And class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class And(Plugin):
+class And(BlockModel):
     """
     This class contains methods related the And class.
     """
     # ------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Permite a operação lógica 'E' entre as duas entradas." + \

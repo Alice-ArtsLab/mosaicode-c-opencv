@@ -4,17 +4,17 @@
 This module contains the Not class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Not(Plugin):
+class Not(BlockModel):
     """
     This class contains methods related the Not class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Realiza a negação lógica de uma imagem. " + \
