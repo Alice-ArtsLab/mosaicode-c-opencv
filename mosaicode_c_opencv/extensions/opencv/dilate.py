@@ -4,17 +4,17 @@
 This module contains the Dilate class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Dilate(Plugin):
+class Dilate(BlockModel):
     """
     This class contains methods related the Dilate class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         # Appearance
         self.help = "Operação morfológica que provoca dilatação " + \
             "nos objetos de uma imagem, aumentando suas dimensões."

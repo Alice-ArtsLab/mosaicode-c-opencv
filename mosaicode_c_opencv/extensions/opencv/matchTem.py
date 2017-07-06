@@ -4,17 +4,17 @@
 This module contains the MatchTem class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class MatchTem(Plugin):
+class MatchTem(BlockModel):
     """
     This class contains methods related the MatchTem class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.help = "Operação de filtragem destinada a suavizar uma imagem."
         self.label = "Match Template"
         self.color = "180:180:10:150"

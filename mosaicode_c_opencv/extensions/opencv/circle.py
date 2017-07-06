@@ -4,17 +4,17 @@
 This module contains the Circle class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Circle(Plugin):
+class Circle(BlockModel):
     """
     This class contains methods related the Circle class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.x0 = 100
         self.y0 = 100
         self.circle_color = "#0000ffff0000"

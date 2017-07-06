@@ -4,17 +4,17 @@
 This module contains the SideBySide class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class SideBySide(Plugin):
+class SideBySide(BlockModel):
     """
     This class contains methods related the SideBySide class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         self.help = "Coloca uma imagem do lado da outra."
         self.label = "Side By Side"

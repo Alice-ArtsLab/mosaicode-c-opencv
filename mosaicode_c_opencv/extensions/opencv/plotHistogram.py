@@ -4,17 +4,17 @@
 This module contains the PlotHistogram class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class PlotHistogram(Plugin):
+class PlotHistogram(BlockModel):
     """
     This class contains methods related the PlotHistogram class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.channel = "All"
 
         # Appearance

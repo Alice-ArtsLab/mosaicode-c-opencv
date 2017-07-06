@@ -4,17 +4,17 @@
 This module contains the Select class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Select(Plugin):
+class Select(BlockModel):
     """
     This class contains methods related the Select class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.help = "Select between two images."
         self.label = "Select"
         self.color = "50:100:200:150"

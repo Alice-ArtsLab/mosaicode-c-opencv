@@ -4,17 +4,17 @@
 This module contains the UpToBottom class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class UpToBottom(Plugin):
+class UpToBottom(BlockModel):
     """
     This class contains methods related the UpToBottom class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Coloca uma imagem debaixo da outra."

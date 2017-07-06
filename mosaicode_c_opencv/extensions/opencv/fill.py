@@ -4,17 +4,17 @@
 This module contains the Fill class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Fill(Plugin):
+class Fill(BlockModel):
     """
     This class contains methods related the Fill class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.rect_color = "#0000ffff0000"
 
         # Appearance

@@ -4,17 +4,17 @@
 This module contains the LiveDelay class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class LiveDelay(Plugin):
+class LiveDelay(BlockModel):
     """
     This class contains methods related the liveDelay class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.frameNumber = 5
 
         # Appearance

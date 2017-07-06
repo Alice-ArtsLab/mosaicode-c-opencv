@@ -4,17 +4,17 @@
 This module contains the ColorConversion class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class ColorConversion(Plugin):
+class ColorConversion(BlockModel):
     """
     This class contains methods related the ColorConversion class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.conversion_type = 'RGB -> GRAY'
 
         # Appearance

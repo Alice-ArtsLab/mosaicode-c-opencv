@@ -4,17 +4,17 @@
 This module contains the NewPoint class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class NewPoint(Plugin):
+class NewPoint(BlockModel):
     """
     This class contains methods related the NewPoint class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.x0 = 0
         self.y0 = 0
 

@@ -4,17 +4,17 @@
 This module contains the Slider class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Slider(Plugin):
+class Slider(BlockModel):
     """
     This class contains methods related the Slider class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.help = "Creates Slider to int value."
         self.label = "Slider"
         self.color = "50:50:200:150"

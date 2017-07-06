@@ -4,17 +4,17 @@
 This module contains the Show class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class Show(Plugin):
+class Show(BlockModel):
     """
     This class contains methods related the Show class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Mostra uma imagem da cadeia de processamento de imagens."

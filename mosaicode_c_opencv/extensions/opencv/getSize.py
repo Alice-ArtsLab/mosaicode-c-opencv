@@ -4,17 +4,17 @@
 This module contains the GetSize class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class GetSize(Plugin):
+class GetSize(BlockModel):
     """
     This class contains methods related the GetSize class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Extracts the input image size."

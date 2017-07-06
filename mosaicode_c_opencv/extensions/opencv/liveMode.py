@@ -6,17 +6,17 @@ This module contains the LiveMode class.
 import os
 from glob import glob
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class LiveMode(Plugin):
+class LiveMode(BlockModel):
     """
     This class contains methods related the LiveMode class.
     """
     # --------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.camera = "/dev/video0"
 
         # Appearance

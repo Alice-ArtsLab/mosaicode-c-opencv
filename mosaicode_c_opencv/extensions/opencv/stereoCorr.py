@@ -4,17 +4,17 @@
 This module contains the StereoCorr class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class StereoCorr(Plugin):
+class StereoCorr(BlockModel):
     """
     This class contains methods related the StereoCorr class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
         self.maxDist = 60
 
         # Appearance

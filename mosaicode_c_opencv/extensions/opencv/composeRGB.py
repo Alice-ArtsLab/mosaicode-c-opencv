@@ -4,17 +4,17 @@
 This module contains the ComposeRGB class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class ComposeRGB(Plugin):
+class ComposeRGB(BlockModel):
     """
     This class contains methods related the ComposeRGB class.
     """
 
     # -------------------------------------------------------------------------
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "BLOCO Composição RGB"

@@ -4,17 +4,17 @@
 This module contains the NewInt class.
 """
 from mosaicode.GUI.fieldtypes import *
-from mosaicode.model.plugin import Plugin
+from mosaicode.model.blockmodel import BlockModel
 
 
-class NewInt(Plugin):
+class NewInt(BlockModel):
     """
     This class contains methods related the NewInt class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        Plugin.__init__(self)
+        BlockModel.__init__(self)
 
         # Appearance
         self.help = "Creates new literal value (Int)."
