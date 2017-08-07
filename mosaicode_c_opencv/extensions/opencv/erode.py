@@ -58,14 +58,14 @@ class Erode(BlockModel):
                            ]
 
         # --------------------------C/OpenCv code------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL; // ERODE input\n' + \
             'int block$id$_int_i1 = $prop[iterations]$; // ERODE iterarions\n' + \
             'IplImage * block$id$_img_o0 = NULL; // ERODE output\n' + \
             'IplConvKernel * block$id$_arg_mask = ' + \
             'cvCreateStructuringElementEx($prop[masksizex]$ , $prop[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'cvErode(block$id$_img_i0, block$id$_img_o0, ' + \

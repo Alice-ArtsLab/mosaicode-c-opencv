@@ -34,7 +34,7 @@ class NewDouble(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = 'double block$id$_double_o0 = ' + \
+        self.codes["declaration"] = 'double block$id$_double_o0 = ' + \
             '$doubleVal$; // New Double Out\n'
 
 

@@ -27,13 +27,13 @@ class EqualizeHistogram(BlockModel):
         self.group = "Histograms"
 
         # -------------------C/OpenCv code-------------------------------------
-        self.codes[1] =  \
+        self.codes["declaration"] =  \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'IplImage * block$id$_SourceCx[3];\n' + \
             'IplImage * block$id$_EqCx[3];\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'CvSize size$id$ = cvGetSize(block$id$_img_i0);\n' + \
             'block$id$_img_o0 = cvCreateImage' + \

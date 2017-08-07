@@ -26,6 +26,9 @@ class ColorConversion(BlockModel):
         self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
         self.group = "Filters and Color Conversion"
 
+        self.language = "c"
+        self.framework = "opencv"
+
         self.properties = [{"name": "Conversion Type",
                             "label": "conversion_type",
                             "type": MOSAICODE_COMBO,
@@ -45,14 +48,14 @@ class ColorConversion(BlockModel):
                             }
                            ]
 
-        self.codes[1] =  \
+        self.codes["declaration"] =  \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'IplImage * block$id$_img_t = NULL;\n'
 
-        self.codes[2] = ""
+        self.codes["execution"] = ""
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_t);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n' + \
             'cvReleaseImage(&block$id$_img_o0);\n'
@@ -100,8 +103,4 @@ class ColorConversion(BlockModel):
             '{    cvMerge(block$id$_img_t ,block$id$_img_t ,' + \
             'block$id$_img_t ,NULL ,block$id$_img_o0);\n }\n' + \
             'else\n' + '{ block$id$_img_o0 = cvCloneImage(block$id$_img_t);\n}'
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

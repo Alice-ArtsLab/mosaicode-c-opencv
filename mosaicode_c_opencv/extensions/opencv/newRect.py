@@ -57,8 +57,8 @@ class NewRect(BlockModel):
                             }
                            ]
 
-        self.codes[1] = "CvRect block$id$_rect_o0 = cvRect( 0, 0, 1, 1);"
-        self.codes[2] = \
+        self.codes["declaration"] = "CvRect block$id$_rect_o0 = cvRect( 0, 0, 1, 1);"
+        self.codes["execution"] = \
             'block$id$_rect_o0 = cvRect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
 
 

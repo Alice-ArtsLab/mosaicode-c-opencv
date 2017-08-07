@@ -37,7 +37,7 @@ class And(BlockModel):
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes[0] = r"""
+        self.codes["function"] = r"""
 // And, Xor, Division, subtraction, sum, or,
 //multiplication need images with the same size
 void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
@@ -60,12 +60,12 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
 }
 """
 
-        self.codes[1] = "// $id$ - And\n" + \
+        self.codes["declaration"] = "// $id$ - And\n" + \
                     "IplImage * block$id$_img_i0 = NULL;\n" + \
                     "IplImage * block$id$_img_i1 = NULL;\n" + \
                     "IplImage * block$id$_img_o0 = NULL;\n"
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0 && block$id$_img_i1){\n' + \
             '\tblock$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             '\tadjust_images_size(block$id$_img_i0, ' + \
@@ -75,7 +75,7 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
             '\tcvResetImageROI(block$id$_img_o0);\n' + \
             '}\n'
 
-        self.codes[3] = "cvReleaseImage(&block$id$_img_i0);\n" + \
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
                     "cvReleaseImage(&block$id$_img_i1);\n" + \
                     "cvReleaseImage(&block$id$_img_o0);\n"
 

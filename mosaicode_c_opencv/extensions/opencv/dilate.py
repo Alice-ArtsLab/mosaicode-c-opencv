@@ -52,14 +52,14 @@ class Dilate(BlockModel):
                            ]
 
         # ----------------------------C/OpenCv code---------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'int block$id$_arg_iterations = $iterations$;\n' + \
             'IplConvKernel * block$id$_arg_mask = ' + \
             'cvCreateStructuringElementEx($masksizex$ , $masksizey$, 1, 1,CV_SHAPE_RECT,NULL);\n'
 
-        self.codes[2] = '''
+        self.codes["execution"] = '''
             if(block$id$_img_i0){
                 block$id$_img_o0 = cvCloneImage(block$id$_img_i0);
                 cvDilate(block$id$_img_i0,
@@ -68,7 +68,7 @@ class Dilate(BlockModel):
                         block$id$_arg_iterations);
             }
             '''
-        self.codes[3] = "cvReleaseImage(&block$id$_img_i0);\n" + \
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
                        "cvReleaseImage(&block$id$_img_o0);\n"
 
 

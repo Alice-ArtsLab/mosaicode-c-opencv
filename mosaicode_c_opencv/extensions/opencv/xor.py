@@ -32,7 +32,7 @@ class Xor(BlockModel):
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes[0] = r"""
+        self.codes["function"] = r"""
 // And, Xor, Division, subtraction, sum, or,
 //multiplication need images with the same size
 void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
@@ -54,7 +54,7 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
     }
 }
 """
-        self.codes[2] = \
+        self.codes["execution"] = \
             'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'adjust_images_size(block$id$_img_i0, ' + \

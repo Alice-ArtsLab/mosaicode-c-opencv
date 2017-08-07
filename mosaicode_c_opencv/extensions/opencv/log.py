@@ -32,12 +32,12 @@ class Log(BlockModel):
         self.group = "Math Functions"
 
         # ------------------------------C/OpenCv code--------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'IplImage * block$id$_img_t = NULL;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'block$id$_img_t = cvCreateImage(cvGetSize' + \
             '(block$id$_img_i0), IPL_DEPTH_32F,' + \
@@ -48,7 +48,7 @@ class Log(BlockModel):
             'cvLog(block$id$_img_t, block$id$_img_t);\n' + \
             'cvConvertScale(block$id$_img_t,block$id$_img_o0,255.0,0);}\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_o0);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n' + \
             'cvReleaseImage(&block$id$_img_t);\n'

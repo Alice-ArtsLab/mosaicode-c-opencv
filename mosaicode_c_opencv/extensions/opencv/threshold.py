@@ -54,7 +54,7 @@ class Threshold(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'cvThreshold(block$id$_img_i0, block$id$_img_o0, ' + \

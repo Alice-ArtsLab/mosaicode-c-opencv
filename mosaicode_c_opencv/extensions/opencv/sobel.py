@@ -53,12 +53,12 @@ class Sobel(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'IplImage * block$id$_img_t = NULL;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'CvSize size$id$ = cvGetSize(block$id$_img_i0);\n' + \
             'block$id$_img_o0 = cvCreateImage(size$id$, ' + \
@@ -67,7 +67,7 @@ class Sobel(BlockModel):
             '$xorder$, $yorder$, $masksize$);\n' + \
             '}\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_o0);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n' + \
             'cvReleaseImage(&block$id$_img_t);\n'

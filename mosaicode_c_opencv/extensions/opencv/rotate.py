@@ -28,6 +28,9 @@ class Rotate(BlockModel):
         self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
         self.group = "Experimental"
 
+        self.language = "c"
+        self.framework = "opencv"
+
         self.properties = [{"name": "Use Image Center",
                             "label": "isCenter",
                             "type": MOSAICODE_CHECK
@@ -66,12 +69,12 @@ class Rotate(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'double block$id$_double_i1 = $angle$;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n'
 
-        self.codes[0] = \
+        self.codes["function"] = \
             "#define PI 3.1415926535898\n" + \
             "double rads(double degs){\n" + \
             "   return (PI/180 * degs);\n" + \
@@ -112,8 +115,4 @@ class Rotate(BlockModel):
 
         value += '  }\n'
         return value
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

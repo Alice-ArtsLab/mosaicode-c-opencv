@@ -70,7 +70,7 @@ class Canny(BlockModel):
                            ]
 
         # -------------------------C/OpenCV code----------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             '// $id$ Canny\n' + \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
@@ -78,7 +78,7 @@ class Canny(BlockModel):
             'int block$id$_int_i2 = $prop[threshold1]$;\n' + \
             'int block$id$_int_i3 = $prop[threshold2]$;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             "if(block$id$_img_i0){ //Canny Code\n" + \
             "\tif (block$id$_int_i1 < 1) block$id$_int_i1 = 1;\n" + \
             "\tif (block$id$_int_i2 < 1) block$id$_int_i2 = 1;\n" + \
@@ -106,7 +106,7 @@ class Canny(BlockModel):
             "\tcvReleaseImage(&tmpImg$id$);\n" + \
             "} // End Canny Code\n"
 
-        self.codes[3] = "cvReleaseImage(&block$id$_img_i0);\n" + \
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
                        "cvReleaseImage(&block$id$_img_o0);\n"
         self.language = "c"
         self.framework = "opencv"

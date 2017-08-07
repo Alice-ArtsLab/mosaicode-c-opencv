@@ -30,7 +30,7 @@ class Comment(BlockModel):
                            ]
 
         # ----------------C/OpenCv code--------------------------------
-        self.codes[1] = '/* $comment$ */ \n'
+        self.codes["declaration"] = '/* $comment$ */ \n'
 
 
         self.language = "c"

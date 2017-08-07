@@ -26,15 +26,18 @@ class LiveMode(BlockModel):
         self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
         self.group = "Image Source"
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # ------------------------------C/OpenCv code--------------------------
-        self.codes[2] = \
+        self.codes["execution"] = \
             '// Live Mode \n' + \
             'int value = cvGrabFrame(block$id$_capture);\n' + \
             'block$id$_frame = cvRetrieveFrame(block$id$_capture);\n' + \
             'if(!block$id$_frame){\ncontinue;\n}\n' +\
             '\tblock$id$_img_o0 = cvCloneImage(block$id$_frame);\n'
 
-        self.codes[4] = 'cvReleaseCapture(&block$id$_capture);\n'
+        self.codes["cleanup"] = 'cvReleaseCapture(&block$id$_capture);\n'
 
     # ----------------------------------------------------------------------
     def get_properties(self):
@@ -59,6 +62,4 @@ class LiveMode(BlockModel):
             'block$id$_capture = cvCaptureFromCAM(' + camera + ');\n' + \
             'IplImage * block$id$_frame = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n'
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

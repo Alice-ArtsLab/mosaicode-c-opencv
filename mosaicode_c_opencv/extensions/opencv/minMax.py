@@ -24,6 +24,9 @@ class MinMax(BlockModel):
         self.minORmax = "min"
         self.criteria = "pos"
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Finds min or max from input image and judges " + \
             "it according to a custom criteria."
@@ -112,8 +115,4 @@ class MinMax(BlockModel):
         value += '}\n'
 
         return value
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

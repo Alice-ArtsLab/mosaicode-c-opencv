@@ -25,7 +25,7 @@ class ComposeRGB(BlockModel):
         self.group = "Filters and Color Conversion"
 
         # ------------------------C/OpenCv code-------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_i1 = NULL;\n' + \
             'IplImage * block$id$_img_i2 = NULL;\n' + \
@@ -34,7 +34,7 @@ class ComposeRGB(BlockModel):
             'IplImage * block$id$_img_t2 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'CvSize size$id$ = cvSize' + \
@@ -54,7 +54,7 @@ class ComposeRGB(BlockModel):
             'cvMerge(block$id$_img_t2 ,block$id$_img_t1 ,' + \
             'block$id$_img_t0 , NULL, block$id$_img_o0);}\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_t0);\n' + \
             'cvReleaseImage(&block$id$_img_t1);\n' + \
             'cvReleaseImage(&block$id$_img_t2);\n' + \

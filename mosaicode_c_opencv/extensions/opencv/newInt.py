@@ -36,7 +36,7 @@ class NewInt(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = 'int  block$id$_int_o0 = $intVal$; // New Int Out\n'
+        self.codes["declaration"] = 'int  block$id$_int_o0 = $intVal$; // New Int Out\n'
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------

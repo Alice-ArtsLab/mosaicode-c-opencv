@@ -44,7 +44,7 @@ class Resize(BlockModel):
                             }
                            ]
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             'if(block$id$_img_i0){\n' + \
             'CvSize size$id$ = cvSize(block$id$_rect_i1.width,' + \
             'block$id$_rect_i1.height);\n' + \

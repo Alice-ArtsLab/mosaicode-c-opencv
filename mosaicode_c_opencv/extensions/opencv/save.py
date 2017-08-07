@@ -33,7 +33,7 @@ class Save(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[2] = \
+        self.codes["execution"] = \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'if(block$id$_img_i0)\n' + \
             'cvSaveImage("$filename$" ,block$id$_img_i0);\n'

@@ -52,10 +52,10 @@ class Slider(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'int  block$id$_int_o0 = $intVal$; // New Int Out\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             'cvNamedWindow("$window_name$",CV_WINDOW_AUTOSIZE );\n' + \
             'cvCreateTrackbar("$label$", "$window_name$",' + \
             ' &block$id$_int_o0, $maxVal$, NULL);\n'

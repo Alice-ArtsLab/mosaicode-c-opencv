@@ -42,9 +42,9 @@ class NewPoint(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = 'CvPoint block$id$_point_o0 = cvPoint($x0$,$y0$);\n'
+        self.codes["declaration"] = 'CvPoint block$id$_point_o0 = cvPoint($x0$,$y0$);\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             'block$id$_point_o0 = cvPoint($x0$,$y0$);\n'
         self.language = "c"
         self.framework = "opencv"

@@ -54,7 +54,7 @@ class AddBorder(BlockModel):
                             }
                            ]
 
-        self.codes[0] = \
+        self.codes["function"] = \
             "CvScalar get_scalar_color(const char * rgbColor){\n" + \
             "   if (strlen(rgbColor) < 13 || rgbColor[0] != '#')\n" + \
             "       return cvScalar(0,0,0,0);\n" + \
@@ -75,12 +75,12 @@ class AddBorder(BlockModel):
             "   return cvScalar(bi, gi, ri, 0);\n" + \
             "}\n"
 
-        self.codes[1] = \
+        self.codes["declaration"] = \
             "IplImage * block$id$_img_i0 = NULL;\n" + \
             "int block$id$_int_i1 = $prop[border_size]$;\n" + \
             "IplImage * block$id$_img_o0 = NULL;\n"
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             'if(block$id$_img_i0){\n' + \
             '\tCvSize size$id$ = cvSize(block$id$_img_i0->width +' + \
             ' block$id$_int_i1 * 2, block$id$_img_i0->height' + \

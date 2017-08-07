@@ -37,13 +37,13 @@ class Capture(BlockModel):
                  "lower": 0,
                  "upper": 4}]
 
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_o0 = NULL; //Capture\n' + \
             'CvCapture* block$id$_capture = NULL; \n' + \
             'IplImage* block$id$_frame = NULL; \n' + \
             'int counter$id$ = 0;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             'if (counter$id$ == 0){\n' + \
             'block$id$_capture = cvCaptureFromCAM($camera$); \n' + \
             'if( !cvGrabFrame( block$id$_capture ))' + \
@@ -52,5 +52,5 @@ class Capture(BlockModel):
             'block$id$_img_o0 = cvCloneImage( block$id$_frame );\n' + \
             'counter$id$++;\n' + \
             '}\n'
-        self.codes[3] = "cvReleaseImage(&block$id$_img_o0);\n"
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_o0);\n"
 # -----------------------------------------------------------------------------
