@@ -21,16 +21,18 @@ class AddBorder(BlockModel):
         self.help = "Adiciona bordas na imagem."
         self.label = "Add Border"
         self.color = "0:180:210:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [   {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.int",
                           "name":"border_size",
-                          "label":"Border Size"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
-                           "label":"Output Image"}]
+                          "conn_type":"Input",
+                          "label":"Border Size"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "name":"output_image",
+                          "conn_type":"Output",
+                          "label":"Output Image"}]
         self.group = "Experimental"
 
         self.properties = [{"label": "Color",
@@ -76,21 +78,21 @@ class AddBorder(BlockModel):
             "}\n"
 
         self.codes["declaration"] = \
-            "IplImage * block$id$_img_i0 = NULL;\n" + \
-            "int block$id$_int_i1 = $prop[border_size]$;\n" + \
-            "IplImage * block$id$_img_o0 = NULL;\n"
+            "IplImage * $port[input_image]$ = NULL;\n" + \
+            "int $port[border_size]$ = $prop[border_size]$;\n" + \
+            "IplImage * $port[output_image]$ = NULL;\n"
 
         self.codes["execution"] = \
-            'if(block$id$_img_i0){\n' + \
-            '\tCvSize size$id$ = cvSize(block$id$_img_i0->width +' + \
-            ' block$id$_int_i1 * 2, block$id$_img_i0->height' + \
-            ' + block$id$_int_i1 * 2);\n' + \
-            '\tblock$id$_img_o0 = cvCreateImage(size$id$,' + \
-            ' block$id$_img_i0->depth,block$id$_img_i0->nChannels);\n' + \
+            'if($port[input_image]$){\n' + \
+            '\tCvSize size$id$ = cvSize($port[input_image]$->width +' + \
+            ' $port[border_size]$ * 2, $port[input_image]$->height' + \
+            ' + $port[border_size]$ * 2);\n' + \
+            '\t$port[output_image]$ = cvCreateImage(size$id$,' + \
+            ' $port[input_image]$->depth,$port[input_image]$->nChannels);\n' + \
             '\tCvPoint point$id$ = cvPoint' + \
-            '(block$id$_int_i1, block$id$_int_i1);\n' + \
+            '($port[border_size]$, $port[border_size]$);\n' + \
             '\tCvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            '\tcvCopyMakeBorder(block$id$_img_i0, block$id$_img_o0,' + \
+            '\tcvCopyMakeBorder($port[input_image]$, $port[output_image]$,' + \
             ' point$id$, $prop[type]$, color);\n' + \
             '}\n'
 # -----------------------------------------------------------------------------

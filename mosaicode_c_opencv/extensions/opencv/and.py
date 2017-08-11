@@ -25,15 +25,17 @@ class And(BlockModel):
             "valor constante e cada ponto da imagem."
         self.label = "And"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
+                          "conn_type":"Input",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"second_image",
-                          "label":"Second Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Second Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
@@ -61,21 +63,21 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
 """
 
         self.codes["declaration"] = "// $id$ - And\n" + \
-                    "IplImage * block$id$_img_i0 = NULL;\n" + \
+                    "IplImage * $port[first_image]$ = NULL;\n" + \
                     "IplImage * block$id$_img_i1 = NULL;\n" + \
                     "IplImage * block$id$_img_o0 = NULL;\n"
 
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0 && block$id$_img_i1){\n' + \
-            '\tblock$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            '\tadjust_images_size(block$id$_img_i0, ' + \
+            '\nif($port[first_image]$ && block$id$_img_i1){\n' + \
+            '\tblock$id$_img_o0 = cvCloneImage($port[first_image]$);\n' + \
+            '\tadjust_images_size($port[first_image]$, ' + \
             'block$id$_img_i1, block$id$_img_o0);\n' + \
-            '\tcvAnd(block$id$_img_i0, ' + \
+            '\tcvAnd($port[first_image]$, ' + \
             'block$id$_img_i1, block$id$_img_o0,0);\n' + \
             '\tcvResetImageROI(block$id$_img_o0);\n' + \
             '}\n'
 
-        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
+        self.codes["deallocation"] = "cvReleaseImage(&$port[first_image]$);\n" + \
                     "cvReleaseImage(&block$id$_img_i1);\n" + \
                     "cvReleaseImage(&block$id$_img_o0);\n"
 

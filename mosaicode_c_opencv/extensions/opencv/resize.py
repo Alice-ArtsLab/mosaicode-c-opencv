@@ -21,15 +21,17 @@ class Resize(BlockModel):
             "dimensions of the input rectangle."
         self.label = "Resize Image"
         self.color = "20:80:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.rect",
                           "name":"size",
-                          "label":"Size"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Size"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Experimental"
 

@@ -20,14 +20,16 @@ class UpToBottom(BlockModel):
         self.help = "Coloca uma imagem debaixo da outra."
         self.label = "Up to Bottom"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"top_image",
+                          "conn_type":"Input",
                           "label":"Top Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"bottom_image",
-                          "label":"Bottom Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Bottom Image"},
+                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
