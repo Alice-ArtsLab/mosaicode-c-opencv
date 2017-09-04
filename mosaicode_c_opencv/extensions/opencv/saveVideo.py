@@ -19,6 +19,9 @@ class SaveVideo(BlockModel):
         self.framerate = 25.0
         self.codecSelection = "MPEG1"
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Save Video needs its description."
         self.label = "Save Video"
@@ -47,15 +50,15 @@ class SaveVideo(BlockModel):
                            ]
 
         # --------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'CvVideoWriter* block$id$_vidWriter = NULL;\n'
 
-        self.codes[3] = 'cvReleaseImage' + \
+        self.codes["deallocation"] = 'cvReleaseImage' + \
             '(&block$id$_img_i0); // SaveVideo Dealloc\n'
 
-        self.codes[4] = 'cvReleaseVideoWriter' + \
+        self.codes["cleanup"] = 'cvReleaseVideoWriter' + \
             '(&block$id$_vidWriter); // SaveVideo\n'
 
     # ----------------------------------------------------------------------
@@ -88,6 +91,4 @@ class SaveVideo(BlockModel):
             '   cvWriteFrame( block$id$_vidWriter, block$id$_img_i0);\n' + \
             '   block$id$_img_o0 = block$id$_img_i0;\n' + \
             '}\n'
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

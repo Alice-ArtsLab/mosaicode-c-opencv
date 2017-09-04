@@ -24,17 +24,20 @@ class Closing(BlockModel):
         self.label = "Closing"
         self.color = "180:230:220:150"
         self.group = "Morphological Operations"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"},
                           {"type":"mosaicode_c_opencv.extensions.ports.int",
                           "name":"masksizex",
+                          "conn_type":"Input",
                           "label":"Mask Size X"},
                           {"type":"mosaicode_c_opencv.extensions.ports.int",
                           "name":"masksizey",
-                          "label":"Mask Size Y"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Mask Size Y"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
 
@@ -53,14 +56,14 @@ class Closing(BlockModel):
                             ]
 
         # -------------------C/OpenCv code---------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'int block$id$_int_i1 = $masksizex$;\n' + \
             'int block$id$_int_i2 = $masksizey$;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'IplConvKernel * block$id$_arg_mask = NULL;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'if (block$id$_int_i1 % 2 == 0) block$id$_int_i1++;\n' + \
             'if (block$id$_int_i2 % 2 == 0) block$id$_int_i2++;\n' + \
@@ -73,7 +76,7 @@ class Closing(BlockModel):
             'cvMorphologyEx(block$id$_img_i0, block$id$_img_o0, NULL,' + \
             'block$id$_arg_mask, CV_MOP_CLOSE, 1);\n}\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_o0);\n' + \
             'cvReleaseStructuringElement(&block$id$_arg_mask);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n'

@@ -27,6 +27,9 @@ class Circle(BlockModel):
         self.green = int(self.green, 16) / 257
         self.blue = int(self.blue, 16) / 257
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Desenha Circulos."
         self.label = "Circle"
@@ -56,7 +59,7 @@ class Circle(BlockModel):
                            ]
 
         # -----------------C/OpenCv code ---------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'int block$id$_int_i1 = $x0$;\n' + \
@@ -67,7 +70,7 @@ class Circle(BlockModel):
         self.x0 = int(self.x0)
         self.y0 = int(self.y0)
 
-        return self.codes[1]
+        return self.codes["declaration"]
 
     # ----------------------------------------------------------------------
     def generate_function_call(self):
@@ -86,6 +89,4 @@ class Circle(BlockModel):
             'cvCircle(block$id$_img_i0, center, 10, color, 1, 8, 0);\n' +\
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             '}\n'
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

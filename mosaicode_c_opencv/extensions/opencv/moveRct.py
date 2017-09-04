@@ -42,12 +42,12 @@ class MoveRct(BlockModel):
                             }
                            ]
         # --------------------C/OpenCv code--------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'CvRect block$id$_rect_i0;\n' + \
             'CvPoint block$id$_point_i1;\n' + \
             'CvRect block$id$_rect_o0;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             'block$id$_rect_o0 = block$id$_rect_i0;\n' + \
             'block$id$_rect_o0.x = block$id$_point_i1.x + $offset_x$;\n' + \
             'block$id$_rect_o0.y = block$id$_point_i1.y + $offset_y$;\n'

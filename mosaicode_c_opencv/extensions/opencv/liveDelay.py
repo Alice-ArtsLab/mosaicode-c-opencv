@@ -34,8 +34,11 @@ class LiveDelay(BlockModel):
                             }
                            ]
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # ------------------------------C/OpenCv code--------------------------
-        self.codes[2] = '''
+        self.codes["execution"] = '''
             if(block$id$_img_i0){
                 cvReleaseImage(&(block$id$_buffer[i_$id$]));
                 block$id$_buffer[i_$id$] = cvCloneImage(block$id$_img_i0);
@@ -44,9 +47,9 @@ class LiveDelay(BlockModel):
                 block$id$_img_o0 = block$id$_buffer[i_$id$];
             }
             '''
-        self.codes[3] = 'cvReleaseImage(&block$id$_img_i0);\n'
+        self.codes["deallocation"] = 'cvReleaseImage(&block$id$_img_i0);\n'
 
-        self.codes[4] = '''
+        self.codes["cleanup"] = '''
             for(i_$id$=0; i_$id$<$frameNumber$; i_$id$++)
                 if(block$id$_buffer[i_$id$] != NULL)
                     cvReleaseImage(&(block$id$_buffer[i_$id$]));
@@ -74,8 +77,4 @@ class LiveDelay(BlockModel):
             str(self.frameNumber - 1) + '];\n'
 
         return value
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

@@ -36,8 +36,11 @@ class PlotHistogram(BlockModel):
                             }
                            ]
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'CvHistogram * block$id$_histogram;\n' + \
@@ -52,7 +55,7 @@ class PlotHistogram(BlockModel):
             'int block$id$_plotHistChanIter;\n' + \
             'int block$id$_plotHistArrIter;\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'if(block$id$_SourceCx[0]) cvReleaseImage' + \
             '(&block$id$_SourceCx[0]);\n' + \
             'if(block$id$_SourceCx[1]) cvReleaseImage' + \
@@ -176,8 +179,4 @@ class PlotHistogram(BlockModel):
             ' - 1),cvScalarAll(255),1, 0,0 );\n' + \
             '  }\n' + \
             '}\n'
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

@@ -18,14 +18,16 @@ class MatchTem(BlockModel):
         self.help = "Operação de filtragem destinada a suavizar uma imagem."
         self.label = "Match Template"
         self.color = "180:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
+                          "conn_type":"Input",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"second_image",
-                          "label":"Second Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Second Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Feature Detection"
@@ -50,13 +52,13 @@ class MatchTem(BlockModel):
                            ]
 
         # ------------------------------C/OpenCv code--------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_i1 = NULL;\n' + \
             'IplImage * block$id$_img_t0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n'
 
-        self.codes[2] =  \
+        self.codes["execution"] =  \
             'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
             '\tdouble width$id$ = block$id$_img_i0->width - ' + \
             'block$id$_img_i1->width +1;\n' + \
@@ -70,7 +72,7 @@ class MatchTem(BlockModel):
             '\tcvConvertScale(block$id$_img_t0, block$id$_img_o0, pow(10,-($scaleFactor$)),0);\n' + \
             '}\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_o0);\n' + \
             'cvReleaseImage(&block$id$_img_t0);\n' + \
             'cvReleaseImage(&block$id$_img_i1);\n' + \

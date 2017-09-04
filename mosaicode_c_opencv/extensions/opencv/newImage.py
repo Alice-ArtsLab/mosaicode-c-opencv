@@ -42,7 +42,7 @@ class NewImage(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[2] = \
+        self.codes["execution"] = \
             'CvSize size$id$ = cvSize($width$,$height$);\n' + \
             'block$id$_img_o0 = cvCreateImage(size$id$,IPL_DEPTH_8U,3);\n' + \
             'cvSetZero(block$id$_img_o0);\n'

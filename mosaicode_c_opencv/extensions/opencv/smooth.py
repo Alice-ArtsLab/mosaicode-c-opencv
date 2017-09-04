@@ -50,13 +50,13 @@ class Smooth(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'int block$id$_int_i1 = $param1$;\n' + \
             'int block$id$_int_i2 = $param2$;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'block$id$_int_i1 = (block$id$_int_i1 %2 == 0)? ' + \

@@ -25,21 +25,25 @@ class Canny(BlockModel):
             " segmentos iniciais das bordas mais significativas."
         self.label = "Canny"
         self.color = "50:180:80:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"},
                           {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          "conn_type":"Input",
                           "name":"apertureSize",
                           "label":"Aperture Size"},
                           {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          "conn_type":"Input",
                           "name":"threshold1",
                           "label":"Threshold 1"},
                           {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          "conn_type":"Input",
                           "name":"threshold2",
-                          "label":"Threshold 2"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "label":"Threshold 2"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Gradients, Edges and Corners"
 
@@ -70,7 +74,7 @@ class Canny(BlockModel):
                            ]
 
         # -------------------------C/OpenCV code----------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             '// $id$ Canny\n' + \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
@@ -78,7 +82,7 @@ class Canny(BlockModel):
             'int block$id$_int_i2 = $prop[threshold1]$;\n' + \
             'int block$id$_int_i3 = $prop[threshold2]$;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             "if(block$id$_img_i0){ //Canny Code\n" + \
             "\tif (block$id$_int_i1 < 1) block$id$_int_i1 = 1;\n" + \
             "\tif (block$id$_int_i2 < 1) block$id$_int_i2 = 1;\n" + \
@@ -106,7 +110,7 @@ class Canny(BlockModel):
             "\tcvReleaseImage(&tmpImg$id$);\n" + \
             "} // End Canny Code\n"
 
-        self.codes[3] = "cvReleaseImage(&block$id$_img_i0);\n" + \
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
                        "cvReleaseImage(&block$id$_img_o0);\n"
         self.language = "c"
         self.framework = "opencv"

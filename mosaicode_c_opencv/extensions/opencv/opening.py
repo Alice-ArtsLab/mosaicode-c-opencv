@@ -23,11 +23,12 @@ class Opening(BlockModel):
             "desconectar objetos em uma imagem ou suprimir ruídos."
         self.label = "Opening"
         self.color = "180:230:220:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Input Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Morphological Operations"
@@ -47,12 +48,12 @@ class Opening(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'IplConvKernel * block$id$_arg_mask = cvCreateStructuringElementEx($masksizex$ , $masksizey$, 1, 1,CV_SHAPE_RECT,NULL);\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'IplImage * block$id$_auxImg;' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
@@ -60,7 +61,7 @@ class Opening(BlockModel):
             'cvMorphologyEx(block$id$_img_i0, block$id$_img_o0, NULL,' + \
             'block$id$_arg_mask, CV_MOP_OPEN, 1);\n}\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_o0);\n' + \
             'cvReleaseStructuringElement(&block$id$_arg_mask);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n'

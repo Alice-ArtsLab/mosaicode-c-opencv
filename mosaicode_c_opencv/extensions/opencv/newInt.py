@@ -20,8 +20,9 @@ class NewInt(BlockModel):
         self.help = "Creates new literal value (Int)."
         self.label = "New Int"
         self.color = "50:50:200:150"
-        self.out_types = [{"type":"mosaicode_c_opencv.extensions.ports.int",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.int",
                         "name":"value",
+                         "conn_type":"Output",
                         "label":"Value"}]
         self.group = "Basic Data Type"
 
@@ -36,7 +37,7 @@ class NewInt(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = 'int  block$id$_int_o0 = $intVal$; // New Int Out\n'
+        self.codes["declaration"] = 'int  block$id$_int_o0 = $intVal$; // New Int Out\n'
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------

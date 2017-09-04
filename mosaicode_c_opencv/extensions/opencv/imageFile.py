@@ -21,8 +21,9 @@ class ImageFile(BlockModel):
             "aquisição de imagens (câmera, scanner)."
         self.label = "Image File"
         self.color = "50:100:200:150"
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Image Source"
 
@@ -34,9 +35,9 @@ class ImageFile(BlockModel):
                            ]
 
         # ----------------------------C/OpenCv code-------------------------
-        self.codes[1] = 'IplImage * block$id$_img_o0 = NULL;\n'
-        self.codes[1] += 'block$id$_img_o0 = cvLoadImage("$prop[filename]$",-1);\n'
-        self.codes[4] = "cvReleaseImage(&block$id$_img_o0);\n"
+        self.codes["declaration"] = 'IplImage * $out_ports[output_image]$ = NULL;\n'
+        self.codes["declaration"] += '$out_ports[output_image]$ = cvLoadImage("$prop[filename]$",-1);\n'
+        self.codes["cleanup"] = "cvReleaseImage(&$out_ports[output_image]$);\n"
 
 
         self.language = "c"

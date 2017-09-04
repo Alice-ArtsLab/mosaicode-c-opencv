@@ -21,14 +21,16 @@ class FillRect(BlockModel):
         self.help = "Preenche o retângulo de uma cor."
         self.label = "Fill Rectangle"
         self.color = "50:100:200:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.rect",
                           "name":"rect",
-                          "label":"Rectangle"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Rectangle"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Basic Shapes"
@@ -39,7 +41,7 @@ class FillRect(BlockModel):
                             }
                            ]
 
-        self.codes[0] = \
+        self.codes["function"] = \
             "CvScalar get_scalar_color(const char * rgbColor){\n" + \
             "   if (strlen(rgbColor) < 13 || rgbColor[0] != '#')\n" + \
             "       return cvScalar(0,0,0,0);\n" + \
@@ -60,13 +62,13 @@ class FillRect(BlockModel):
             "   return cvScalar(bi, gi, ri, 0);\n" + \
             "}\n"
 
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'CvRect block$id$_rect_i1;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n'
 
         # ----------------------------------------------------------------------
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0)\n{\n' + \
             '\tblock$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             '\tcvSetImageROI(block$id$_img_o0 , block$id$_rect_i1);\n' + \

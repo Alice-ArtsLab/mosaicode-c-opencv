@@ -20,19 +20,21 @@ class Sum(BlockModel):
         self.help = "Realiza a soma de duas imagens."
         self.label = "Sum"
         self.color = "180:10:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
+                          "conn_type":"Input",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
-                          "label":"First Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"First Image"},
+                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes[0] = r"""
+        self.codes["function"] = r"""
 // And, Xor, Division, subtraction, sum, or,
 //multiplication need images with the same size
 void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
@@ -54,7 +56,7 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
     }
 }
 """
-        self.codes[2] = \
+        self.codes["execution"] = \
             'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'adjust_images_size(block$id$_img_i0, ' + \
@@ -64,11 +66,11 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
             'cvResetImageROI(block$id$_img_o0);\n' + \
             '}\n'
 
-        self.codes[1] = "IplImage * block$id$_img_i0 = NULL;\n" + \
+        self.codes["declaration"] = "IplImage * block$id$_img_i0 = NULL;\n" + \
                     "IplImage * block$id$_img_i1 = NULL;\n" + \
                     "IplImage * block$id$_img_o0 = NULL;\n"
 
-        self.codes[3] = "cvReleaseImage(&block$id$_img_i0);\n" + \
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
                     "cvReleaseImage(&block$id$_img_i1);\n" + \
                     "cvReleaseImage(&block$id$_img_o0);\n"
 

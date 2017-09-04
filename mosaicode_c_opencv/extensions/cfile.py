@@ -20,6 +20,7 @@ class Cfile(CodeTemplate):
         self.command += "export PKG_CONFIG_PATH=/lib/pkgconfig/;\n"
         self.command += "g++ $filename$$extension$  -o $filename$ `pkg-config --cflags --libs opencv`\n"
         self.command += "LD_LIBRARY_PATH=/lib/ $dir_name$./$filename$"
+        self.code_parts = ["include", "function", "declaration", "execution", "deallocation", "cleanup"]
 
         self.code = r"""
 // Auto-generated C Code - S2i Mosaicode
@@ -47,24 +48,25 @@ class Cfile(CodeTemplate):
 #include <opencv/cvwimage.h>
 #include <opencv/highgui.h>
 #include <math.h>
+$single_code[include]$
 
 #define FRAMERATE 1000.0 / 25.0
 
-$single_code[0]$
+$single_code[function]$
 
 int main(int argc, char ** argv){
         char key = ' ';
         //declaration block
-        $code[1]$
+        $code[declaration]$
         while((key = (char)cvWaitKey(FRAMERATE)) != 27){
             //execution block
-            $code[2, connection]$
+            $code[connection, execution]$
 
             //deallocation block
-            $code[3]$
+            $code[deallocation]$
 
         } // End of while
-    $code[4]$
+    $code[cleanup]$
 
 return 0;
 

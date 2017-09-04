@@ -23,14 +23,16 @@ class Erode(BlockModel):
             "nos objetos de uma imagem, reduzindo suas dimensões."
         self.label = "Erosion"
         self.color = "180:230:220:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
                           "name":"input_image",
                           "label":"Input Image"},
                           {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          "conn_type":"Input",
                           "name":"interaction",
-                          "label":"Interactions"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "label":"Interactions"},
+                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
 
@@ -58,14 +60,14 @@ class Erode(BlockModel):
                            ]
 
         # --------------------------C/OpenCv code------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL; // ERODE input\n' + \
             'int block$id$_int_i1 = $prop[iterations]$; // ERODE iterarions\n' + \
             'IplImage * block$id$_img_o0 = NULL; // ERODE output\n' + \
             'IplConvKernel * block$id$_arg_mask = ' + \
             'cvCreateStructuringElementEx($prop[masksizex]$ , $prop[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'cvErode(block$id$_img_i0, block$id$_img_o0, ' + \

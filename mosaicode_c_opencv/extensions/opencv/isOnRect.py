@@ -26,7 +26,7 @@ class IsOnRect(BlockModel):
         self.group = "Experimental"
 
         # ------------------------------C/OpenCv code--------------------------
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\n block$id$_double_o0 = 0.0;\n' + \
             'if(block$id$_point_i0.x >= block$id$_rect_i1.x)\n' + \
             '   if(block$id$_point_i0.y >= block$id$_rect_i1.y)\n' + \

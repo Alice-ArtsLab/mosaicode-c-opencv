@@ -29,11 +29,7 @@ setup(name='mosaicode_c_opencv.extensions',
       tests_require=[],
       test_suite='',
       version='1.0',
-      packages=[
-          'mosaicode_c_opencv',
-          'mosaicode_c_opencv.extensions',
-          'mosaicode_c_opencv.extensions.opencv',
-          'mosaicode_c_opencv.extensions.ports'],
+      packages = find_packages(exclude=["tests.*", "tests"]),
       scripts=[],
       description='Image Processing and Computer Vision \
       Automatic Programming Tool',

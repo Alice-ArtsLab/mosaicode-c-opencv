@@ -20,19 +20,21 @@ class Xor(BlockModel):
         self.help = "Realiza a operação lógica XOR entre duas imagens."
         self.label = "Xor"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
+                          "conn_type":"Input",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
-                          "label":"First Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"First Image"},
+                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes[0] = r"""
+        self.codes["function"] = r"""
 // And, Xor, Division, subtraction, sum, or,
 //multiplication need images with the same size
 void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
@@ -54,7 +56,7 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
     }
 }
 """
-        self.codes[2] = \
+        self.codes["execution"] = \
             'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'adjust_images_size(block$id$_img_i0, ' + \

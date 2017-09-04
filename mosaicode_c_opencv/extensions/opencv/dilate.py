@@ -20,12 +20,13 @@ class Dilate(BlockModel):
             "nos objetos de uma imagem, aumentando suas dimensões."
         self.label = "Dilate"
         self.color = "180:230:220:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Input Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Morphological Operations"
 
@@ -52,14 +53,14 @@ class Dilate(BlockModel):
                            ]
 
         # ----------------------------C/OpenCv code---------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'int block$id$_arg_iterations = $iterations$;\n' + \
             'IplConvKernel * block$id$_arg_mask = ' + \
             'cvCreateStructuringElementEx($masksizex$ , $masksizey$, 1, 1,CV_SHAPE_RECT,NULL);\n'
 
-        self.codes[2] = '''
+        self.codes["execution"] = '''
             if(block$id$_img_i0){
                 block$id$_img_o0 = cvCloneImage(block$id$_img_i0);
                 cvDilate(block$id$_img_i0,
@@ -68,7 +69,7 @@ class Dilate(BlockModel):
                         block$id$_arg_iterations);
             }
             '''
-        self.codes[3] = "cvReleaseImage(&block$id$_img_i0);\n" + \
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
                        "cvReleaseImage(&block$id$_img_o0);\n"
 
 

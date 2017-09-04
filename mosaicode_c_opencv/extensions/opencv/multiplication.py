@@ -20,19 +20,21 @@ class Multiplication(BlockModel):
         self.help = "Realiza a multiplicação de duas imagens."
         self.label = "Multiplication"
         self.color = "180:10:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
                           "name":"first_image",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
                           "name":"first_image",
-                          "label":"First Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "label":"First Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes[0] = r"""
+        self.codes["function"] = r"""
 // And, Xor, Division, subtraction, sum, or,
 //multiplication need images with the same size
 void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
@@ -54,7 +56,7 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
     }
 }
 """
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0 && block$id$_img_i1){\n' + \
             '\tblock$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             '\tadjust_images_size(block$id$_img_i0, ' + \

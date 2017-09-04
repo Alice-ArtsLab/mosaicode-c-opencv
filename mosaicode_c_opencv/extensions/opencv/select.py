@@ -18,15 +18,15 @@ class Select(BlockModel):
         self.help = "Select between two images."
         self.label = "Select"
         self.color = "50:100:200:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"second_image",
-                          "label":"Second Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
+                          "label":"Second Image"},
+                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                           "conn_type":"Output",
+                          "name":"output_image",
                            "label":"Output Image"}]
         self.group = "General"
 
@@ -39,12 +39,12 @@ class Select(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] += 'IplImage * block$id$_img_i0 = NULL;\n'
-        self.codes[1] += 'IplImage * block$id$_img_i1 = NULL;\n'
-        self.codes[1] += 'IplImage * block$id$_img_o0 = NULL;\n'
-        self.codes[1] += 'char block$id$_key = \'$key$\';\n'
+        self.codes["declaration"] = 'IplImage * block$id$_img_i0 = NULL;\n'
+        self.codes["declaration"] += 'IplImage * block$id$_img_i1 = NULL;\n'
+        self.codes["declaration"] += 'IplImage * block$id$_img_o0 = NULL;\n'
+        self.codes["declaration"] += 'char block$id$_key = \'$key$\';\n'
 
-        self.codes[2] = 'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
+        self.codes["execution"] = 'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
             'if (key != -1)\n' + \
             '\tblock$id$_key = key;\n' + \
             'if (block$id$_key == \'$key$\' )\n' + \
@@ -52,7 +52,6 @@ class Select(BlockModel):
             'else\n' + \
             '\tblock$id$_img_o0 = cvCloneImage(block$id$_img_i1);\n' + \
             '}\n'
-
 
         self.language = "c"
         self.framework = "opencv"

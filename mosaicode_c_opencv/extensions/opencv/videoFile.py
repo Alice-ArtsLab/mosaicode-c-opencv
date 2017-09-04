@@ -21,8 +21,9 @@ class VideoFile(BlockModel):
             "de aquisição de imagens (câmera, scanner)."
         self.label = "Video File"
         self.color = "50:100:200:150"
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Image Source"
 
@@ -39,13 +40,13 @@ class VideoFile(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'CvCapture * block$id$_capture = NULL;\n' + \
             'IplImage * block$id$_frame = NULL;\n' + \
             'block$id$_capture = cvCreateFileCapture("$filename$");\n' + \
             'IplImage * block$id$_img_o0 = NULL; //Capture\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '// Video Mode \n' + \
             'if(key == \'$key$\'){\n' +\
             '\tcvSetCaptureProperty(block$id$_capture, ' + \
@@ -60,9 +61,9 @@ class VideoFile(BlockModel):
             '}\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_frame);\n'
 
-        self.codes[3] = "cvReleaseImage(&block$id$_img_o0);\n"
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_o0);\n"
 
-        self.codes[4] = 'cvReleaseCapture(&block$id$_capture);\n'
+        self.codes["cleanup"] = 'cvReleaseCapture(&block$id$_capture);\n'
 
 
 

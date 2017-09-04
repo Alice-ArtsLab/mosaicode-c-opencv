@@ -19,23 +19,25 @@ class SideBySide(BlockModel):
         self.help = "Coloca uma imagem do lado da outra."
         self.label = "Side By Side"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"left_image",
+                          "conn_type":"Input",
                           "label":"Left Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"right_image",
-                          "label":"Right Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Right Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes[1] = "IplImage * block$id$_img_i0 = NULL;\n" + \
+        self.codes["declaration"] = "IplImage * block$id$_img_i0 = NULL;\n" + \
                     "IplImage * block$id$_img_i1 = NULL;\n" + \
                     "IplImage * block$id$_img_o0 = NULL;\n"
 
-        self.codes[2] =  \
+        self.codes["execution"] =  \
             'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
             'int width=block$id$_img_i0->width' + \
             ' + block$id$_img_i1->width;\n' + \
@@ -55,7 +57,7 @@ class SideBySide(BlockModel):
             'cvResetImageROI(block$id$_img_o0);\n' + \
             '}\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'if (block$id$_img_o0) cvReleaseImage(&block$id$_img_o0);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n' + \
             'cvReleaseImage(&block$id$_img_i1);\n'

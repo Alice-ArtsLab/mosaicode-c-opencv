@@ -20,11 +20,12 @@ class Pow(BlockModel):
             "imagem a um valor fixo de potência."
         self.label = "Pow"
         self.color = "230:230:60:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Input Image"},
+                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Math Functions"
@@ -40,7 +41,7 @@ class Pow(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
             'cvPow(block$id$_img_i0, block$id$_img_o0, $exponent$);\n' + \

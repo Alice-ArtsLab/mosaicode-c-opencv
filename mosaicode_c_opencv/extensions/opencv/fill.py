@@ -25,6 +25,9 @@ class Fill(BlockModel):
         self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
         self.group = "General"
 
+        self.language = "c"
+        self.framework = "opencv"
+
         self.properties = [{"name": "rect_Color",
                             "label": "rect_color",
                             "type": MOSAICODE_COLOR
@@ -52,7 +55,4 @@ class Fill(BlockModel):
             '\tcvSet(block$id$_img_o0, color, NULL);\n' + \
             '}\n'
 
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------
