@@ -24,8 +24,8 @@ class Capture(BlockModel):
         self.label = "Capture"
         self.color = "50:100:200:150"
         self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"input_image",
-                          "label":"Input Image"}
+                          "name":"output_image",
+                          "label":"Output Image"}
                           ]
         self.group = "Image Source"
         self.language = "c"
@@ -38,19 +38,19 @@ class Capture(BlockModel):
                  "upper": 4}]
 
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_o0 = NULL; //Capture\n' + \
+            'IplImage * $out_ports[output_image]$ = NULL; //Capture\n' + \
             'CvCapture* block$id$_capture = NULL; \n' + \
             'IplImage* block$id$_frame = NULL; \n' + \
             'int counter$id$ = 0;\n'
 
         self.codes["execution"] = \
             'if (counter$id$ == 0){\n' + \
-            'block$id$_capture = cvCaptureFromCAM($camera$); \n' + \
+            'block$id$_capture = cvCaptureFromCAM($prop[camera]$); \n' + \
             'if( !cvGrabFrame( block$id$_capture ))' + \
-            '{ printf("Cannot Grab Image from camera $camera$"); }\n' + \
+            '{ printf("Cannot Grab Image from camera $prop[camera]$"); }\n' + \
             'block$id$_frame = cvRetrieveFrame( block$id$_capture ); \n' + \
-            'block$id$_img_o0 = cvCloneImage( block$id$_frame );\n' + \
+            '$out_ports[output_image]$ = cvCloneImage( block$id$_frame );\n' + \
             'counter$id$++;\n' + \
             '}\n'
-        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_o0);\n"
+        self.codes["deallocation"] = "cvReleaseImage(&$out_ports[output_image]$);\n"
 # -----------------------------------------------------------------------------

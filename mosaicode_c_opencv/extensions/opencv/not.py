@@ -30,17 +30,17 @@ class Not(BlockModel):
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes["declaration"] = "IplImage * block$id$_img_i0 = NULL;\n" + \
-                    "IplImage * block$id$_img_o0 = NULL;\n"
+        self.codes["declaration"] = "IplImage * $in_ports[input_image]$ = NULL;\n" + \
+                    "IplImage * $out_ports[output_image]$ = NULL;\n"
 
         self.codes["execution"] = \
-            'if(block$id$_img_i0){\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvNot(block$id$_img_i0, block$id$_img_o0);\n' + \
+            'if($in_ports[input_image]$){\n' + \
+            '$out_ports[output_image]$ = cvCloneImage($in_ports[input_image]$);\n' + \
+            'cvNot($in_ports[input_image]$, $out_ports[output_image]$);\n' + \
             '}\n'
 
-        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
-                       "cvReleaseImage(&block$id$_img_o0);\n"
+        self.codes["deallocation"] = "cvReleaseImage(&$in_ports[input_image]$);\n" + \
+                       "cvReleaseImage(&$out_ports[output_image]$);\n"
 
 
         self.language = "c"

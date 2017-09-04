@@ -40,20 +40,20 @@ class Show(BlockModel):
                             }
                            ]
 
-        self.codes["declaration"] = "IplImage * block$id$_img_i0 = NULL;\n" + \
+        self.codes["declaration"] = "IplImage * $in_ports[input_image]$ = NULL;\n" + \
                 "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
                 "cvNamedWindow(\"$prop[title]$\",CV_WINDOW_NORMAL);\n" + \
                 "else\n" + \
                 "cvNamedWindow(\"$prop[title]$\",CV_WINDOW_AUTOSIZE);\n"
 
-        self.codes["execution"] = "\nif(block$id$_img_i0){\n" + \
-            "cvShowImage(\"$prop[title]$\",block$id$_img_i0);\n" + \
+        self.codes["execution"] = "\nif($in_ports[input_image]$){\n" + \
+            "cvShowImage(\"$prop[title]$\",$in_ports[input_image]$);\n" + \
             "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
             "cvSetWindowProperty(\"$prop[title]$\", " + \
             "CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);\n" + \
             "}\n"
 
-        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);"
+        self.codes["deallocation"] = "cvReleaseImage(&$in_ports[input_image]$);"
 
 
         self.language = "c"

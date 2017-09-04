@@ -8,11 +8,7 @@ class Image(Port):
         self.label = "IMG"
         self.color = "#F0F"
         self.multiple = False
-        self.code = "// IMG connection\n"
-        self.code += "block$sink$_img_i$sink_port$ = cvCloneImage(block$source$_img_o$source_port$);\n"
-        self.input_codes["declaration"] = "IplImage * block$id$_img_i$port_number$ = NULL;\n"
-        self.output_codes["declaration"] = "IplImage * block$id$_img_o$port_number$ = NULL;\n"
-        self.input_codes["deallocation"] = "cvReleaseImage(&block$id$_img_i$port_number$);\n"
-        self.output_codes["deallocation"] = "cvReleaseImage(&block$id$_img_o$port_number$);\n"
+        self.code = "block$sink$_i$sink_port$ = cvCloneImage(block$source$_o$source_port$);\n"
+        self.var_name = "block$id$_$conn_type$$port_number$"
         self.code_parts = ["include", "function", "declaration", "execution", "deallocation", "cleanup"]
 

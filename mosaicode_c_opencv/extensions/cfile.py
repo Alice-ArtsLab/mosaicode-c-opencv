@@ -60,7 +60,7 @@ int main(int argc, char ** argv){
         $code[declaration]$
         while((key = (char)cvWaitKey(FRAMERATE)) != 27){
             //execution block
-            $code[execution, connection]$
+            $code[connection, execution]$
 
             //deallocation block
             $code[deallocation]$
