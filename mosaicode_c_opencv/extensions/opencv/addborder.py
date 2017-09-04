@@ -83,16 +83,16 @@ class AddBorder(BlockModel):
             "IplImage * $port[output_image]$ = NULL;\n"
 
         self.codes["execution"] = \
-            'if(port[input_image]){\n' + \
-            '\tCvSize size$id$ = cvSize(port[input_image]->width +' + \
-            ' $port[border_size]$ * 2, port[input_image]->height' + \
+            'if($port[input_image]$){\n' + \
+            '\tCvSize size$id$ = cvSize($port[input_image]$->width +' + \
+            ' $port[border_size]$ * 2, $port[input_image]$->height' + \
             ' + $port[border_size]$ * 2);\n' + \
             '\t$port[output_image]$ = cvCreateImage(size$id$,' + \
-            ' port[input_image]->depth,port[input_image]->nChannels);\n' + \
+            ' $port[input_image]$->depth,$port[input_image]$->nChannels);\n' + \
             '\tCvPoint point$id$ = cvPoint' + \
             '($port[border_size]$, $port[border_size]$);\n' + \
             '\tCvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            '\tcvCopyMakeBorder(port[input_image], $port[output_image]$,' + \
+            '\tcvCopyMakeBorder($port[input_image]$, $port[output_image]$,' + \
             ' point$id$, $prop[type]$, color);\n' + \
             '}\n'
 # -----------------------------------------------------------------------------

@@ -21,12 +21,13 @@ class Not(BlockModel):
             "Corresponde à negativa da imagem."
         self.label = "Not"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Input Image"},
+                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 

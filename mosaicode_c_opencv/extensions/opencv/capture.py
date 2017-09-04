@@ -23,9 +23,10 @@ class Capture(BlockModel):
             "de aquisição de imagens (câmera, scanner)."
         self.label = "Capture"
         self.color = "50:100:200:150"
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"output_image",
-                          "label":"Output Image"}
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
+                          "name":"input_image",
+                          "label":"Input Image"}
                           ]
         self.group = "Image Source"
         self.language = "c"

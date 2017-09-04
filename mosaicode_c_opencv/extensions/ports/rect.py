@@ -9,5 +9,3 @@ class Rect(Port):
         self.color = "#00F"
         self.multiple = False
         self.code = "block$sink$_rect_i$sink_port$ = block$source$_rect_o$source_port$;// RECT connection\n"
-        self.code_parts = ["include", "function", "declaration", "execution", "deallocation", "cleanup"]
-

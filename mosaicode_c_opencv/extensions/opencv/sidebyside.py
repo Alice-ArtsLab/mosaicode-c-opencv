@@ -19,15 +19,17 @@ class SideBySide(BlockModel):
         self.help = "Coloca uma imagem do lado da outra."
         self.label = "Side By Side"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"left_image",
+                          "conn_type":"Input",
                           "label":"Left Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"right_image",
-                          "label":"Right Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Right Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 

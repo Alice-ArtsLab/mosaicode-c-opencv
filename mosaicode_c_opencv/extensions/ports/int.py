@@ -8,6 +8,4 @@ class Int(Port):
         self.label = "INT"
         self.color = "#F00"
         self.multiple = False
-        self.code = "block$sink$_int_i$sink_port$ = block$source$_int_o$source_port$;// INT connection\n"
-        self.code_parts = ["include", "function", "declaration", "execution", "deallocation", "cleanup"]
-
+        self.code = "$input$ = $output$;\n"

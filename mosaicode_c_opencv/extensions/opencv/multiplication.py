@@ -20,14 +20,16 @@ class Multiplication(BlockModel):
         self.help = "Realiza a multiplicação de duas imagens."
         self.label = "Multiplication"
         self.color = "180:10:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
                           "name":"first_image",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
                           "name":"first_image",
-                          "label":"First Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "label":"First Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"

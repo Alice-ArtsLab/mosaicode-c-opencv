@@ -23,11 +23,12 @@ class Opening(BlockModel):
             "desconectar objetos em uma imagem ou suprimir ruídos."
         self.label = "Opening"
         self.color = "180:230:220:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Input Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Morphological Operations"

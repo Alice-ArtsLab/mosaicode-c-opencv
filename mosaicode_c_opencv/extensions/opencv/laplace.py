@@ -20,15 +20,17 @@ class Laplace(BlockModel):
             "realçando cantos e bordas de objetos."
         self.label = "Laplace"
         self.color = "250:180:80:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"},
                           {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          "conn_type":"Input",
                           "name":"masksize",
-                          "label":"Mask Size"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "label":"Mask Size"},
+                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Gradients, Edges and Corners"
 

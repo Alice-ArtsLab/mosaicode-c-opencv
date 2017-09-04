@@ -24,16 +24,20 @@ class And(BlockModel):
             "Segunda: Executa a operação entre um " + \
             "valor constante e cada ponto da imagem."
         self.label = "And"
+        self.language = "c"
+        self.framework = "opencv"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
+                          "conn_type":"Input",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"second_image",
-                          "label":"Second Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Second Image"},
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
@@ -78,8 +82,4 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
         self.codes["deallocation"] = "cvReleaseImage(&$in_ports[first_image]$);\n" + \
                     "cvReleaseImage(&$in_ports[second_image]$);\n" + \
                     "cvReleaseImage(&$out_ports[output_image]$);\n"
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------
