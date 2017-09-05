@@ -19,7 +19,6 @@ mosaicode_c_opencv/extensions/opencv/capture.py
 mosaicode_c_opencv/extensions/opencv/circle.py
 mosaicode_c_opencv/extensions/opencv/closing.py
 mosaicode_c_opencv/extensions/opencv/colorConversion.py
-mosaicode_c_opencv/extensions/opencv/comment.py
 mosaicode_c_opencv/extensions/opencv/composeRGB.py
 mosaicode_c_opencv/extensions/opencv/cropImage.py
 mosaicode_c_opencv/extensions/opencv/decomposeRGB.py
