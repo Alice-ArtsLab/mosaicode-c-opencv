@@ -25,6 +25,8 @@ class Canny(BlockModel):
             " segmentos iniciais das bordas mais significativas."
         self.label = "Canny"
         self.color = "50:180:80:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
@@ -112,6 +114,4 @@ class Canny(BlockModel):
 
         self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
                        "cvReleaseImage(&block$id$_img_o0);\n"
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

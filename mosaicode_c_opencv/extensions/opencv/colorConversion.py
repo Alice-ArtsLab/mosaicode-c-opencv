@@ -33,22 +33,24 @@ class ColorConversion(BlockModel):
         self.language = "c"
         self.framework = "opencv"
 
-        self.properties = [{"name": "Conversion Type",
-                            "label": "conversion_type",
+        self.properties = [{"name": "conversion_type",
+                            "label": "Conversion Type",
                             "type": MOSAICODE_COMBO,
-                            "values": ["RGB -> GRAY",
-                                       "RGB -> YCrCb",
-                                       "YCrCb -> RGB",
-                                       "RGB -> HSV",
-                                       "HSV -> RGB",
-                                       "RGB -> HLS",
-                                       "HLS -> RGB",
-                                       "RGB -> CIE.XYZ",
-                                       "CIE.XYZ -> RGB",
-                                       "RGB -> CIE.LAB",
-                                       "CIE.LAB -> RGB",
-                                       "RGB -> CIE.LUV",
-                                       "CIE.LUV -> RGB"]
+                            "values": [
+                                        'CV_RGB2GRAY',
+                                        'CV_RGB2YCrCb',
+                                        'CV_YCrCb2RGB',
+                                        'CV_RGB2HSV',
+                                        'CV_HSV2RGB',
+                                        'CV_RGB2HLS',
+                                        'CV_HLS2RGB',
+                                        'CV_RGB2XYZ',
+                                        'CV_XYZ2RGB',
+                                        'CV_RGB2Lab',
+                                        'CV_Lab2RGB',
+                                        'CV_RGB2Luv',
+                                        'CV_Luv2RGB'
+                                       ]
                             }
                            ]
 
@@ -57,53 +59,20 @@ class ColorConversion(BlockModel):
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'IplImage * block$id$_img_t = NULL;\n'
 
-        self.codes["execution"] = ""
-
         self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_t);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n' + \
             'cvReleaseImage(&block$id$_img_o0);\n'
 
-    # ----------------------------------------------------------------------
-    def generate_function_call(self):
-        channels = '3'
-        if self.conversion_type == 'RGB -> GRAY':
-            code = 'CV_RGB2GRAY'
-            channels = '1'
-        elif self.conversion_type == 'RGB -> YCrCb':
-            code = 'CV_RGB2YCrCb'
-        elif self.conversion_type == 'YCrCb -> RGB':
-            code = 'CV_YCrCb2RGB'
-        elif self.conversion_type == 'RGB -> HSV':
-            code = 'CV_RGB2HSV'
-        elif self.conversion_type == 'HSV -> RGB':
-            code = 'CV_HSV2RGB'
-        elif self.conversion_type == 'RGB -> HLS':
-            code = 'CV_RGB2HLS'
-        elif self.conversion_type == 'HLS -> RGB':
-            code = 'CV_HLS2RGB'
-        elif self.conversion_type == 'RGB -> CIE.XYZ':
-            code = 'CV_RGB2XYZ'
-        elif self.conversion_type == 'CIE.XYZ -> RGB':
-            code = 'CV_XYZ2RGB'
-        elif self.conversion_type == 'RGB -> CIE.LAB':
-            code = 'CV_RGB2Lab'
-        elif self.conversion_type == 'CIE.LAB -> RGB':
-            code = 'CV_Lab2RGB'
-        elif self.conversion_type == 'RGB -> CIE.LUV':
-            code = 'CV_RGB2Luv'
-        elif self.conversion_type == 'CIE.LUV -> RGB':
-            code = 'CV_Luv2RGB'
-
-        return \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             'block$id$_img_o0 = cvCloneImage' + \
             '(block$id$_img_i0);\n' + \
             'block$id$_img_t = cvCreateImage(cvGetSize(block$id$_img_i0),' + \
-            'block$id$_img_i0->depth,' + channels + ');\n' + \
+            'block$id$_img_i0->depth,3);\n' + \
             'cvCvtColor(block$id$_img_i0, ' + \
-            'block$id$_img_t ,' + code + ' );}\n' + \
-            'if ( ' + code + ' == ' + "CV_RGB2GRAY" + ')\n' + \
+            'block$id$_img_t ,$prop[conversion_type]$ );}\n' + \
+            'if ($prop[conversion_type]$ == ' + "CV_RGB2GRAY" + ')\n' + \
             '{    cvMerge(block$id$_img_t ,block$id$_img_t ,' + \
             'block$id$_img_t ,NULL ,block$id$_img_o0);\n }\n' + \
             'else\n' + '{ block$id$_img_o0 = cvCloneImage(block$id$_img_t);\n}'

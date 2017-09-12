@@ -18,7 +18,8 @@ class Slider(BlockModel):
         self.help = "Creates Slider to int value."
         self.label = "Slider"
         self.color = "50:50:200:150"
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.int",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.int",
+                          "conn_type":"Output",
                           "name":"slider_value",
                           "label":"Slider Value"}]
         self.group = "Basic Data Type"
@@ -53,12 +54,12 @@ class Slider(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-            'int  block$id$_int_o0 = $intVal$; // New Int Out\n'
+            'int  $port[slider_value]$ = $prop[intVal]$; // New Int Out\n'
 
         self.codes["execution"] = \
-            'cvNamedWindow("$window_name$",CV_WINDOW_AUTOSIZE );\n' + \
-            'cvCreateTrackbar("$label$", "$window_name$",' + \
-            ' &block$id$_int_o0, $maxVal$, NULL);\n'
+            'cvNamedWindow("$prop[window_name]$",CV_WINDOW_AUTOSIZE );\n' + \
+            'cvCreateTrackbar("$prop[label]$", "$prop[window_name]$",' + \
+            '&$port[slider_value]$, $prop[maxVal]$, NULL);\n'
 
 
         self.language = "c"

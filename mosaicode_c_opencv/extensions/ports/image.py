@@ -8,5 +8,5 @@ class Image(Port):
         self.label = "IMG"
         self.color = "#F0F"
         self.multiple = False
-        self.var_name = "block$id$_$conn_type$$port_number$"
-        self.code = "$input$ = cvCloneImage($output$);\n"
+        self.var_name = "b_$id$_$conn_type$_$port_number$"
+        self.code = "if ($output$) $input$ = cvCloneImage($output$);\n"

@@ -16,10 +16,8 @@ class CropImage(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        self.x0 = 0
-        self.y0 = 0
-        self.width = 640
-        self.height = 480
+        self.language = "c"
+        self.framework = "opencv"
 
         # Appearance
         self.help = "Corta a Imagem de acordo com o Retangulo de entrada."
@@ -98,6 +96,7 @@ class CropImage(BlockModel):
             '   cvSetImageROI(block$id$_img_i0,block$id$_rect_i1);\n' + \
             '   cvCopyImage(block$id$_img_i0,block$id$_img_o0);\n' + \
             '}\n'
-        self.language = "c"
-        self.framework = "opencv"
+
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
+                       "cvReleaseImage(&block$id$_img_o0);\n"
 # -----------------------------------------------------------------------------

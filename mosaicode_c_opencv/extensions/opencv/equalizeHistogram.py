@@ -22,6 +22,8 @@ class EqualizeHistogram(BlockModel):
             "diversos elementos de uma imagem."
         self.label = "Equalize Histogram"
         self.color = "0:0:0:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                        "name":"input0",
                        "conn_type":"Input"},
@@ -69,7 +71,7 @@ class EqualizeHistogram(BlockModel):
             'cvReleaseImage(&block$id$_EqCx[2]);\n' + \
             '}\n'
 
+        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
+                    "cvReleaseImage(&block$id$_img_o0);\n"
 
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

@@ -20,19 +20,29 @@ class Xor(BlockModel):
         self.help = "Realiza a operação lógica XOR entre duas imagens."
         self.label = "Xor"
         self.color = "10:180:10:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
                           "conn_type":"Input",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"first_image",
+                          "name":"second_image",
                           "conn_type":"Input",
-                          "label":"First Image"},
+                          "label":"Second Image"},
                           {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
+
+        self.codes["declaration"] = "IplImage * $port[first_image]$ = NULL;\n" + \
+                    "IplImage * $port[second_image]$ = NULL;\n" + \
+                    "IplImage * $port[output_image]$ = NULL;\n"
+
+        self.codes["deallocation"] = "cvReleaseImage(&$port[first_image]$);\n" + \
+                    "cvReleaseImage(&$port[second_image]$);\n" + \
+                    "cvReleaseImage(&$port[output_image]$);\n"
 
         self.codes["function"] = r"""
 // And, Xor, Division, subtraction, sum, or,
@@ -57,16 +67,13 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
 }
 """
         self.codes["execution"] = \
-            'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'adjust_images_size(block$id$_img_i0, ' + \
-            'block$id$_img_i1, block$id$_img_o0);\n' + \
-            'cvXor(block$id$_img_i0, block$id$_img_i1, ' + \
-            'block$id$_img_o0,0);\n' + \
-            'cvResetImageROI(block$id$_img_o0);\n' + \
+            'if($port[first_image]$ && $port[second_image]$){\n' + \
+            '$port[output_image]$ = cvCloneImage($port[first_image]$);\n' + \
+            'adjust_images_size($port[first_image]$, ' + \
+            '$port[second_image]$, $port[output_image]$);\n' + \
+            'cvXor($port[first_image]$, $port[second_image]$, ' + \
+            '$port[output_image]$,0);\n' + \
+            'cvResetImageROI($port[output_image]$);\n' + \
             '}\n'
 
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

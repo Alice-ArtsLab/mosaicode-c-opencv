@@ -15,22 +15,21 @@ class Erode(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        self.masksize = "3x3"
-        self.iterations = 1
-
         # Appearance
         self.help = "Operação morfológica que provoca erosão " + \
             "nos objetos de uma imagem, reduzindo suas dimensões."
         self.label = "Erosion"
         self.color = "180:230:220:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "conn_type":"Input",
                           "name":"input_image",
                           "label":"Input Image"},
                           {"type":"mosaicode_c_opencv.extensions.ports.int",
                           "conn_type":"Input",
-                          "name":"interaction",
-                          "label":"Interactions"},
+                          "name":"iteraction",
+                          "label":"Iteractions"},
                           {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "conn_type":"Output",
                            "name":"output_image",
@@ -50,8 +49,8 @@ class Erode(BlockModel):
                             "values": ["1", "3", "5", "7"],
                             "value":"3"
                             },
-                           {"name": "Iterations",
-                            "label": "iterations",
+                           {"label": "Iterations",
+                            "name": "iterations",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,
@@ -61,20 +60,20 @@ class Erode(BlockModel):
 
         # --------------------------C/OpenCv code------------------------------
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_i0 = NULL; // ERODE input\n' + \
-            'int block$id$_int_i1 = $prop[iterations]$; // ERODE iterarions\n' + \
-            'IplImage * block$id$_img_o0 = NULL; // ERODE output\n' + \
+            'IplImage * $port[input_image]$ = NULL; // ERODE input\n' + \
+            'int $port[iteraction]$ = $prop[iterations]$; // ERODE iterarions\n' + \
+            'IplImage * $port[output_image]$ = NULL; // ERODE output\n' + \
             'IplConvKernel * block$id$_arg_mask = ' + \
             'cvCreateStructuringElementEx($prop[masksizex]$ , $prop[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n'
 
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvErode(block$id$_img_i0, block$id$_img_o0, ' + \
-            'block$id$_arg_mask, block$id$_int_i1);\n' + \
+            '\nif($port[input_image]$){\n' + \
+            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
+            'cvErode($port[input_image]$, $port[output_image]$, ' + \
+            'block$id$_arg_mask, $port[iteraction]$);\n' + \
             '}\n'
 
+        self.codes["deallocation"] = "cvReleaseImage(&$port[input_image]$);\n" + \
+                    "cvReleaseImage(&$port[output_image]$);\n"
 
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------
