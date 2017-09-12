@@ -19,6 +19,8 @@ class SideBySide(BlockModel):
         self.help = "Coloca uma imagem do lado da outra."
         self.label = "Side By Side"
         self.color = "10:180:10:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"left_image",
                           "conn_type":"Input",
@@ -33,34 +35,32 @@ class SideBySide(BlockModel):
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes["declaration"] = "IplImage * block$id$_img_i0 = NULL;\n" + \
-                    "IplImage * block$id$_img_i1 = NULL;\n" + \
-                    "IplImage * block$id$_img_o0 = NULL;\n"
+        self.codes["declaration"] = "IplImage * $port[left_image]$ = NULL;\n" + \
+                    "IplImage * $port[right_image]$ = NULL;\n" + \
+                    "IplImage * $port[output_image]$ = NULL;\n"
 
         self.codes["execution"] =  \
-            'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
-            'int width=block$id$_img_i0->width' + \
-            ' + block$id$_img_i1->width;\n' + \
-            'int height= (block$id$_img_i0->height > ' + \
-            'block$id$_img_i1->height)?' + \
-            'block$id$_img_i0->height:block$id$_img_i1->height;\n' + \
-            'block$id$_img_o0=cvCreateImage(cvSize' + \
+            'if($port[left_image]$ && $port[right_image]$){\n' + \
+            'int width=$port[left_image]$->width' + \
+            ' + $port[right_image]$->width;\n' + \
+            'int height= ($port[left_image]$->height > ' + \
+            '$port[right_image]$->height)?' + \
+            '$port[left_image]$->height:$port[right_image]$->height;\n' + \
+            '$port[output_image]$=cvCreateImage(cvSize' + \
             '(width,height),IPL_DEPTH_8U,3); \n' + \
-            'cvSetImageROI(block$id$_img_o0, cvRect(0, 0, ' + \
-            'block$id$_img_i0->width, block$id$_img_i0->height) );\n' + \
-            'cvCopy(block$id$_img_i0,block$id$_img_o0,NULL);\n' + \
-            'cvResetImageROI(block$id$_img_o0);\n' + \
-            'cvSetImageROI(block$id$_img_o0, cvRect' + \
-            '(block$id$_img_i0->width, 0, width, ' + \
-            'block$id$_img_i1->height) );\n' + \
-            'cvCopy(block$id$_img_i1,block$id$_img_o0,NULL);\n' + \
-            'cvResetImageROI(block$id$_img_o0);\n' + \
+            'cvSetImageROI($port[output_image]$, cvRect(0, 0, ' + \
+            '$port[left_image]$->width, $port[left_image]$->height) );\n' + \
+            'cvCopy($port[left_image]$,$port[output_image]$,NULL);\n' + \
+            'cvResetImageROI($port[output_image]$);\n' + \
+            'cvSetImageROI($port[output_image]$, cvRect' + \
+            '($port[left_image]$->width, 0, width, ' + \
+            '$port[right_image]$->height) );\n' + \
+            'cvCopy($port[right_image]$,$port[output_image]$,NULL);\n' + \
+            'cvResetImageROI($port[output_image]$);\n' + \
             '}\n'
 
         self.codes["deallocation"] = \
-            'if (block$id$_img_o0) cvReleaseImage(&block$id$_img_o0);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n' + \
-            'cvReleaseImage(&block$id$_img_i1);\n'
-        self.language = "c"
-        self.framework = "opencv"
+            'if ($port[output_image]$) cvReleaseImage(&$port[output_image]$);\n' + \
+            'cvReleaseImage(&$port[left_image]$);\n' + \
+            'cvReleaseImage(&$port[right_image]$);\n'
 # -----------------------------------------------------------------------------

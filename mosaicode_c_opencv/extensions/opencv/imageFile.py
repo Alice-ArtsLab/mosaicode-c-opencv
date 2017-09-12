@@ -35,9 +35,9 @@ class ImageFile(BlockModel):
                            ]
 
         # ----------------------------C/OpenCv code-------------------------
-        self.codes["declaration"] = 'IplImage * $out_ports[output_image]$ = NULL;\n'
-        self.codes["declaration"] += '$out_ports[output_image]$ = cvLoadImage("$prop[filename]$",-1);\n'
-        self.codes["cleanup"] = "cvReleaseImage(&$out_ports[output_image]$);\n"
+        self.codes["declaration"] = 'IplImage * $port[output_image]$ = NULL;\n'
+        self.codes["declaration"] += '$port[output_image]$ = cvLoadImage("$prop[filename]$",-1);\n'
+        self.codes["cleanup"] = "cvReleaseImage(&$port[output_image]$);\n"
 
 
         self.language = "c"

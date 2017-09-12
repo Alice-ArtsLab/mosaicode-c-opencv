@@ -20,6 +20,8 @@ class Dilate(BlockModel):
             "nos objetos de uma imagem, aumentando suas dimensões."
         self.label = "Dilate"
         self.color = "180:230:220:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
@@ -71,9 +73,4 @@ class Dilate(BlockModel):
             '''
         self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
                        "cvReleaseImage(&block$id$_img_o0);\n"
-
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

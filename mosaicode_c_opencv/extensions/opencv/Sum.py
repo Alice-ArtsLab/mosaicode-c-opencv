@@ -20,14 +20,16 @@ class Sum(BlockModel):
         self.help = "Realiza a soma de duas imagens."
         self.label = "Sum"
         self.color = "180:10:10:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"first_image",
                           "conn_type":"Input",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"first_image",
+                          "name":"second_image",
                           "conn_type":"Input",
-                          "label":"First Image"},
+                          "label":"Second Image"},
                           {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "conn_type":"Output",
                            "name":"output_image",
@@ -57,25 +59,21 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
 }
 """
         self.codes["execution"] = \
-            'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'adjust_images_size(block$id$_img_i0, ' + \
-            'block$id$_img_i1, block$id$_img_o0);\n' + \
-            'cvAdd(block$id$_img_i0, block$id$_img_i1, ' + \
-            'block$id$_img_o0,0);\n' + \
-            'cvResetImageROI(block$id$_img_o0);\n' + \
+            'if($port[first_image]$ && $port[second_image]$){\n' + \
+            '$port[output_image]$ = cvCloneImage($port[first_image]$);\n' + \
+            'adjust_images_size($port[first_image]$, ' + \
+            '$port[second_image]$, $port[output_image]$);\n' + \
+            'cvAdd($port[first_image]$, $port[second_image]$, ' + \
+            '$port[output_image]$,0);\n' + \
+            'cvResetImageROI($port[output_image]$);\n' + \
             '}\n'
 
-        self.codes["declaration"] = "IplImage * block$id$_img_i0 = NULL;\n" + \
-                    "IplImage * block$id$_img_i1 = NULL;\n" + \
-                    "IplImage * block$id$_img_o0 = NULL;\n"
+        self.codes["declaration"] = "IplImage * $port[first_image]$ = NULL;\n" + \
+                    "IplImage * $port[second_image]$ = NULL;\n" + \
+                    "IplImage * $port[output_image]$ = NULL;\n"
 
-        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
-                    "cvReleaseImage(&block$id$_img_i1);\n" + \
-                    "cvReleaseImage(&block$id$_img_o0);\n"
+        self.codes["deallocation"] = "cvReleaseImage(&$port[first_image]$);\n" + \
+                    "cvReleaseImage(&$port[second_image]$);\n" + \
+                    "cvReleaseImage(&$port[output_image]$);\n"
 
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

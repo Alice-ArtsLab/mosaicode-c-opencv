@@ -9,3 +9,5 @@ class Int(Port):
         self.color = "#F00"
         self.multiple = False
         self.code = "$input$ = $output$;\n"
+        self.var_name = "block$id$_$conn_type$$port_number$"
+

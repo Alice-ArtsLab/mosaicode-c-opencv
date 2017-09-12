@@ -15,37 +15,45 @@ class NewImage(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.width = "640"
-        self.height = "480"
 
         # Appearance
         self.help = "Cria uma nova imagem."
         self.label = "New Image"
         self.color = "50:100:200:150"
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.language = "c"
+        self.framework = "opencv"
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                           "name":"output_image",
+                          "conn_type":"Output",
+                           "label":"Output Image"}]
         self.group = "Image Source"
 
-        self.properties = [{"name": "Width",
-                            "label": "width",
+        self.properties = [{"name": "width",
+                            "label": "Width",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,
-                            "step": 1
+                            "step": 1,
+                            "value":800
                             },
-                           {"name": "Height",
+                           {"name": "height",
                             "label": "Height",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,
-                            "step": 1
+                            "step": 1,
+                            "value":600
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
+        self.codes["declaration"] = \
+            'IplImage * $port[output_image]$ = NULL;\n'
+
         self.codes["execution"] = \
-            'CvSize size$id$ = cvSize($width$,$height$);\n' + \
-            'block$id$_img_o0 = cvCreateImage(size$id$,IPL_DEPTH_8U,3);\n' + \
-            'cvSetZero(block$id$_img_o0);\n'
-        self.language = "c"
-        self.framework = "opencv"
+            'CvSize size$id$ = cvSize($prop[width]$,$prop[height]$);\n' + \
+            '$port[output_image]$ = cvCreateImage(size$id$, IPL_DEPTH_8U, 3);\n' + \
+            'cvSetZero($port[output_image]$);\n'
+
+        self.codes["deallocation"] = "cvReleaseImage(&$port[output_image]$);\n"
+
 # -----------------------------------------------------------------------------

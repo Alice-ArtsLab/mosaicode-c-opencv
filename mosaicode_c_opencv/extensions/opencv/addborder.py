@@ -95,4 +95,9 @@ class AddBorder(BlockModel):
             '\tcvCopyMakeBorder($port[input_image]$, $port[output_image]$,' + \
             ' point$id$, $prop[type]$, color);\n' + \
             '}\n'
+
+        self.codes["deallocation"] = "" + \
+                    "cvReleaseImage(&$port[input_image]$);\n" + \
+                    "cvReleaseImage(&$port[output_image]$);\n"
+
 # -----------------------------------------------------------------------------

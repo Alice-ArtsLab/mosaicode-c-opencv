@@ -20,19 +20,30 @@ class Multiplication(BlockModel):
         self.help = "Realiza a multiplicação de duas imagens."
         self.label = "Multiplication"
         self.color = "180:10:10:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "conn_type":"Input",
                           "name":"first_image",
                           "label":"First Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "name":"second_image",
                           "conn_type":"Input",
-                          "name":"first_image",
-                          "label":"First Image"},
+                          "label":"Second Image"},
                          {"type":"mosaicode_c_opencv.extensions.ports.image",
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
+
+        self.codes["declaration"] = "IplImage * $port[first_image]$ = NULL;\n" + \
+                    "IplImage * $port[second_image]$ = NULL;\n" + \
+                    "IplImage * $port[output_image]$ = NULL;\n"
+
+        self.codes["deallocation"] = "cvReleaseImage(&$port[first_image]$);\n" + \
+                    "cvReleaseImage(&$port[second_image]$);\n" + \
+                    "cvReleaseImage(&$port[output_image]$);\n"
+
 
         self.codes["function"] = r"""
 // And, Xor, Division, subtraction, sum, or,
@@ -57,16 +68,12 @@ void adjust_images_size(IplImage * img1, IplImage * img2, IplImage * img3){
 }
 """
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0 && block$id$_img_i1){\n' + \
-            '\tblock$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            '\tadjust_images_size(block$id$_img_i0, ' + \
-            'block$id$_img_i1, block$id$_img_o0);\n' + \
-            '\tcvMul(block$id$_img_i0, block$id$_img_i1, ' + \
-            'block$id$_img_o0,1);\n' + \
-            '\tcvResetImageROI(block$id$_img_o0);\n' + \
+            '\nif($port[first_image]$ && $port[second_image]$){\n' + \
+            '\t$port[output_image]$ = cvCloneImage($port[first_image]$);\n' + \
+            '\tadjust_images_size($port[first_image]$, ' + \
+            '$port[second_image]$, $port[output_image]$);\n' + \
+            '\tcvMul($port[first_image]$, $port[second_image]$, ' + \
+            '$port[output_image]$,1);\n' + \
+            '\tcvResetImageROI($port[output_image]$);\n' + \
             '}\n'
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

@@ -21,6 +21,8 @@ class Not(BlockModel):
             "Corresponde à negativa da imagem."
         self.label = "Not"
         self.color = "10:180:10:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
@@ -31,19 +33,16 @@ class Not(BlockModel):
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes["declaration"] = "IplImage * $in_ports[input_image]$ = NULL;\n" + \
-                    "IplImage * $out_ports[output_image]$ = NULL;\n"
+        self.codes["declaration"] = "IplImage * $port[input_image]$ = NULL;\n" + \
+                    "IplImage * $port[output_image]$ = NULL;\n"
 
         self.codes["execution"] = \
-            'if($in_ports[input_image]$){\n' + \
-            '$out_ports[output_image]$ = cvCloneImage($in_ports[input_image]$);\n' + \
-            'cvNot($in_ports[input_image]$, $out_ports[output_image]$);\n' + \
+            'if($port[input_image]$){\n' + \
+            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
+            'cvNot($port[input_image]$, $port[output_image]$);\n' + \
             '}\n'
 
-        self.codes["deallocation"] = "cvReleaseImage(&$in_ports[input_image]$);\n" + \
-                       "cvReleaseImage(&$out_ports[output_image]$);\n"
+        self.codes["deallocation"] = "cvReleaseImage(&$port[input_image]$);\n" + \
+                       "cvReleaseImage(&$port[output_image]$);\n"
 
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

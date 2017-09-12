@@ -81,7 +81,6 @@ class Closing(BlockModel):
             'cvReleaseStructuringElement(&block$id$_arg_mask);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n'
 
-# --------------------------------------------------------------------------
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------
