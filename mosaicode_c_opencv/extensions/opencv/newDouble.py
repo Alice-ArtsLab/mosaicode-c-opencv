@@ -15,16 +15,17 @@ class NewDouble(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.doubleVal = 1
-
         # Appearance
         self.help = "Creates new literal value (Double)."
         self.label = "New Double"
         self.color = "50:50:200:150"
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.double"]
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.double",
+                          "name":"double",
+                          "conn_type":"Output",
+                          "label":"Double"}]
         self.group = "Basic Data Type"
 
-        self.properties = [{"name": "Value",
+        self.properties = [{"name": "value",
                             "label": "doubleVal",
                             "type": MOSAICODE_FLOAT,
                             "lower": 0,
@@ -34,8 +35,8 @@ class NewDouble(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes["declaration"] = 'double block$id$_double_o0 = ' + \
-            '$doubleVal$; // New Double Out\n'
+        self.codes["declaration"] = 'double $ports[double]$ = ' + \
+            '$prop[value]$; // New Double Out\n'
 
 
         self.language = "c"

@@ -22,7 +22,7 @@ class AddBorder(BlockModel):
         self.label = "Add Border"
         self.color = "0:180:210:150"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                "name":"input_image",
+                "name":"image",
                 "conn_type":"Input",
                 "label":"Input Image"},
                 {"type":"mosaicode_c_opencv.extensions.ports.int",
@@ -30,7 +30,7 @@ class AddBorder(BlockModel):
                 "conn_type":"Input",
                 "label":"Border Size"},
                 {"type":"mosaicode_c_opencv.extensions.ports.image",
-                "name":"output_image",
+                "name":"output",
                 "conn_type":"Output",
                 "label":"Output Image"}]
         self.group = "Experimental"
@@ -78,26 +78,26 @@ class AddBorder(BlockModel):
             "}\n"
 
         self.codes["declaration"] = \
-            "IplImage * $port[input_image]$ = NULL;\n" + \
+            "IplImage * $port[image]$ = NULL;\n" + \
             "int $port[border_size]$ = $prop[border_size]$;\n" + \
-            "IplImage * $port[output_image]$ = NULL;\n"
+            "IplImage * $port[output]$ = NULL;\n"
 
         self.codes["execution"] = \
-            'if($port[input_image]$){\n' + \
-            '\tCvSize size$id$ = cvSize($port[input_image]$->width +' + \
-            ' $port[border_size]$ * 2, $port[input_image]$->height' + \
+            'if($port[image]$){\n' + \
+            '\tCvSize size$id$ = cvSize($port[image]$->width +' + \
+            ' $port[border_size]$ * 2, $port[image]$->height' + \
             ' + $port[border_size]$ * 2);\n' + \
-            '\t$port[output_image]$ = cvCreateImage(size$id$,' + \
-            ' $port[input_image]$->depth,$port[input_image]$->nChannels);\n' + \
+            '\t$port[output]$ = cvCreateImage(size$id$,' + \
+            ' $port[image]$->depth,$port[image]$->nChannels);\n' + \
             '\tCvPoint point$id$ = cvPoint' + \
             '($port[border_size]$, $port[border_size]$);\n' + \
             '\tCvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            '\tcvCopyMakeBorder($port[input_image]$, $port[output_image]$,' + \
+            '\tcvCopyMakeBorder($port[image]$, $port[output]$,' + \
             ' point$id$, $prop[type]$, color);\n' + \
             '}\n'
 
         self.codes["deallocation"] = "" + \
-                    "cvReleaseImage(&$port[input_image]$);\n" + \
-                    "cvReleaseImage(&$port[output_image]$);\n"
+                    "cvReleaseImage(&$port[image]$);\n" + \
+                    "cvReleaseImage(&$port[output]$);\n"
 
 # -----------------------------------------------------------------------------

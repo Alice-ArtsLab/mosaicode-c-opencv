@@ -22,17 +22,17 @@ class FillRect(BlockModel):
         self.label = "Fill Rectangle"
         self.color = "50:100:200:150"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"input_image",
-                          "conn_type":"Input",
-                          "label":"Input Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.rect",
-                          "name":"rect",
-                          "conn_type":"Input",
-                          "label":"Rectangle"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "conn_type":"Output",
-                           "name":"output_image",
-                           "label":"Output Image"}]
+                       "name":"image",
+                       "conn_type":"Input",
+                       "label":"Input Image"},
+                      {"type":"mosaicode_c_opencv.extensions.ports.rect",
+                       "name":"rect",
+                       "conn_type":"Input",
+                       "label":"Rectangle"},
+                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                       "conn_type":"Output",
+                       "name":"output",
+                       "label":"Output Image"}]
         self.group = "Basic Shapes"
 
         self.properties = [{"name": "color",
@@ -63,21 +63,23 @@ class FillRect(BlockModel):
             "}\n"
 
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'CvRect block$id$_rect_i1;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n'
+            'IplImage * $port[image]$ = NULL;\n' + \
+            'CvRect $port[rect]$;\n' + \
+            'IplImage * $port[output]$ = NULL;\n'
 
         # ----------------------------------------------------------------------
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0)\n{\n' + \
-            '\tblock$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            '\tcvSetImageROI(block$id$_img_o0 , block$id$_rect_i1);\n' + \
+            '\nif($port[image]$)\n{\n' + \
+            '\t$port[output]$ = cvCloneImage($port[image]$);\n' + \
+            '\tcvSetImageROI($port[output]$ , $port[rect]$);\n' + \
             '\tCvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            '\tcvSet(block$id$_img_o0,color,NULL);\n' + \
-            '\tcvResetImageROI(block$id$_img_o0);\n' + \
+            '\tcvSet($port[output]$,color,NULL);\n' + \
+            '\tcvResetImageROI($port[output]$);\n' + \
             '}\n'
 
-
+        self.codes["deallocation"] = "cvReleaseImage(&$port[image]$);\n" + \
+                    "cvReleaseImage(&$port[output]$);\n"
+                    
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------
