@@ -20,13 +20,14 @@ class NewDouble(BlockModel):
         self.label = "New Double"
         self.color = "50:50:200:150"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.double",
-                          "name":"double",
-                          "conn_type":"Output",
-                          "label":"Double"}]
+                       "name":"double",
+                       "label":"Double",
+                       "conn_type":"Output"}]
+
         self.group = "Basic Data Type"
 
         self.properties = [{"name": "value",
-                            "label": "doubleVal",
+                            "label": "Value",
                             "type": MOSAICODE_FLOAT,
                             "lower": 0,
                             "upper": 65535,
@@ -35,7 +36,7 @@ class NewDouble(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes["declaration"] = 'double $ports[double]$ = ' + \
+        self.codes["declaration"] = 'double $port[double]$ = ' + \
             '$prop[value]$; // New Double Out\n'
 
 

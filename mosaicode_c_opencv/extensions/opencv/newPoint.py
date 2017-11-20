@@ -23,17 +23,21 @@ class NewPoint(BlockModel):
         self.label = "New Point"
         self.color = "50:50:200:150"
         self.out_types = ["mosaicode_c_opencv.extensions.ports.point"]
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.point",
+                        "name":"point",
+                        "label":"Point",
+                        "conn_type":"Output"}]
         self.group = "Basic Data Type"
 
-        self.properties = [{"name": "X",
-                            "label": "x0",
+        self.properties = [{"name": "x",
+                            "label": "X",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,
                             "step": 1
                             },
-                           {"name": "Y",
-                            "label": "y0",
+                           {"name": "y",
+                            "label": "Y",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,
@@ -42,10 +46,10 @@ class NewPoint(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes["declaration"] = 'CvPoint block$id$_point_o0 = cvPoint($x0$,$y0$);\n'
+        self.codes["declaration"] = 'CvPoint $port[point]$ = cvPoint($prop[x]$,$prop[y]$);\n'
 
         self.codes["execution"] = \
-            'block$id$_point_o0 = cvPoint($x0$,$y0$);\n'
+            '$port[point]$ = cvPoint($prop[x]$,$prop[y]$);\n'
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------
