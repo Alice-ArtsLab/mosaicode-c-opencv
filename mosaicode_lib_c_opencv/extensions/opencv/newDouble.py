@@ -21,7 +21,7 @@ class NewDouble(BlockModel):
         self.help = "Creates new literal value (Double)."
         self.label = "New Double"
         self.color = "50:50:200:150"
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.double"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.double"]
         self.group = "Basic Data Type"
 
         self.properties = [{"name": "Value",

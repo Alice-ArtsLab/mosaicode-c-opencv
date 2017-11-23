@@ -21,13 +21,13 @@ class IsOnRect(BlockModel):
             "point is inside the given rectangle."
         self.label = "Check Point"
         self.color = "50:50:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.point",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.point",
                        "name":"input0",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.rect",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                        "name":"input1",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.double",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.double",
                        "name":"output0",
                        "conn_type":"Output"}]
         self.group = "Experimental"

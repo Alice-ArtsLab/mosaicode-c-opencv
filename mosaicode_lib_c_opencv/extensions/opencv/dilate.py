@@ -22,11 +22,11 @@ class Dilate(BlockModel):
         self.color = "180:230:220:150"
         self.language = "c"
         self.framework = "opencv"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
                           "label":"Input Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                            "name":"output_image",
                           "conn_type":"Output",
                            "label":"Output Image"}]

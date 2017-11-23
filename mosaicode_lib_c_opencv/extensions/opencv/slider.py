@@ -18,7 +18,7 @@ class Slider(BlockModel):
         self.help = "Creates Slider to int value."
         self.label = "Slider"
         self.color = "50:50:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.int",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                           "conn_type":"Output",
                           "name":"slider_value",
                           "label":"Slider Value"}]

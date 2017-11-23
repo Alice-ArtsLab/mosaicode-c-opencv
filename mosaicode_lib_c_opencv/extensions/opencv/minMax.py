@@ -32,8 +32,8 @@ class MinMax(BlockModel):
             "it according to a custom criteria."
         self.label = "Find Min or Max"
         self.color = "50:50:200:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.double", "mosaicode_c_opencv.extensions.ports.point"]
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.double", "mosaicode_lib_c_opencv.extensions.ports.point"]
         self.group = "Feature Detection"
 
         self.properties = [{"name": "Min X",

@@ -22,8 +22,8 @@ class PlotHistogram(BlockModel):
             "intensity levels as an histogram."
         self.label = "Histogram"
         self.color = "0:0:0:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.group = "Histograms"
 
         self.properties = [{"name": "Channels",

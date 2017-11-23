@@ -26,8 +26,8 @@ class SaveVideo(BlockModel):
         self.help = "Save Video needs its description."
         self.label = "Save Video"
         self.color = "120:20:20:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.group = "General"
 
         self.properties = [{"name": "File Name",

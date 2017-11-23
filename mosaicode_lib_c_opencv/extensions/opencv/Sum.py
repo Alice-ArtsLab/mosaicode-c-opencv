@@ -22,15 +22,15 @@ class Sum(BlockModel):
         self.color = "180:10:10:150"
         self.language = "c"
         self.framework = "opencv"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"first_image",
                           "conn_type":"Input",
                           "label":"First Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"second_image",
                           "conn_type":"Input",
                           "label":"Second Image"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]

@@ -22,15 +22,15 @@ class Erode(BlockModel):
         self.color = "180:230:220:150"
         self.language = "c"
         self.framework = "opencv"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "conn_type":"Input",
                           "name":"input_image",
                           "label":"Input Image"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                           "conn_type":"Input",
                           "name":"iteraction",
                           "label":"Iteractions"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]

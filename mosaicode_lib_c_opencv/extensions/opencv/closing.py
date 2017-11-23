@@ -24,19 +24,19 @@ class Closing(BlockModel):
         self.label = "Closing"
         self.color = "180:230:220:150"
         self.group = "Morphological Operations"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
                           "label":"Input Image"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                           "name":"masksizex",
                           "conn_type":"Input",
                           "label":"Mask Size X"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                           "name":"masksizey",
                           "conn_type":"Input",
                           "label":"Mask Size Y"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]

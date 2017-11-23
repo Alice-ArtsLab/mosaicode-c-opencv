@@ -20,7 +20,7 @@ class NewInt(BlockModel):
         self.help = "Creates new literal value (Int)."
         self.label = "New Int"
         self.color = "50:50:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.int",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                         "name":"value",
                          "conn_type":"Output",
                         "label":"Value"}]

@@ -24,8 +24,8 @@ class Rotate(BlockModel):
         self.help = "Adiciona bordas na imagem."
         self.label = "Rotate Image"
         self.color = "90:5:10:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image", "mosaicode_c_opencv.extensions.ports.double"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image", "mosaicode_lib_c_opencv.extensions.ports.double"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.group = "Experimental"
 
         self.language = "c"

@@ -21,16 +21,16 @@ class DecomposeRGB(BlockModel):
         self.help = "BLOCO Decomposição RGB."
         self.label = "Decompose RGB"
         self.color = "50:125:50:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input0",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output0",
                        "conn_type":"Output"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output1",
                        "conn_type":"Output"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output2",
                        "conn_type":"Output"}]
         self.group = "Filters and Color Conversion"

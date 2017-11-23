@@ -27,23 +27,23 @@ class Canny(BlockModel):
         self.color = "50:180:80:150"
         self.language = "c"
         self.framework = "opencv"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
                           "label":"Input Image"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                           "conn_type":"Input",
                           "name":"apertureSize",
                           "label":"Aperture Size"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                           "conn_type":"Input",
                           "name":"threshold1",
                           "label":"Threshold 1"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                           "conn_type":"Input",
                           "name":"threshold2",
                           "label":"Threshold 2"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                            "name":"output_image",
                           "conn_type":"Output",
                            "label":"Output Image"}]

@@ -21,15 +21,15 @@ class AddBorder(BlockModel):
         self.help = "Adiciona bordas na imagem."
         self.label = "Add Border"
         self.color = "0:180:210:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                 "name":"input_image",
                 "conn_type":"Input",
                 "label":"Input Image"},
-                {"type":"mosaicode_c_opencv.extensions.ports.int",
+                {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                 "name":"border_size",
                 "conn_type":"Input",
                 "label":"Border Size"},
-                {"type":"mosaicode_c_opencv.extensions.ports.image",
+                {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                 "name":"output_image",
                 "conn_type":"Output",
                 "label":"Output Image"}]

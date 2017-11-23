@@ -22,10 +22,10 @@ class ColorConversion(BlockModel):
             "padrões de imagens coloridas e tons de cinza."
         self.label = "Color Conversion"
         self.color = "50:125:50:150"
-        ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                   "name":"input0",
                   "conn_type":"Input"},
-                  {"type":"mosaicode_c_opencv.extensions.ports.image",
+                  {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                    "name":"output0",
                    "conn_type":"Output"}]
         self.group = "Filters and Color Conversion"

@@ -24,10 +24,10 @@ class EqualizeHistogram(BlockModel):
         self.color = "0:0:0:150"
         self.language = "c"
         self.framework = "opencv"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input0",
                        "conn_type":"Input"},
-                       {"type":"mosaicode_c_opencv.extensions.ports.image",
+                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"output0",
                         "conn_type":"Output"}]
         self.group = "Histograms"

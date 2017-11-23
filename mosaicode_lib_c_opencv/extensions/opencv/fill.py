@@ -21,10 +21,10 @@ class Fill(BlockModel):
         self.help = "Preenche toda a imagem de uma cor."
         self.label = "Fill image"
         self.color = "50:100:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input0",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output0",
                        "conn_type":"Output"}]
         self.group = "General"

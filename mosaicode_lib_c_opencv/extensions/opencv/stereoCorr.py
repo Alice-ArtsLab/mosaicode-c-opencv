@@ -22,8 +22,8 @@ class StereoCorr(BlockModel):
             "is the right image. Output is the depth image.'
         self.label = "images/stereoCorr.png"
         self.color = "10:10:20:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image", "mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image", "mosaicode_lib_c_opencv.extensions.ports.image"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.group = "Feature Detection"
 
         self.properties = [{"name": "Max Distance",

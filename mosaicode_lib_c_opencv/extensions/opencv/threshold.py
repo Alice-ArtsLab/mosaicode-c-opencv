@@ -24,8 +24,8 @@ class Threshold(BlockModel):
             "com um valor fixo de intensidade luminosa (valor de limiar)."
         self.label = "Threshold"
         self.color = "50:125:50:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.group = "Filters and Color Conversion"
 
         self.properties = [{"name": "Threshold",

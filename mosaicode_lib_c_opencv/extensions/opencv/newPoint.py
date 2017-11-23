@@ -22,7 +22,7 @@ class NewPoint(BlockModel):
         self.help = "Creates a new Point."
         self.label = "New Point"
         self.color = "50:50:200:150"
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.point"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.point"]
         self.group = "Basic Data Type"
 
         self.properties = [{"name": "X",

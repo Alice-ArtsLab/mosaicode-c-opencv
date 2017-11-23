@@ -18,15 +18,15 @@ class MatchTem(BlockModel):
         self.help = "Operação de filtragem destinada a suavizar uma imagem."
         self.label = "Match Template"
         self.color = "180:180:10:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"first_image",
                           "conn_type":"Input",
                           "label":"First Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"second_image",
                           "conn_type":"Input",
                           "label":"Second Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]

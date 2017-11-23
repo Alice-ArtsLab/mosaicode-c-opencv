@@ -29,19 +29,19 @@ class HaarDetect(BlockModel):
             'The last output is the number of detected faces.'
         self.label = "Haar Detector"
         self.color = "50:220:40:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input0",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.point",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.point",
                        "name":"",
                        "conn_type":"Output"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.rect",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                        "name":"output0",
                        "conn_type":"Output"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output1",
                        "conn_type":"Output"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.double",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.double",
                        "name":"output2",
                        "conn_type":"Output"}]
         self.group = "Feature Detection"

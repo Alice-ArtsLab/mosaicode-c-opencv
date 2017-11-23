@@ -25,8 +25,8 @@ class Sobel(BlockModel):
             "Sobel para realçar cantos e bordas da imagem."
         self.label = "Sobel"
         self.color = "250:180:80:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.group = "Gradients, Edges and Corners"
 
         self.properties = [{"name": "X Axis Derivate Order",

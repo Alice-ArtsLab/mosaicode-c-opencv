@@ -22,8 +22,8 @@ class MoveRct(BlockModel):
         self.help = "Move Rectangle`s (0,0) point to input point"
         self.label = "Move Rectangle"
         self.color = "50:50:200:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.rect", "mosaicode_c_opencv.extensions.ports.point"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.rect"]
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.rect", "mosaicode_lib_c_opencv.extensions.ports.point"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.rect"]
         self.group = "Experimental"
 
         self.properties = [{"name": "Offset x",

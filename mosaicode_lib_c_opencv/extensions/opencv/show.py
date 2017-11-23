@@ -20,7 +20,7 @@ class Show(BlockModel):
         self.help = "Mostra uma imagem da cadeia de processamento de imagens."
         self.label = "Show Image"
         self.color = "50:100:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
                           "label":"Input Image"}
