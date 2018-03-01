@@ -15,6 +15,10 @@ class Laplace(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
+
+        self.language = "c"
+        self.framework = "opencv"
+
         self.help = "Operação de filtragem que calcula o " + \
             "Laplaciano de uma imagem," + \
             "realçando cantos e bordas de objetos."
@@ -26,12 +30,12 @@ class Laplace(BlockModel):
                           "label":"Input Image"},
                           {"type":"mosaicode_c_opencv.extensions.ports.int",
                           "conn_type":"Input",
-                          "name":"masksize",
+                          "name":"input_masksize",
                           "label":"Mask Size"},
                           {"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
+                          "name":"output_image",
                           "conn_type":"Output",
-                           "label":"Output Image"}]
+                          "label":"Output Image"}]
         self.group = "Gradients, Edges and Corners"
 
         self.properties = [{"label": "Mask Size",
@@ -43,22 +47,25 @@ class Laplace(BlockModel):
                            ]
 
         # ------------------------------C/OpenCv code--------------------------
+
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_i0 = NULL; //Laplace In \n' + \
-            'IplImage * block$id$_img_o0 = NULL; //Laplace Out \n' + \
-            'int block$id$_int_i1 = $prop[masksize]$; // Laplace Mask Size\n'
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n' + \
+            'int $port[input_masksize]$ = $prop[masksize]$;\n'
 
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'block$id$_int_i1 = (block$id$_int_i1 > 31)? 31 : ' + \
-            'block$id$_int_i1; // Laplace Mask Constraint\n' + \
-            'block$id$_int_i1 = (block$id$_int_i1 % 2 == 0)? ' + \
-            'block$id$_int_i1 + 1 : block$id$_int_i1; // Only Odd\n' + \
-            'CvSize size$id$ = cvGetSize(block$id$_img_i0);\n' + \
-            'block$id$_img_o0 = cvCreateImage' + \
-            '(size$id$, IPL_DEPTH_32F,block$id$_img_i0->nChannels);\n' + \
-            'cvLaplace(block$id$_img_i0, block$id$_img_o0, ' + \
-            'block$id$_int_i1);}\n'
-        self.language = "c"
-        self.framework = "opencv"
+            '\nif($port[input_image]$){\n' + \
+            '$port[input_masksize]$ = ($port[input_masksize]$ > 31)? 31 : ' + \
+            '$port[input_masksize]$ = ($port[input_masksize]$ % 2 == 0)? ' + \
+            '$port[input_masksize]$ + 1 : $port[input_masksize]$;\n' + \
+            'CvSize size$id$ = cvGetSize($port[input_image]$);\n' + \
+            '$port[output_image]$ = cvCreateImage' + \
+            '(size$id$, IPL_DEPTH_32F, $port[input_image]$->nChannels);\n' + \
+            'cvLaplace($port[input_image]$, $port[output_image]$, ' + \
+            '$port[input_masksize]$);}\n'
+
+        self.codes["deallocation"] = \
+            'cvReleaseImage(&$port[input_image]$);\n' + \
+            'cvReleaseImage(&$port[output_image]$);\n'     
+        
 # -----------------------------------------------------------------------------

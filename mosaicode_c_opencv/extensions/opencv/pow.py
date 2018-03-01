@@ -15,6 +15,10 @@ class Pow(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
+
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Eleva cada ponto de uma " + \
             "imagem a um valor fixo de potência."
@@ -28,6 +32,7 @@ class Pow(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
+
         self.group = "Math Functions"
 
         self.properties = [{"label": "Exponent",
@@ -41,13 +46,18 @@ class Pow(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
+
+        self.codes["declaration"] = \
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n'
+
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvPow(block$id$_img_i0, block$id$_img_o0, $exponent$);\n' + \
+            '\nif($port[input_image]$){\n' + \
+            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
+            'cvPow($port[input_image]$, $port[output_image]$, $prop[exponent]$);\n' + \
             '}\n'
 
-
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["deallocation"] = \
+            'cvReleaseImage(&$port[input_image]$);\n' + \
+            'cvReleaseImage(&$port[output_image]$);\n'
 # -----------------------------------------------------------------------------

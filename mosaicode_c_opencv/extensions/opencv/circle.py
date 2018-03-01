@@ -24,35 +24,35 @@ class Circle(BlockModel):
         self.label = "Circle"
         self.color = "255:0:0:150"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                       "name":"image",
+                       "name":"input_image",
 			           "label":"Input Image",
                        "conn_type":"Input"},
                       {"type":"mosaicode_c_opencv.extensions.ports.int",
-                       "name":"x",
+                       "name":"input_x",
 			           "label":"X",
                        "conn_type":"Input"},
                       {"type":"mosaicode_c_opencv.extensions.ports.int",
-                       "name":"y",
+                       "name":"input_y",
 			           "label":"Y",
                        "conn_type":"Input"},
                       {"type":"mosaicode_c_opencv.extensions.ports.int",
-                       "name":"radius",
+                       "name":"input_radius",
 			           "label":"Radius",
                        "conn_type":"Input"},
                       {"type":"mosaicode_c_opencv.extensions.ports.image",
-                       "name":"output",
+                       "name":"output_image",
 			           "label":"Output Image",
                        "conn_type":"Output"}]
         self.group = "Basic Shapes"
-        self.properties = [{"name": "x0",
-                            "label": "x0",
+        self.properties = [{"name": "x",
+                            "label": "X",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 1000,
                             "step": 1
                             },
-                           {"name": "y0",
-                            "label": "y0",
+                           {"name": "y",
+                            "label": "Y",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 1000,
@@ -78,7 +78,7 @@ class Circle(BlockModel):
                             "type": MOSAICODE_COLOR
                             }
                            ]
-
+        
         # -----------------C/OpenCv code ---------------------------
 
         self.codes["function"] = \
@@ -101,25 +101,22 @@ class Circle(BlockModel):
             "   \n" + \
             "   return cvScalar(bi, gi, ri, 0);\n" + \
             "}\n"
-
+        
         self.codes["declaration"] = \
-            'IplImage * $port[image]$ = NULL;\n' + \
-            'IplImage * $port[output]$ = NULL;\n' + \
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n' + \
             'int $port[radius]$ = $prop[radius]$;\n' + \
-            'int $port[x]$ = $prop[x0]$;\n' + \
-            'int $port[y]$ = $prop[y0]$;\n'
-
-
-	self.codes["execution"] = \
-            '\nif($port[image]$){\n' + \
-            'CvPoint center = cvPoint' + \
-            '($port[x]$, $port[y]$);\n' + \
+            'int $port[input_x]$ = $prop[x]$;\n' + \
+            'int $port[input_y]$ = $prop[y]$;\n'
+        self.codes["execution"] = \
+            '\nif($port[input_image]$){\n' + \
+            'CvPoint center = cvPoint($port[input_x]$, $port[input_y]$);\n' + \
             'CvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            'cvCircle($port[image]$, center, $port[radius]$, color, $prop[line]$, 8, 0);\n' +\
-            '$port[output]$ = cvCloneImage($port[image]$);\n' + \
-            '}\n'
+            'cvCircle($port[input_image]$, center, $port[radius]$, color, $prop[line]$, 8, 0);\n' + \
+            '$port[output_image]$ = cvCloneImage($port[input_image]$);}\n'
 
-        self.codes["deallocation"] = "cvReleaseImage(&$port[image]$);\n" + \
-                    "cvReleaseImage(&$port[output]$);\n"
-
+        self.codes["deallocation"] = \
+            "cvReleaseImage(&$port[input_image]$);\n" + \
+            "cvReleaseImage(&$port[output_image]$);\n"
+        
 # -----------------------------------------------------------------------------

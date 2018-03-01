@@ -15,19 +15,28 @@ class PlotHistogram(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.channel = "All"
+
+        self.language = "c"
+        self.framework = "opencv"
 
         # Appearance
         self.help = "Create a representation of the light " + \
             "intensity levels as an histogram."
         self.label = "Histogram"
         self.color = "0:0:0:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                       "name":"input_image",
+                       "label":"Input Image",
+                       "conn_type":"Input"},
+                       {"type":"mosaicode_c_opencv.extensions.ports.image",
+                       "name":"output_image",
+                       "label":"Output Image",
+                       "conn_type":"Output"}]
+
         self.group = "Histograms"
 
-        self.properties = [{"name": "Channels",
-                            "label": "channel",
+        self.properties = [{"name": "channel",
+                            "label": "Channels",
                             "type": MOSAICODE_COMBO,
                             "values": ["All",
                                        "Red",
@@ -36,13 +45,10 @@ class PlotHistogram(BlockModel):
                             }
                            ]
 
-        self.language = "c"
-        self.framework = "opencv"
-
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n' + \
             'CvHistogram * block$id$_histogram;\n' + \
             'IplImage * block$id$_SourceCx[] = { NULL, NULL, NULL};\n' + \
             'IplImage * block$id$_HistCx[] = { NULL, NULL, NULL};\n' + \
@@ -68,8 +74,8 @@ class PlotHistogram(BlockModel):
             'cvReleaseImage(&block$id$_HistCx[1]);\n' + \
             'if(block$id$_HistCx[2]) ' + \
             'cvReleaseImage(&block$id$_HistCx[2]);\n' + \
-            'if(block$id$_img_i0) cvReleaseImage(&block$id$_img_i0);\n' + \
-            'if(block$id$_img_o0) cvReleaseImage(&block$id$_img_o0);\n' + \
+            'if($port[input_image]$) cvReleaseImage(&$port[input_image]$);\n' + \
+            'if($port[output_image]$) cvReleaseImage(&port[output_image]);\n' + \
             'cvReleaseHist(&block$id$_histogram);\n'
 
     # ----------------------------------------------------------------------

@@ -15,20 +15,17 @@ class Rotate(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.isCenter = True
-        self.isScalling = True
-        self.isFilling = True
-        self.angle = 0
+
+        self.language = "c"
+        self.framework = "opencv"
 
         # Appearance
         self.help = "Adiciona bordas na imagem."
         self.label = "Rotate Image"
         self.color = "90:5:10:150"
         self.group = "Experimental"
-        self.language = "c"
-        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                       "name":"image",
+                       "name":"input_image",
                        "label":"Input Image",
                        "conn_type":"Input"},
                       {"type":"mosaicode_c_opencv.extensions.ports.double",
@@ -36,7 +33,7 @@ class Rotate(BlockModel):
                        "label":"Angle",
                        "conn_type":"Input"},
                       {"type":"mosaicode_c_opencv.extensions.ports.image",
-                       "name":"output",
+                       "name":"output_image",
                        "label":"Output Image",
                        "conn_type":"Output"}]
 
@@ -79,9 +76,9 @@ class Rotate(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-            'IplImage * $port[image]$ = NULL;\n' + \
+            'IplImage * $port[input_image]$ = NULL;\n' + \
             'double $port[angle]$ = $prop[angle]$;\n' + \
-            'IplImage * $port[output]$ = NULL;\n'
+            'IplImage * $port[output_image]$ = NULL;\n'
 
         self.codes["function"] = \
             "#define PI 3.1415926535898\n" + \
@@ -92,17 +89,17 @@ class Rotate(BlockModel):
     # ----------------------------------------------------------------------
     def generate_function_call(self):
         value = \
-            '\n if($port[image]$)\n  {\n' + \
+            '\n if($port[input_image]$)\n  {\n' + \
             '       double scale;\n int H;\n    int W;\n' + \
-            '       W = $port[image]$->width;\n' + \
-            '       H = $port[image]$->height;\n' + \
-            '       $port[output]$ = cvCreateImage(cvSize(W,H),' + \
-            '       $port[image]$->depth,$port[image]$->nChannels);\n' + \
+            '       W = $port[input_image]$->width;\n' + \
+            '       H = $port[input_image]$->height;\n' + \
+            '       $port[output_image]$ = cvCreateImage(cvSize(W,H),' + \
+            '       $port[input_image]$->depth,$port[input_image]$->nChannels);\n' + \
             '       CvMat* mat = cvCreateMat(2,3,CV_32FC1);\n'
         if self.isCenter == "true":
             value += '      CvPoint2D32f center = cvPoint2D32f(W/2, H/2);\n'
         else:
-            value += '      CvPoint2D32f center = cvPoint2D32f($prop[x]$,$prop[y]$);\n'
+            value += '      CvPoint2D32f center = cvPoint2D32f($prop[x]$, $prop[y]$);\n'
 
         if self.isScalling == "true":
             value += '      scale = H/(fabs(H*sin(rads' + \
@@ -115,12 +112,12 @@ class Rotate(BlockModel):
                 '(center,$port[angle]$,1.0,mat);\n'
 
         if self.isFilling == "true":
-            value += '      cvWarpAffine($port[image]$, ' + \
-                '$port[output]$, mat, ' + \
+            value += '      cvWarpAffine($port[input_image]$, ' + \
+                '$port[output_image]$, mat, ' + \
                 'CV_WARP_FILL_OUTLIERS, cvScalarAll(0));\n'
         else:
-            value += '      cvWarpAffine($port[image]$,' + \
-                '$port[output]$,mat,0,cvScalarAll(0));\n'
+            value += '      cvWarpAffine($port[input_image]$,' + \
+                '$port[output_image]$,mat,0,cvScalarAll(0));\n'
 
         value += '  }\n'
         return value

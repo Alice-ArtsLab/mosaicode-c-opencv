@@ -23,13 +23,14 @@ class Dilate(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"input_image",
-                          "conn_type":"Input",
-                          "label":"Input Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
-                          "conn_type":"Output",
-                           "label":"Output Image"}]
+                        "name":"input_image",
+                        "conn_type":"Input",
+                        "label":"Input Image"},
+                        {"type":"mosaicode_c_opencv.extensions.ports.image",
+                         "name":"output_image",
+                         "conn_type":"Output",
+                         "label":"Output Image"}]
+
         self.group = "Morphological Operations"
 
         self.properties = [{"label": "Mask Size X",
@@ -56,21 +57,21 @@ class Dilate(BlockModel):
 
         # ----------------------------C/OpenCv code---------------------------
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
-            'int block$id$_arg_iterations = $iterations$;\n' + \
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n' + \
+            'int block$id$_arg_iterations = $prop[iterations]$;\n' + \
             'IplConvKernel * block$id$_arg_mask = ' + \
-            'cvCreateStructuringElementEx($masksizex$ , $masksizey$, 1, 1,CV_SHAPE_RECT,NULL);\n'
+            'cvCreateStructuringElementEx($prop[masksizex]$ , $prop[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n'
 
         self.codes["execution"] = '''
-            if(block$id$_img_i0){
-                block$id$_img_o0 = cvCloneImage(block$id$_img_i0);
-                cvDilate(block$id$_img_i0,
-                        block$id$_img_o0,
+            if($port[input_image]$){
+                $port[output_image]$ = cvCloneImage($port[input_image]$);
+                cvDilate($port[input_image]$,
+                        $port[output_image]$,
                         block$id$_arg_mask,
                         block$id$_arg_iterations);
             }
             '''
-        self.codes["deallocation"] = "cvReleaseImage(&block$id$_img_i0);\n" + \
-                       "cvReleaseImage(&block$id$_img_o0);\n"
+        self.codes["deallocation"] = "cvReleaseImage(&$port[input_image]$);\n" + \
+                       "cvReleaseImage(&$port[output_image]$);\n"
 # -----------------------------------------------------------------------------

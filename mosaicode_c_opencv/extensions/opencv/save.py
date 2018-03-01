@@ -24,20 +24,31 @@ class Save(BlockModel):
         self.color = "50:100:200:150"
         self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
         self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.group = "General"
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                        "name":"input",
+                        "label":"Input Image",
+                        "conn_type":"Input"},
+                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                         "name":"output",
+                         "label":"Output Image",
+                         "conn_type":"Output"}]
 
-        self.properties = [{"name": "File Name",
-                            "label": "filename",
+        self.group = "General"
+        self.properties = [{"name": "filename",
+                            "label": "File Name",
                             "type": MOSAICODE_SAVE_FILE
                             }
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes["execution"] = \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'if(block$id$_img_i0)\n' + \
-            'cvSaveImage("$filename$" ,block$id$_img_i0);\n'
+        self.codes["declaration"] = \
+        'IplImage * $port[input]$ = NULL;\n' + \
+        'IplImage * $port[output]$ = NULL;\n'
 
+        self.codes["execution"] = \
+            '$port[output]$ = cvCloneImage($port[input]$);\n' + \
+            'if($port[input]$)\n' + \
+            'cvSaveImage("$prop[filename]$" ,$port[input]$);\n'
 
         self.language = "c"
         self.framework = "opencv"

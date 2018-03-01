@@ -27,7 +27,7 @@ class NewInt(BlockModel):
         self.group = "Basic Data Type"
 
         self.properties = [{"name": "integer",
-                            "label": "intVal",
+                            "label": "Value",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,

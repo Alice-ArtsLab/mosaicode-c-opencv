@@ -15,8 +15,10 @@ class Closing(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
+        2
         self.masksize = "7x7"
-
+        self.language = "c"
+        self.framework = "opencv"
         # Appearance
         self.help = "Operação de morfologia matemática para realizar o " + \
             "fechamento da imagem de acordo com o elemento estruturante." + \
@@ -57,30 +59,28 @@ class Closing(BlockModel):
 
         # -------------------C/OpenCv code---------------------------------
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'int block$id$_int_i1 = $masksizex$;\n' + \
-            'int block$id$_int_i2 = $masksizey$;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'int $port[masksizex]$ = $prop[masksizex]$;\n' + \
+            'int $port[masksizey]$ = $prop[masksizey]$;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n' + \
             'IplConvKernel * block$id$_arg_mask = NULL;\n'
 
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'if (block$id$_int_i1 % 2 == 0) block$id$_int_i1++;\n' + \
-            'if (block$id$_int_i2 % 2 == 0) block$id$_int_i2++;\n' + \
+            '\nif($port[input_image]$){\n' + \
+            'if ($port[masksizex]$ % 2 == 0) $port[masksizex]$++;\n' + \
+            'if ($port[masksizey]$ % 2 == 0) $port[masksizey]$++;\n' + \
             'block$id$_arg_mask = ' + \
-            'cvCreateStructuringElementEx(block$id$_int_i1 ,' + \
-            'block$id$_int_i2, 1, 1,CV_SHAPE_RECT,NULL);\n' + \
+            'cvCreateStructuringElementEx($port[masksizex]$ ,' + \
+            '$port[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n' + \
             'IplImage * block$id$_auxImg;\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'block$id$_auxImg = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvMorphologyEx(block$id$_img_i0, block$id$_img_o0, NULL,' + \
+            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
+            'block$id$_auxImg = cvCloneImage($port[input_image]$);\n' + \
+            'cvMorphologyEx($port[input_image]$, $port[output_image]$, NULL,' + \
             'block$id$_arg_mask, CV_MOP_CLOSE, 1);\n}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&block$id$_img_o0);\n' + \
+            'cvReleaseImage(&$port[input_image]$);\n' + \
             'cvReleaseStructuringElement(&block$id$_arg_mask);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n'
+            'cvReleaseImage(&$port[output_image]$);\n'
 
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------
