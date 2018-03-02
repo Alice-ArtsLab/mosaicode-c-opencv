@@ -24,23 +24,23 @@ class Smooth(BlockModel):
             "Suaviza os contornos de objetos na imagem, borrando-os levemente."
         self.label = "Smooth"
         self.color = "50:125:50:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                       "name":"input_image",
                       "label":"Input Image",
                       "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.int",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                       "name":"input_integer",
                       "label":"Input Integer",
                       "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                       "name":"output_image",
                       "label":"Output Image",
                       "conn_type":"Output"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.int",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                       "name":"output_integer1",
                       "label":"Output integer 1",
                       "conn_type":"Output"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.int",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                       "name":"output_integer2",
                       "label":"Output integer 2",
                       "conn_type":"Output"}]

@@ -24,14 +24,14 @@ class ColorConversion(BlockModel):
             "padrões de imagens coloridas e tons de cinza."
         self.label = "Color Conversion"
         self.color = "50:125:50:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                        "name":"input_image",
-		                "label":"Input Image",
-                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
-                        "name":"output_image",
-		                "label":"Output Image",
-                        "conn_type":"Output"}]
+        self.ports = [{"type": "mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name": "input_image",
+                       "label": "Input Image",
+                       "conn_type": "Input"},
+                      {"type": "mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name": "output_image",
+                       "label": "Output Image",
+                       "conn_type": "Output"}]
 
         self.group = "Filters and Color Conversion"
 
@@ -39,20 +39,20 @@ class ColorConversion(BlockModel):
                             "label": "Conversion Type",
                             "type": MOSAICODE_COMBO,
                             "values": [
-                                        'CV_RGB2GRAY',
-                                        'CV_RGB2YCrCb',
-                                        'CV_YCrCb2RGB',
-                                        'CV_RGB2HSV',
-                                        'CV_HSV2RGB',
-                                        'CV_RGB2HLS',
-                                        'CV_HLS2RGB',
-                                        'CV_RGB2XYZ',
-                                        'CV_XYZ2RGB',
-                                        'CV_RGB2Lab',
-                                        'CV_Lab2RGB',
-                                        'CV_RGB2Luv',
-                                        'CV_Luv2RGB'
-                                       ]
+                                'CV_RGB2GRAY',
+                                'CV_RGB2YCrCb',
+                                'CV_YCrCb2RGB',
+                                'CV_RGB2HSV',
+                                'CV_HSV2RGB',
+                                'CV_RGB2HLS',
+                                'CV_HLS2RGB',
+                                'CV_RGB2XYZ',
+                                'CV_XYZ2RGB',
+                                'CV_RGB2Lab',
+                                'CV_Lab2RGB',
+                                'CV_RGB2Luv',
+                                'CV_Luv2RGB'
+                            ]
                             }
                            ]
 
@@ -62,7 +62,7 @@ class ColorConversion(BlockModel):
             'IplImage * $port[input_image]$ = NULL;\n' + \
             'IplImage * $port[output_image]$ = NULL;\n' + \
             'IplImage * block$id$_img_t = NULL;\n'
-        
+
         self.codes["execution"] = \
             '\nif($port[input_image]$){\n' + \
             '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
@@ -73,12 +73,12 @@ class ColorConversion(BlockModel):
             'if ($prop[conversion_type]$ == ' + "CV_RGB2GRAY" + ')\n' + \
             '{    cvMerge(block$id$_img_t ,block$id$_img_t ,' + \
             'block$id$_img_t ,NULL ,$port[output_image]$);\n }\n' + \
-            'else\n' + '{ $port[output_image]$ = cvCloneImage(block$id$_img_t);\n}'
-
+            'else\n' + \
+            '{ $port[output_image]$ = cvCloneImage(block$id$_img_t);\n}'
 
         self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_t);\n' + \
             'cvReleaseImage(&$port[input_image]$);\n' + \
             'cvReleaseImage(&$port[output_image]$);\n'
-        
+
 # -----------------------------------------------------------------------------

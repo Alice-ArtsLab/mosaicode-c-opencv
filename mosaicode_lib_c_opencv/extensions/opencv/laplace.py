@@ -32,7 +32,7 @@ class Laplace(BlockModel):
                           "conn_type":"Input",
                           "name":"input_masksize",
                           "label":"Mask Size"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"output_image",
                           "conn_type":"Output",
                           "label":"Output Image"}]

@@ -24,15 +24,15 @@ class CropImage(BlockModel):
         self.help = "Corta a imagem de acordo com o retângulo de entrada."
         self.label = "Crop Image"
         self.color = "50:50:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
                        "label":"Input Image",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.rect",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                        "name":"rect",
                        "label":"Rect",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output_image",
                        "label":"Output Image",
                        "conn_type":"Output"}]

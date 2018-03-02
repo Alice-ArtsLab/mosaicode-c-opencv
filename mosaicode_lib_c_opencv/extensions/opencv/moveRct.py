@@ -22,15 +22,15 @@ class MoveRct(BlockModel):
         self.help = "Move Rectangle`s (0,0) point to input point"
         self.label = "Move Rectangle"
         self.color = "50:50:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.rect",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                        "name":"rect",
                        "label":"Rect",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.point",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.point",
                        "name":"point",
                        "label":"Point",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.rect",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                        "name":"output",
                        "label":"Output Rect",
                        "conn_type":"Output"}]

@@ -18,7 +18,7 @@ class NewRect(BlockModel):
         self.help = "Creates new rectangle"
         self.label = "New Rectangle"
         self.color = "50:50:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.rect",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                           "name":"rect",
                           "conn_type":"Output",
                           "label":"Rect"}]

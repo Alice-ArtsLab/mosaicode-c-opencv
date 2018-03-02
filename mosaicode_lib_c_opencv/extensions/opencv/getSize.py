@@ -23,11 +23,11 @@ class GetSize(BlockModel):
         self.help = "Extracts the input image size."
         self.label = "Get Size"
         self.color = "250:20:30:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
                        "label":"Input Image",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.rect",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                        "name":"rect",
                        "label":"Output Rect",
                        "conn_type":"Output"}]

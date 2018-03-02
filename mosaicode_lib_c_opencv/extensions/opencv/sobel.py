@@ -27,11 +27,11 @@ class Sobel(BlockModel):
         self.color = "250:180:80:150"
         self.in_types = [""]
         self.out_types = []
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"input_image",
                         "label":"Input Image",
                         "conn_type":"Input"},
-                        {"type":"mosaicode_c_opencv.extensions.ports.image",
+                        {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"output_image",
                         "label":"Output Image",
                         "conn_type":"Output"}]

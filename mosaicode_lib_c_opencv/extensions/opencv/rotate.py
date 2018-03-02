@@ -24,15 +24,15 @@ class Rotate(BlockModel):
         self.label = "Rotate Image"
         self.color = "90:5:10:150"
         self.group = "Experimental"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
                        "label":"Input Image",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.double",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.double",
                        "name":"angle",
                        "label":"Angle",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output_image",
                        "label":"Output Image",
                        "conn_type":"Output"}]
