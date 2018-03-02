@@ -35,7 +35,7 @@ class Circle(BlockModel):
                        "name":"input_y",
 			           "label":"Y",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.int",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                        "name":"input_radius",
 			           "label":"Radius",
                        "conn_type":"Input"},

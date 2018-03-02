@@ -24,19 +24,19 @@ class DecomposeRGB(BlockModel):
         self.help = "Realiza a decomposição RGB de imagens."
         self.label = "Decompose RGB"
         self.color = "50:125:50:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
                        "label":"Input Image",
                        "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output_image1",
                        "label":"Output 1",
                        "conn_type":"Output"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output_image2",
                        "label":"Output 2",
                        "conn_type":"Output"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output_image3",
                        "label":"Output 3",
                        "conn_type":"Output"}]

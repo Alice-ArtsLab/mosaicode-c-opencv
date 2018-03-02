@@ -22,15 +22,15 @@ class Select(BlockModel):
         self.help = "Select between two images."
         self.label = "Select"
         self.color = "50:100:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image1",
                           "label":"First Image",
                           "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image2",
                           "label":"Second Image",
                           "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"output_image",
                           "label":"Output Image",
                           "conn_type":"Output"}]

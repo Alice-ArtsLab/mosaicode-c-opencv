@@ -21,15 +21,15 @@ class FillRect(BlockModel):
         self.help = "Preenche o retângulo de uma cor."
         self.label = "Fill Rectangle"
         self.color = "50:100:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"image",
                        "conn_type":"Input",
                        "label":"Input Image"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.rect",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                        "name":"rect",
                        "conn_type":"Input",
                        "label":"Rectangle"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "conn_type":"Output",
                        "name":"output",
                        "label":"Output Image"}]

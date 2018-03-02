@@ -19,7 +19,7 @@ class NewDouble(BlockModel):
         self.help = "Creates new literal value (Double)."
         self.label = "New Double"
         self.color = "50:50:200:150"
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.double",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.double",
                        "name":"double",
                        "label":"Double",
                        "conn_type":"Output"}]

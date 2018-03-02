@@ -22,13 +22,13 @@ class Save(BlockModel):
             "Atualmente a imagem é salva como PNG por padrão."
         self.label = "Save Image"
         self.color = "50:100:200:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"input",
                         "label":"Input Image",
                         "conn_type":"Input"},
-                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                          "name":"output",
                          "label":"Output Image",
                          "conn_type":"Output"}]
