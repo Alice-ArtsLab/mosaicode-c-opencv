@@ -16,7 +16,9 @@ class Opening(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.masksize = "3x3"
+
+        self.language = "c"
+        self.framework = "opencv"
 
         # Appearance
         self.help = "Operação morfológica que visa " + \
@@ -31,6 +33,7 @@ class Opening(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
+
         self.group = "Morphological Operations"
 
         self.properties = [{"label": "Mask Size X",
@@ -49,24 +52,20 @@ class Opening(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
-            'IplConvKernel * block$id$_arg_mask = cvCreateStructuringElementEx($masksizex$ , $masksizey$, 1, 1,CV_SHAPE_RECT,NULL);\n'
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n' + \
+            'IplConvKernel * block$id$_arg_mask = cvCreateStructuringElementEx($prop[masksizex]$ , $prop[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n'
 
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0){\n' + \
+            '\nif($port[input_image]$){\n' + \
             'IplImage * block$id$_auxImg;' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'block$id$_auxImg = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvMorphologyEx(block$id$_img_i0, block$id$_img_o0, NULL,' + \
+            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
+            'block$id$_auxImg = cvCloneImage($port[input_image]$);\n' + \
+            'cvMorphologyEx($port[input_image]$, $port[output_image]$, NULL,' + \
             'block$id$_arg_mask, CV_MOP_OPEN, 1);\n}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&block$id$_img_o0);\n' + \
+            'cvReleaseImage(&$port[input_image]$);\n' + \
             'cvReleaseStructuringElement(&block$id$_arg_mask);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n'
-
-
-        self.language = "c"
-        self.framework = "opencv"
+            'cvReleaseImage(&$port[output_image]$);\n'
 # -----------------------------------------------------------------------------
