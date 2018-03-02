@@ -15,33 +15,53 @@ class Smooth(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.smooth_type = "CV_GAUSSIAN"
-        self.param1 = 7
-        self.param2 = 9
+
+        self.language = "c"
+        self.framework = "opencv"
 
         # Appearance
         self.help = "Aplicação de um filtro de suavização. " + \
             "Suaviza os contornos de objetos na imagem, borrando-os levemente."
         self.label = "Smooth"
         self.color = "50:125:50:150"
-        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image", "mosaicode_lib_c_opencv.extensions.ports.int"]
-        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image", "mosaicode_lib_c_opencv.extensions.ports.int", "mosaicode_lib_c_opencv.extensions.ports.int"]
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                      "name":"input_image",
+                      "label":"Input Image",
+                      "conn_type":"Input"},
+                      {"type":"mosaicode_c_opencv.extensions.ports.int",
+                      "name":"input_integer",
+                      "label":"Input Integer",
+                      "conn_type":"Input"},
+                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                      "name":"output_image",
+                      "label":"Output Image",
+                      "conn_type":"Output"},
+                      {"type":"mosaicode_c_opencv.extensions.ports.int",
+                      "name":"output_integer1",
+                      "label":"Output integer 1",
+                      "conn_type":"Output"},
+                      {"type":"mosaicode_c_opencv.extensions.ports.int",
+                      "name":"output_integer2",
+                      "label":"Output integer 2",
+                      "conn_type":"Output"}]
+
         self.group = "Filters and Color Conversion"
 
-        self.properties = [{"name": "Type",
+        self.properties = [{"name": "type",
                             "label": "smooth_type",
                             "type": MOSAICODE_COMBO,
-                            "values": ["CV_GAUSSIAN", "CV_BLUR", "CV_MEDIAN"]
+                            "values": ["CV_GAUSSIAN", "CV_BLUR", "CV_MEDIAN"],
+                            "step":"CV_GAUSSIAN"
                             },
-                           {"name": "Parameter 1",
-                            "label": "param1",
+                           {"name": "integer1",
+                            "label": "Integer 1",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 99,
                             "step": 1
                             },
-                           {"name": "Parameter 2",
-                            "label": "param2",
+                           {"name": "integer2",
+                            "label": "Integer 2",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 99,
@@ -51,23 +71,20 @@ class Smooth(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'int block$id$_int_i1 = $param1$;\n' + \
-            'int block$id$_int_i2 = $param2$;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n'
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'int $port[input_integer]$ = $prop[integer1]$;\n' + \
+            'int block$id$_int_i2 = $prop[integer2]$;\n' + \
+            'IplImage * $port[output]$ = NULL;\n'
 
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'block$id$_int_i1 = (block$id$_int_i1 %2 == 0)? ' + \
-            'block$id$_int_i1 + 1 : block$id$_int_i1;\n' + \
+            '\nif($port[input]$){\n' + \
+            '$port[output]$ = cvCloneImage($port[input]$);\n' + \
+            '$port[integer]$ = ($port[integer]$ %2 == 0)? ' + \
+            '$port[integer]$ + 1 : $port[integer]$;\n' + \
             'block$id$_int_i2 = (block$id$_int_i2 %2 == 0)? ' + \
             'block$id$_int_i2 + 1 : block$id$_int_i2;\n' + \
-            'cvSmooth(block$id$_img_i0, block$id$_img_o0, ' + \
-            '$smooth_type$,block$id$_int_i1,block$id$_int_i2,0,0);\n' + \
+            'cvSmooth($port[input]$, $port[output]$, ' + \
+            '$smooth_type$,$port[integer]$,block$id$_int_i2,0,0);\n' + \
             '}\n'
 
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

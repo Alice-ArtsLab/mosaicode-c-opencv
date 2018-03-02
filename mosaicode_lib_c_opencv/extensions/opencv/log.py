@@ -16,6 +16,9 @@ class Log(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Aplica a função logarítmica a uma imagem, ou seja," + \
             "calcula o logarítmo natural do valor de intensidade" + \
@@ -34,27 +37,23 @@ class Log(BlockModel):
 
         # ------------------------------C/OpenCv code--------------------------
         self.codes["declaration"] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n' + \
             'IplImage * block$id$_img_t = NULL;\n'
 
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0){\n' + \
+            '\nif($port[input_image]$){\n' + \
             'block$id$_img_t = cvCreateImage(cvGetSize' + \
-            '(block$id$_img_i0), IPL_DEPTH_32F,' + \
-            'block$id$_img_i0->nChannels);\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvConvertScale(block$id$_img_i0, ' + \
+            '($port[input_image]$), IPL_DEPTH_32F,' + \
+            '$port[input_image]$->nChannels);\n' + \
+            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
+            'cvConvertScale($port[input_image]$, ' + \
             'block$id$_img_t,(1/93.8092),0);\n' + \
             'cvLog(block$id$_img_t, block$id$_img_t);\n' + \
-            'cvConvertScale(block$id$_img_t,block$id$_img_o0,255.0,0);}\n'
+            'cvConvertScale(block$id$_img_t,$port[output_image]$,255.0,0);}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&block$id$_img_o0);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n' + \
+            'cvReleaseImage(&$port[input_image]$);\n' + \
+            'cvReleaseImage(&$port[output_image]$);\n' + \
             'cvReleaseImage(&block$id$_img_t);\n'
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

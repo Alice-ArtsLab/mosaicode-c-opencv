@@ -15,23 +15,25 @@ class ColorConversion(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        self.conversion_type = 'RGB -> GRAY'
+
+        self.language = "c"
+        self.framework = "opencv"
 
         # Appearance
         self.help = "Realiza a conversão de cores entre diferentes " + \
             "padrões de imagens coloridas e tons de cinza."
         self.label = "Color Conversion"
         self.color = "50:125:50:150"
-        ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                  "name":"input0",
-                  "conn_type":"Input"},
-                  {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                   "name":"output0",
-                   "conn_type":"Output"}]
-        self.group = "Filters and Color Conversion"
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                        "name":"input_image",
+		                "label":"Input Image",
+                        "conn_type":"Input"},
+                      {"type":"mosaicode_c_opencv.extensions.ports.image",
+                        "name":"output_image",
+		                "label":"Output Image",
+                        "conn_type":"Output"}]
 
-        self.language = "c"
-        self.framework = "opencv"
+        self.group = "Filters and Color Conversion"
 
         self.properties = [{"name": "conversion_type",
                             "label": "Conversion Type",
@@ -54,26 +56,29 @@ class ColorConversion(BlockModel):
                             }
                            ]
 
+        # -----------------C/OpenCv code ---------------------------
+
         self.codes["declaration"] =  \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
+            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n' + \
             'IplImage * block$id$_img_t = NULL;\n'
-
-        self.codes["deallocation"] = \
-            'cvReleaseImage(&block$id$_img_t);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n' + \
-            'cvReleaseImage(&block$id$_img_o0);\n'
-
+        
         self.codes["execution"] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'block$id$_img_o0 = cvCloneImage' + \
-            '(block$id$_img_i0);\n' + \
-            'block$id$_img_t = cvCreateImage(cvGetSize(block$id$_img_i0),' + \
-            'block$id$_img_i0->depth,3);\n' + \
-            'cvCvtColor(block$id$_img_i0, ' + \
+            '\nif($port[input_image]$){\n' + \
+            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
+            'block$id$_img_t = cvCreateImage(cvGetSize($port[input_image]$),' + \
+            '$port[input_image]$->depth,3);\n' + \
+            'cvCvtColor($port[input_image]$, ' + \
             'block$id$_img_t ,$prop[conversion_type]$ );}\n' + \
             'if ($prop[conversion_type]$ == ' + "CV_RGB2GRAY" + ')\n' + \
             '{    cvMerge(block$id$_img_t ,block$id$_img_t ,' + \
-            'block$id$_img_t ,NULL ,block$id$_img_o0);\n }\n' + \
-            'else\n' + '{ block$id$_img_o0 = cvCloneImage(block$id$_img_t);\n}'
+            'block$id$_img_t ,NULL ,$port[output_image]$);\n }\n' + \
+            'else\n' + '{ $port[output_image]$ = cvCloneImage(block$id$_img_t);\n}'
+
+
+        self.codes["deallocation"] = \
+            'cvReleaseImage(&block$id$_img_t);\n' + \
+            'cvReleaseImage(&$port[input_image]$);\n' + \
+            'cvReleaseImage(&$port[output_image]$);\n'
+        
 # -----------------------------------------------------------------------------

@@ -21,18 +21,19 @@ class Resize(BlockModel):
             "dimensions of the input rectangle."
         self.label = "Resize Image"
         self.color = "20:80:10:150"
-        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                          "name":"input_image",
+        self.ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "name":"input",
                           "conn_type":"Input",
                           "label":"Input Image"},
                          {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                           "name":"size",
                           "conn_type":"Input",
                           "label":"Size"},
-                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                           "name":"output_image",
+                         {"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "name":"output",
                           "conn_type":"Output",
-                           "label":"Output Image"}]
+                          "label":"Output Image"}]
+
         self.group = "Experimental"
 
         self.properties = [{"label": "Method",
@@ -47,12 +48,12 @@ class Resize(BlockModel):
                            ]
 
         self.codes["execution"] = \
-            'if(block$id$_img_i0){\n' + \
-            'CvSize size$id$ = cvSize(block$id$_rect_i1.width,' + \
-            'block$id$_rect_i1.height);\n' + \
-            'block$id$_img_o0 = cvCreateImage(size$id$, ' + \
-            'block$id$_img_i0->depth,block$id$_img_i0->nChannels);\n' + \
-            'cvResize(block$id$_img_i0, block$id$_img_o0, $method$);\n' + \
+            'if($port[input]$){\n' + \
+            'CvSize size$id$ = cvSize($port[size]$.width,' + \
+            '$port[size]$.height);\n' + \
+            '$port[output]$ = cvCreateImage(size$id$, ' + \
+            '$port[input]$->depth,$port[input]$->nChannels);\n' + \
+            'cvResize($port[input]$, $port[output]$, $prop[method]$);\n' + \
             '}\n'
 
 
