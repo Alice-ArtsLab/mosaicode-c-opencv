@@ -24,11 +24,11 @@ config['classifiers'] = [
     'Topic :: Software Development :: Code Generators',
 ]
 
-setup(name='mosaicode_lib_c_opencv.extensions',
-      install_requires=['Python>=2.7'],
+setup(name='mosaicode-lib-c-opencv',
+      install_requires=['mosaicode'],
       tests_require=[],
       test_suite='',
-      version='1.0',
+      version='1.4',
       packages = find_packages(exclude=["tests.*", "tests"]),
       scripts=[],
       description='Image Processing and Computer Vision \
