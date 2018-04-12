@@ -9,4 +9,4 @@ class Image(Port):
         self.color = "#F0F"
         self.multiple = False
         self.var_name = "b_$id$_$conn_type$_$port_number$"
-        self.code = "if ($output$) $input$ = cvCloneImage($output$);\n"
+        self.code = "if (!$output$.empty()) $input$ = $output$.clone();\n"

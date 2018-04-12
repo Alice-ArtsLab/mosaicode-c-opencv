@@ -15,12 +15,7 @@ class Closing(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/closing.py
         
-=======
-        2
-        self.masksize = "7x7"
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/closing.py
         self.language = "c"
         self.framework = "opencv"
         # Appearance
@@ -63,7 +58,6 @@ class Closing(BlockModel):
 
         # -------------------C/OpenCv code---------------------------------
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/closing.py
             'Mat $port[input_image]$;\n' + \
             'int $port[masksizex]$ = $prop[masksizex]$;\n' + \
             'int $port[masksizey]$ = $prop[masksizey]$;\n' + \
@@ -87,30 +81,5 @@ class Closing(BlockModel):
             '$port[input_image]$.release();\n' + \
             'block$id$_arg_mask.release();\n' + \
             '$port[output_image]$.release();\n'
-=======
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'int $port[masksizex]$ = $prop[masksizex]$;\n' + \
-            'int $port[masksizey]$ = $prop[masksizey]$;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'IplConvKernel * block$id$_arg_mask = NULL;\n'
-
-        self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            'if ($port[masksizex]$ % 2 == 0) $port[masksizex]$++;\n' + \
-            'if ($port[masksizey]$ % 2 == 0) $port[masksizey]$++;\n' + \
-            'block$id$_arg_mask = ' + \
-            'cvCreateStructuringElementEx($port[masksizex]$ ,' + \
-            '$port[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n' + \
-            'IplImage * block$id$_auxImg;\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'block$id$_auxImg = cvCloneImage($port[input_image]$);\n' + \
-            'cvMorphologyEx($port[input_image]$, $port[output_image]$, NULL,' + \
-            'block$id$_arg_mask, CV_MOP_CLOSE, 1);\n}\n'
-
-        self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseStructuringElement(&block$id$_arg_mask);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n'
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/closing.py
 
 # -----------------------------------------------------------------------------

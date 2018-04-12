@@ -37,20 +37,11 @@ class GetSize(BlockModel):
         # ------------------------------C/OpenCv code--------------------------
 
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/getSize.py
             'Mat $port[input_image]$;\n' 
 
         self.codes["execution"] = \
             '\nif($port[input_image]$)\n{\n' + \
             '  \t$port[rect]$ = Rect( 0, 0, ' + \
             '$port[input_image]$.cols, $port[input_image]$.rows);\n' + \
-=======
-            'IplImage * $port[input_image]$ = NULL;\n' 
-
-        self.codes["execution"] = \
-            '\nif($port[input_image]$)\n{\n' + \
-            '  \t$port[rect]$ = cvRect( 0, 0, ' + \
-            '$port[input_image]$->width, $port[input_image]$->height);\n' + \
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/getSize.py
             '}\n'
 # -----------------------------------------------------------------------------

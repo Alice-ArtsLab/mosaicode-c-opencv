@@ -75,39 +75,18 @@ class CropImage(BlockModel):
 
         # ------------------------C/OpenCv code--------------------------------
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'CvRect $port[rect]$ = cvRect' + \
-            '($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Rect $port[rect]$(' + \
+            '$prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            '   $port[rect]$.x = MAX' + \
-            '(0,$port[rect]$.x);//Check whether point is negative\n' + \
-            '   $port[rect]$.y = MAX' + \
-            '(0,$port[rect]$.y);\n' + \
-            '   $port[rect]$.x = MIN($port[input_image]$->width-1,' + \
-            '$port[rect]$.x);//Check whether ' + \
-            'point is out of the image\n' + \
-            '   $port[rect]$.y = MIN' + \
-            '($port[input_image]$->height-1,' + \
-            '$port[rect]$.y);\n' + \
-            '   $port[rect]$.width = MIN' + \
-            '($port[input_image]$->width-$port[rect]$.x,' + \
-            '$port[rect]$.width);' + \
-            '//Check whether rect reaches out of the image\n' + \
-            '   $port[rect]$.height = MIN($port[rect]$->' + \
-            'height-$port[rect]$.y,$port[rect]$.height);\n' + \
-            '   $port[output_image]$ = cvCreateImage' + \
-            '(cvSize($port[rect]$.width,' + \
-            '$port[rect]$.height),' + \
-            ' $port[input_image]$->depth,$port[input_image]$->nChannels);\n' + \
-            '   cvSetImageROI($port[input_image]$,$port[rect]$);\n' + \
-            '   cvCopy($port[input_image]$,$port[output_image]$);\n' + \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '$port[output_image]$ = $port[input_image]$($port[rect]$);\n' + \
             '}\n'
 
         self.codes["deallocation"] = \
-            "cvReleaseImage(&$port[input_image]$);\n" + \
-            "cvReleaseImage(&$port[output_image]$);\n"
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
 
 # -----------------------------------------------------------------------------

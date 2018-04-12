@@ -1,1 +1,0 @@
-mosaicode_lib_c_opencv

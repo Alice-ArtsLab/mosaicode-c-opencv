@@ -37,7 +37,6 @@ class Log(BlockModel):
 
         # ------------------------------C/OpenCv code--------------------------
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/log.py
             'Mat $port[input_image]$;\n' + \
             'Mat $port[output_image]$;\n' + \
             'Mat block$id$_img_t;\n'
@@ -58,25 +57,4 @@ class Log(BlockModel):
             '$port[input_image]$.release();\n' + \
             '$port[output_image]$.release();\n' + \
             'block$id$_img_t.release();\n'
-=======
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'IplImage * block$id$_img_t = NULL;\n'
-
-        self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            'block$id$_img_t = cvCreateImage(cvGetSize' + \
-            '($port[input_image]$), IPL_DEPTH_32F,' + \
-            '$port[input_image]$->nChannels);\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'cvConvertScale($port[input_image]$, ' + \
-            'block$id$_img_t,(1/93.8092),0);\n' + \
-            'cvLog(block$id$_img_t, block$id$_img_t);\n' + \
-            'cvConvertScale(block$id$_img_t,$port[output_image]$,255.0,0);}\n'
-
-        self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n' + \
-            'cvReleaseImage(&block$id$_img_t);\n'
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/log.py
 # -----------------------------------------------------------------------------

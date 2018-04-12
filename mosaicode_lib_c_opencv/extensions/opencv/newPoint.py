@@ -46,17 +46,10 @@ class NewPoint(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/newPoint.py
         self.codes["declaration"] = 'Point $port[point]$ = Point($prop[x]$, $prop[y]$);\n'
 
         self.codes["execution"] = \
             '$port[point]$ = Point($prop[x]$, $prop[y]$);\n'
-=======
-        self.codes["declaration"] = 'CvPoint $port[point]$ = cvPoint($prop[x]$,$prop[y]$);\n'
-
-        self.codes["execution"] = \
-            '$port[point]$ = cvPoint($prop[x]$,$prop[y]$);\n'
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/newPoint.py
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------

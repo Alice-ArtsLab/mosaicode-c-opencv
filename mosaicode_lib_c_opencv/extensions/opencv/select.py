@@ -39,33 +39,31 @@ class Select(BlockModel):
 
         self.properties = [{"name": "key",
                             "label": "Key",
-                            "type": MOSAICODE_STRING,
-                            "maxlength": 1,
-                            "value":"a"
+                            "type": MOSAICODE_COMBO,
+                            "value": "IMAGEM 1",
+                            "values": ["IMAGEM 1",
+                            "IMAGEM 2"]
                             }
                            ]
 
         # -------------------C/OpenCv code------------------------------------
 
         self.codes["declaration"] = \
-            'IplImage * $port[input_image1]$ = NULL;\n' + \
-            'IplImage * $port[input_image2]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'char block$id$_key = $prop[key]$;\n'
+            'Mat $port[input_image1]$;\n' + \
+            'Mat $port[input_image2]$;\n' + \
+            'Mat $port[output_image]$;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image1]$ && $port[input_image2]$){\n' + \
-            'if ($prop[key]$ != -1)\n' + \
-            '\tblock$id$_key = $prop[key]$;\n' + \
-            'if (block$id$_key == \'$prop[key]$\' )\n' + \
-            '\t$port[output_image]$ = cvCloneImage($port[input_image1]$);\n' + \
+            'if(!$port[input_image1]$.empty() && !$port[input_image2]$.empty()){\n' + \
+            'if("$prop[key]$" == "IMAGEM 1")\n' + \
+            '\t$port[output_image]$ = $port[input_image1]$.clone();\n' + \
             'else\n' + \
-            '\t$port[output_image]$ = cvCloneImage($port[input_image2]$);\n' + \
+            '\t$port[output_image]$ = $port[input_image2]$.clone();\n' + \
             '}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[input_image1]$);\n' + \
-            'cvReleaseImage(&$port[input_image2]$);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n'     
+            '$port[input_image1]$.release();\n' + \
+            '$port[input_image2]$.release();\n' + \
+            '$port[output_image]$.release();\n'     
 
 # -----------------------------------------------------------------------------

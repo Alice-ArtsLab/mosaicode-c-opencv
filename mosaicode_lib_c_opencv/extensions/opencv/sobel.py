@@ -38,50 +38,38 @@ class Sobel(BlockModel):
 
         self.group = "Gradients, Edges and Corners"
 
-        self.properties = [{"name": "xorder",
-                            "label": "X Axis Derivate Order",
+        self.properties = [{"name": "order",
+                            "label": "Derivate Order",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 6,
                             "step": 1,
-                            "value": 1
-                            },
-                           {"name": "yorder",
-                            "label": "Y Axis Derivate Order",
-                            "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 6,
-                            "step": 1,
-                            "value": 1
-                            },
-                           {"name": "masksize",
-                            "label": "Mask Size",
-                            "type": MOSAICODE_INT,
-                            "lower": 1,
-                            "upper": 7,
-                            "step": 2,
                             "value": 3
                             }
                            ]
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'IplImage * block$id$_img_t = NULL;\n'
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_img_t;\n' + \
+            'Mat grad_x;\n' + \
+            'double minVal, maxVal;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            'CvSize size$id$ = cvGetSize($port[input_image]$);\n' + \
-            '$port[output_image]$ = cvCreateImage(size$id$, ' + \
-            'IPL_DEPTH_32F, $port[input_image]$->nChannels);\n' + \
-            'cvSobel($port[input_image]$, $port[output_image]$, ' + \
-            '$prop[xorder]$, $prop[yorder]$, $prop[masksize]$);\n' + \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '//GaussianBlur($port[input_image]$, $port[input_image]$,' + \
+            'Size(3,3), 0, 0, BORDER_DEFAULT);\n' + \
+            'cvtColor($port[input_image]$, block$id$_img_t, CV_RGB2GRAY);\n' + \
+            'Sobel(block$id$_img_t, grad_x, CV_32F, 1, 0);\n' + \
+            'minMaxLoc(grad_x, &minVal, &maxVal);\n' + \
+            'grad_x.convertTo($port[output_image]$, CV_8U, 255.0/(maxVal - minVal), ' + \
+            '-minVal * 255.0/(maxVal - minVal));\n' + \
             '}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[output_image]$);\n' + \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseImage(&block$id$_img_t);\n'
+            '$port[output_image]$.release();\n' + \
+            '$port[input_image]$.release();\n' + \
+            'block$id$_img_t.release();\n'
 
 # -----------------------------------------------------------------------------

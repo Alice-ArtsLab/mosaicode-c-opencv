@@ -47,7 +47,6 @@ class Pow(BlockModel):
         # -------------------C/OpenCv code------------------------------------
 
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/pow.py
             'Mat $port[input_image]$;\n' + \
             'Mat $port[output_image]$;\n'
 
@@ -60,18 +59,4 @@ class Pow(BlockModel):
         self.codes["deallocation"] = \
             '$port[input_image]$.release();\n' + \
             '$port[output_image]$.release();\n'
-=======
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n'
-
-        self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'cvPow($port[input_image]$, $port[output_image]$, $prop[exponent]$);\n' + \
-            '}\n'
-
-        self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n'
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/pow.py
 # -----------------------------------------------------------------------------

@@ -22,23 +22,11 @@ class Resize(BlockModel):
         self.label = "Resize Image"
         self.color = "20:80:10:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/resize.py
                           "name":"input_image",
                           "conn_type":"Input",
                           "label":"Input Image"},
                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"output_image",
-=======
-                          "name":"input",
-                          "conn_type":"Input",
-                          "label":"Input Image"},
-                         {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
-                          "name":"size",
-                          "conn_type":"Input",
-                          "label":"Size"},
-                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                          "name":"output",
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/resize.py
                           "conn_type":"Output",
                           "label":"Output Image"}]
 
@@ -60,21 +48,10 @@ class Resize(BlockModel):
                             }
                            ]
 
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/resize.py
         self.codes["declaration"] = \
             'Mat $port[input_image]$;\n' + \
             'Mat $port[output_image]$;\n' + \
             'Size size$id$;\n' 
-=======
-        self.codes["execution"] = \
-            'if($port[input]$){\n' + \
-            'CvSize size$id$ = cvSize($port[size]$.width,' + \
-            '$port[size]$.height);\n' + \
-            '$port[output]$ = cvCreateImage(size$id$, ' + \
-            '$port[input]$->depth,$port[input]$->nChannels);\n' + \
-            'cvResize($port[input]$, $port[output]$, $prop[method]$);\n' + \
-            '}\n'
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/resize.py
 
         self.codes["execution"] = \
             'if(!$port[input_image]$.empty()){\n' + \

@@ -1,3 +1,7 @@
 build/
 dist/
 mosaicode_lib_c_opencv.extensions.egg-info
+
+\.idea/
+
+mosaicode_lib_c_opencv\.egg-info/

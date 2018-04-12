@@ -37,12 +37,7 @@ class NewDouble(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = 'double $port[double]$ = ' + \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/newDouble.py
             '$prop[value]$;\n'
-=======
-            '$prop[value]$; // New Double Out\n'
-
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/newDouble.py
 
         self.language = "c"
         self.framework = "opencv"

@@ -41,7 +41,6 @@ class Cfile(CodeTemplate):
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/cfile.py
 #include "opencv2/core.hpp"
 #include "opencv2/opencv.hpp"
 #include "opencv2/imgproc.hpp"
@@ -52,8 +51,6 @@ class Cfile(CodeTemplate):
 using namespace cv;
 using namespace std;
 
-=======
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/cfile.py
 $single_code[include]$
 
 #define FRAMERATE 1000.0 / 25.0

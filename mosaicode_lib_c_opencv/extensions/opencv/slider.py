@@ -54,16 +54,7 @@ class Slider(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/slider.py
             'int $port[slider_value]$ = $prop[intVal]$;\n'
-=======
-            'int  $ports[slider_value]$ = $prop[intVal]$; // New Int Out\n'
-
-        self.codes["execution"] = \
-            'cvNamedWindow("$prop[window_name]$",CV_WINDOW_AUTOSIZE );\n' + \
-            'cvCreateTrackbar("$prop[label]$", "$prop[window_name]$",' + \
-            '&$ports[slider_value]$, $prop[maxVal]$, NULL);\n'
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/slider.py
 
         self.codes["execution"] = \
             'namedWindow("$prop[window_name]$", WINDOW_AUTOSIZE );\n' + \

@@ -25,19 +25,11 @@ class Save(BlockModel):
         self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/save.py
                         "name":"input_image",
                         "label":"Input Image",
                         "conn_type":"Input"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                          "name":"output_image",
-=======
-                        "name":"input",
-                        "label":"Input Image",
-                        "conn_type":"Input"},
-                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                         "name":"output",
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/save.py
                          "label":"Output Image",
                          "conn_type":"Output"}]
 
@@ -50,7 +42,6 @@ class Save(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/save.py
             'Mat $port[input_image]$;\n' + \
             'Mat $port[output_image]$;\n'
 
@@ -58,15 +49,6 @@ class Save(BlockModel):
             '$port[output_image]$ = $port[input_image]$.clone();\n' + \
             'if(!$port[input_image]$.empty())\n' + \
             'imwrite("$prop[filename]$", $port[input_image]$);\n'
-=======
-        'IplImage * $port[input]$ = NULL;\n' + \
-        'IplImage * $port[output]$ = NULL;\n'
-
-        self.codes["execution"] = \
-            '$port[output]$ = cvCloneImage($port[input]$);\n' + \
-            'if($port[input]$)\n' + \
-            'cvSaveImage("$prop[filename]$" ,$port[input]$);\n'
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/save.py
 
         self.language = "c"
         self.framework = "opencv"

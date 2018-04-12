@@ -8,5 +8,5 @@ class Point(Port):
         self.label = "POINT"
         self.color = "#0FF"
         self.multiple = False
+        self.var_name = "b_$id$_$conn_type$_$port_number$"
         self.code = "$input$ = $output$;\n"
-

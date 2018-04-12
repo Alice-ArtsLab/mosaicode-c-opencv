@@ -55,7 +55,6 @@ class MoveRct(BlockModel):
 
         # --------------------C/OpenCv code--------------------------------
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/moveRct.py
             'Rect $port[rect]$;\n' + \
             'Point $port[point]$;\n' + \
             'Rect $port[output]$;\n'
@@ -64,16 +63,6 @@ class MoveRct(BlockModel):
             '$port[output]$ = $port[rect]$;\n' + \
             '$port[output]$.x = $port[point]$.x + $offset_x$;\n' + \
             '$port[output]$.y = $port[point]$.y + $offset_y$;\n'
-=======
-            'CvRect $ports[rect]$;\n' + \
-            'CvPoint $ports[point]$;\n' + \
-            'CvRect $ports[output]$;\n'
-
-        self.codes["execution"] = \
-            '$ports[output]$ = $ports[rect]$;\n' + \
-            '$ports[output]$.x = $ports[point]$.x + $offset_x$;\n' + \
-            '$ports[output]$.y = $ports[point]$.y + $offset_y$;\n'
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/moveRct.py
 
         self.language = "c"
         self.framework = "opencv"

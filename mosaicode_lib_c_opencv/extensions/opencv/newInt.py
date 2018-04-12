@@ -37,11 +37,7 @@ class NewInt(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/newInt.py
         self.codes["declaration"] = 'int $port[value]$ = $prop[integer]$;\n'
-=======
-        self.codes["declaration"] = 'int  $port[value]$ = $prop[integer]$; // New Int Out\n'
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/newInt.py
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------

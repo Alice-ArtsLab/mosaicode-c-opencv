@@ -22,11 +22,7 @@ class FillRect(BlockModel):
         self.label = "Fill Rectangle"
         self.color = "50:100:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/fillRect.py
                        "name":"input_image",
-=======
-                       "name":"image",
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/fillRect.py
                        "conn_type":"Input",
                        "label":"Input Image"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
@@ -35,11 +31,7 @@ class FillRect(BlockModel):
                        "label":"Rectangle"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "conn_type":"Output",
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/fillRect.py
                        "name":"output_image",
-=======
-                       "name":"output",
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/fillRect.py
                        "label":"Output Image"}]
         self.group = "Basic Shapes"
 
@@ -91,11 +83,7 @@ class FillRect(BlockModel):
                            ]
 
         self.codes["function"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/fillRect.py
             "Scalar get_scalar_color(const char * rgbColor){\n" + \
-=======
-            "CvScalar get_scalar_color(const char * rgbColor){\n" + \
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/fillRect.py
             "   if (strlen(rgbColor) < 13 || rgbColor[0] != '#')\n" + \
             "       return Scalar(0,0,0,0);\n" + \
             "   char r[4], g[4], b[4];\n" + \
@@ -116,7 +104,6 @@ class FillRect(BlockModel):
             "}\n"
 
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/fillRect.py
             'Mat $port[input_image]$;\n' + \
             'Rect $port[rect]$($prop[x]$, $prop[y]$, ' + \
             '$prop[width]$, $prop[height]$);\n' + \
@@ -134,24 +121,6 @@ class FillRect(BlockModel):
         self.codes["deallocation"] = \
             "$port[input_image]$.release();\n" + \
             "$port[output_image]$.release();\n"
-=======
-            'IplImage * $port[image]$ = NULL;\n' + \
-            'CvRect $port[rect]$;\n' + \
-            'IplImage * $port[output]$ = NULL;\n'
-
-        # ----------------------------------------------------------------------
-        self.codes["execution"] = \
-            '\nif($port[image]$)\n{\n' + \
-            '\t$port[output]$ = cvCloneImage($port[image]$);\n' + \
-            '\tcvSetImageROI($port[output]$ , $port[rect]$);\n' + \
-            '\tCvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            '\tcvSet($port[output]$,color,NULL);\n' + \
-            '\tcvResetImageROI($port[output]$);\n' + \
-            '}\n'
-
-        self.codes["deallocation"] = "cvReleaseImage(&$port[image]$);\n" + \
-                    "cvReleaseImage(&$port[output]$);\n"
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/fillRect.py
                     
         self.language = "c"
         self.framework = "opencv"

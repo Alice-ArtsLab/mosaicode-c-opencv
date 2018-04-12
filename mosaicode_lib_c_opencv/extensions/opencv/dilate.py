@@ -49,7 +49,6 @@ class Dilate(BlockModel):
 
         # ----------------------------C/OpenCv code---------------------------
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/dilate.py
             'Mat $port[input_image]$;\n' + \
             'Mat $port[output_image]$;\n' + \
             'Mat block$id$_arg_mask = ' + \
@@ -66,23 +65,4 @@ class Dilate(BlockModel):
         self.codes["deallocation"] = \
             "$port[input_image]$.release();\n" + \
             "$port[output_image]$.release();\n"
-=======
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'int block$id$_arg_iterations = $prop[iterations]$;\n' + \
-            'IplConvKernel * block$id$_arg_mask = ' + \
-            'cvCreateStructuringElementEx($prop[masksizex]$ , $prop[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n'
-
-        self.codes["execution"] = '''
-            if($port[input_image]$){
-                $port[output_image]$ = cvCloneImage($port[input_image]$);
-                cvDilate($port[input_image]$,
-                        $port[output_image]$,
-                        block$id$_arg_mask,
-                        block$id$_arg_iterations);
-            }
-            '''
-        self.codes["deallocation"] = "cvReleaseImage(&$port[input_image]$);\n" + \
-                       "cvReleaseImage(&$port[output_image]$);\n"
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/dilate.py
 # -----------------------------------------------------------------------------

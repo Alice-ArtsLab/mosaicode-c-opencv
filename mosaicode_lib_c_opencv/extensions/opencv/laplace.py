@@ -40,32 +40,32 @@ class Laplace(BlockModel):
 
         self.properties = [{"label": "Mask Size",
                             "name": "masksize",
-                            "type": MOSAICODE_COMBO,
-                            "value":3,
-                            "values": ["1", "3", "5", "7", "9", "11", "13"]
+                            "type": MOSAICODE_INT,
+                            "value": 3,
+                            "lower": 1,
+                            "upper": 13
                             }
                            ]
 
         # ------------------------------C/OpenCv code--------------------------
 
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
             'int $port[input_masksize]$ = $prop[masksize]$;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
+            '\nif(!$port[input_image]$.empty()){\n' + \
             '$port[input_masksize]$ = ($port[input_masksize]$ > 31)? 31 : ' + \
             '$port[input_masksize]$ = ($port[input_masksize]$ % 2 == 0)? ' + \
             '$port[input_masksize]$ + 1 : $port[input_masksize]$;\n' + \
-            'CvSize size$id$ = cvGetSize($port[input_image]$);\n' + \
-            '$port[output_image]$ = cvCreateImage' + \
-            '(size$id$, IPL_DEPTH_32F, $port[input_image]$->nChannels);\n' + \
-            'cvLaplace($port[input_image]$, $port[output_image]$, ' + \
-            '$port[input_masksize]$);}\n'
+            'cvtColor($port[input_image]$, $port[input_image]$, COLOR_RGB2GRAY);\n' + \
+            'Laplacian($port[input_image]$, $port[output_image]$, ' + \
+            'CV_16S, $port[input_masksize]$, 1, 0);\n' + \
+            'convertScaleAbs($port[output_image]$, $port[output_image]$);\n}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n'     
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n'     
         
 # -----------------------------------------------------------------------------

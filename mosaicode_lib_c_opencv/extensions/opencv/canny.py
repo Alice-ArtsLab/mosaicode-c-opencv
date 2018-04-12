@@ -82,30 +82,20 @@ class Canny(BlockModel):
 
         # -------------------------C/OpenCV code----------------------------
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/canny.py
             'Mat $port[input_image]$;\n' + \
             'Mat $port[output_image]$;\n' + \
-=======
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/canny.py
             'int $port[input_apertureSize]$ = $prop[apertureSize]$;\n' + \
             'int $port[input_threshold1]$ = $prop[threshold1]$;\n' + \
             'int $port[input_threshold2]$ = $prop[threshold2]$;\n'
 
         self.codes["execution"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/canny.py
             "\nif(!$port[input_image]$.empty()){ \n" + \
-=======
-            "\nif($port[input_image]$){ \n" + \
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/canny.py
             "\tif ($port[input_apertureSize]$ < 1) $port[input_apertureSize]$ = 1;\n" + \
             "\tif ($port[input_threshold1]$ < 1) $port[input_threshold1]$ = 1;\n" + \
             "\tif ($port[input_threshold2]$ < 1) $port[input_threshold2]$ = 1;\n" + \
             "\tif ($port[input_apertureSize]$ > 10) $port[input_apertureSize]$ = 10;\n" + \
             "\tif ($port[input_threshold1]$ > 100) $port[input_threshold1]$ = 100;\n" + \
             "\tif ($port[input_threshold2]$ > 100) $port[input_threshold2]$ = 100;\n" + \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/canny.py
             "\t$port[output_image]$ = $port[input_image]$.clone();\n" + \
             "\tMat tmpImg$id$($port[input_image]$.rows,$port[input_image]$.cols,CV_8U);\n" + \
             "\tif($port[input_image]$.channels() == 3){\n" + \
@@ -128,29 +118,4 @@ class Canny(BlockModel):
         self.codes["deallocation"] = \
             "$port[input_image]$.release();\n" + \
             "$port[output_image]$.release();\n"
-=======
-            "\t$port[output_image]$ = cvCloneImage($port[input_image]$);\n" + \
-            "\tIplImage * tmpImg$id$ =" + \
-            " cvCreateImage(cvGetSize($port[input_image]$),8,1);\n" + \
-            "\tif($port[input_image]$->nChannels == 3){\n" + \
-            "    \t\tcvCvtColor($port[input_image]$," + \
-            " tmpImg$id$ ,CV_RGB2GRAY);\n" + \
-            "\t}else{\n" + \
-            "    \t\ttmpImg$id$ = $port[input_image]$ = NULL;\n" + \
-            "}\n" + \
-            "cvCanny(tmpImg$id$, tmpImg$id$, $port[input_threshold1]$," + \
-            " $port[input_threshold2]$, $port[input_apertureSize]$);\n" + \
-            "\tif($port[input_image]$->nChannels == 3){\n" + \
-            "    \t\tcvCvtColor(tmpImg$id$, " + \
-            "$port[output_image]$,CV_GRAY2RGB);\n" + \
-            "\t}else{\n" + \
-            "    \t\tcvCopy(tmpImg$id$, $port[output_image]$);\n" + \
-            "\t}\n" + \
-            "\tcvReleaseImage(&tmpImg$id$);\n" + \
-            "}\n"
-
-        self.codes["deallocation"] = \
-            "cvReleaseImage(&$port[input_image]$);\n" + \
-            "cvReleaseImage(&$port[output_image]$);\n"
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/canny.py
 # -----------------------------------------------------------------------------

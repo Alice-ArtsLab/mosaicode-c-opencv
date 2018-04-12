@@ -47,7 +47,6 @@ class NewImage(BlockModel):
                            ]
 
         self.codes["declaration"] = \
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/newImage.py
             'Mat $port[output_image]$;\n'
 
         self.codes["execution"] = \
@@ -57,15 +56,5 @@ class NewImage(BlockModel):
             'CV_8UC1);\n'
 
         self.codes["deallocation"] = "$port[output_image]$.release();\n"
-=======
-            'IplImage * $port[output_image]$ = NULL;\n'
-
-        self.codes["execution"] = \
-            'CvSize size$id$ = cvSize($prop[width]$,$prop[height]$);\n' + \
-            '$port[output_image]$ = cvCreateImage(size$id$, IPL_DEPTH_8U, 3);\n' + \
-            'cvSetZero($port[output_image]$);\n'
-
-        self.codes["deallocation"] = "cvReleaseImage(&$port[output_image]$);\n"
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/newImage.py
 
 # -----------------------------------------------------------------------------

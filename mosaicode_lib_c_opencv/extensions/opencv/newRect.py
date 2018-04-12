@@ -58,15 +58,8 @@ class NewRect(BlockModel):
                             }
                            ]
 
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/newRect.py
         self.codes["execution"] = \
             '$port[rect]$ = Rect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
-=======
-        self.codes["declaration"] = "CvRect $port[rect]$ = cvRect( 0, 0, 1, 1);"
-        self.codes["execution"] = \
-            '$port[rect]$ = cvRect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
-
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/newRect.py
 
         self.language = "c"
         self.framework = "opencv"

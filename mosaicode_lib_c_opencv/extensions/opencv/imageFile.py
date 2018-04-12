@@ -27,11 +27,7 @@ class ImageFile(BlockModel):
         self.color = "50:100:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                            "name":"output_image",
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/imageFile.py
                            "conn_type":"Output",
-=======
-                          "conn_type":"Output",
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/imageFile.py
                            "label":"Output Image"}]
         self.group = "Image Source"
 
@@ -43,16 +39,9 @@ class ImageFile(BlockModel):
                            ]
 
         # ----------------------------C/OpenCv code-------------------------
-<<<<<<< HEAD:mosaicode_c_opencv/extensions/opencv/imageFile.py
         self.codes["declaration"] = \
             'Mat $port[output_image]$;\n' + \
             '$port[output_image]$ = imread("$prop[filename]$", IMREAD_COLOR);\n'
-=======
-        self.codes["declaration"] = 'IplImage * $port[output_image]$ = NULL;\n'
-        self.codes["declaration"] += '$port[output_image]$ = cvLoadImage("$prop[filename]$",-1);\n'
-	self.codes["execution"] = "\n"
-        self.codes["cleanup"] = "cvReleaseImage(&$port[output_image]$);\n"
->>>>>>> 87a6ee2e71fd3c9109e8972fc940e17d33a91064:mosaicode_lib_c_opencv/extensions/opencv/imageFile.py
 
         self.codes["execution"] = "\n"
 
