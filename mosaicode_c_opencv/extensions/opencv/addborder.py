@@ -21,16 +21,18 @@ class AddBorder(BlockModel):
         self.help = "Adiciona bordas na imagem."
         self.label = "Add Border"
         self.color = "0:180:210:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"input_image",
-                          "label":"Input Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.int",
-                          "name":"border_size",
-                          "label":"Border Size"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
-                           "label":"Output Image"}]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                    "name":"input_image",
+                    "conn_type":"Input",
+                    "label":"Input Image"},
+                    {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
+                    "name":"border_size",
+                    "conn_type":"Input",
+                    "label":"Border Size"},
+                    {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                    "name":"output_image",
+                    "conn_type":"Output",
+                    "label":"Output Image"}]
         self.group = "Experimental"
 
         self.properties = [{"label": "Color",
@@ -41,23 +43,24 @@ class AddBorder(BlockModel):
                            {"name": "type",
                             "label": "Type",
                             "type": MOSAICODE_COMBO,
-                            "value":"IPL_BORDER_CONSTANT",
-                            "values": ["IPL_BORDER_CONSTANT",
-                                       "IPL_BORDER_REPLICATE",
-                                       "IPL_BORDER_REFLECT",
-                                       "IPL_BORDER_WRAP"]
+                            "value":"BORDER_CONSTANT",
+                            "values": ["BORDER_CONSTANT",
+                                       "BORDER_REPLICATE",]
                             },
                            {"label": "Border Size",
                             "name": "border_size",
                             "type": MOSAICODE_INT,
-                            "value":"50"
+                            "value": 1,
+                            "step": 1,
+                            "upper": 100,
+                            "lower": 1
                             }
                            ]
-
-        self.codes[0] = \
-            "CvScalar get_scalar_color(const char * rgbColor){\n" + \
+    
+        self.codes["function"] = \
+            "Scalar get_scalar_color(const char * rgbColor){\n" + \
             "   if (strlen(rgbColor) < 13 || rgbColor[0] != '#')\n" + \
-            "       return cvScalar(0,0,0,0);\n" + \
+            "       return Scalar(0,0,0,0);\n" + \
             "   char r[4], g[4], b[4];\n" + \
             "   strncpy(r, rgbColor+1, 4);\n" + \
             "   strncpy(g, rgbColor+5, 4);\n" + \
@@ -72,25 +75,25 @@ class AddBorder(BlockModel):
             "   gi /= 257;\n" + \
             "   bi /= 257;\n" + \
             "   \n" + \
-            "   return cvScalar(bi, gi, ri, 0);\n" + \
-            "}\n"
+            "   return Scalar(bi, gi, ri, 0);\n" + \
+            "}\n"                           
 
-        self.codes[1] = \
-            "IplImage * block$id$_img_i0 = NULL;\n" + \
-            "int block$id$_int_i1 = $prop[border_size]$;\n" + \
-            "IplImage * block$id$_img_o0 = NULL;\n"
+        self.codes["declaration"] = \
+            "Mat $port[input_image]$;\n" + \
+            "int $port[border_size]$ = $prop[border_size]$;\n" + \
+            "Mat $port[output_image]$;\n"
 
-        self.codes[2] = \
-            'if(block$id$_img_i0){\n' + \
-            '\tCvSize size$id$ = cvSize(block$id$_img_i0->width +' + \
-            ' block$id$_int_i1 * 2, block$id$_img_i0->height' + \
-            ' + block$id$_int_i1 * 2);\n' + \
-            '\tblock$id$_img_o0 = cvCreateImage(size$id$,' + \
-            ' block$id$_img_i0->depth,block$id$_img_i0->nChannels);\n' + \
-            '\tCvPoint point$id$ = cvPoint' + \
-            '(block$id$_int_i1, block$id$_int_i1);\n' + \
-            '\tCvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            '\tcvCopyMakeBorder(block$id$_img_i0, block$id$_img_o0,' + \
-            ' point$id$, $prop[type]$, color);\n' + \
+        self.codes["execution"] = \
+            'if(!$port[input_image]$.empty()){\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            '\tScalar color = get_scalar_color("$prop[color]$");\n' + \
+            '\tcopyMakeBorder($port[input_image]$, $port[output_image]$,' + \
+            '$port[border_size]$, $port[border_size]$, $port[border_size]$, ' + \
+            '$port[border_size]$, $prop[type]$, color);\n' + \
             '}\n'
+
+        self.codes["deallocation"] = \
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
+
 # -----------------------------------------------------------------------------

@@ -21,33 +21,37 @@ class VideoFile(BlockModel):
             "de aquisição de imagens (câmera, scanner)."
         self.label = "Video File"
         self.color = "50:100:200:150"
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.language = "c"
+        self.framework = "opencv"
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Image Source"
 
-        self.properties = [{"name": "File Name",
-                            "label": "filename",
+        self.properties = [{"name": "filename",
+                            "label": "File Name",
                             "type": MOSAICODE_OPEN_FILE,
                             "value": "/usr/share/mosaicode/images/vLeft.mpg"
                             },
-                           {"name": "Reset Key",
-                            "label": "key",
+                           {"name": "key",
+                            "label": "Reset Key",
                             "type": MOSAICODE_STRING,
+                            "size":1,
                             "value": "a"
                             }
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'CvCapture * block$id$_capture = NULL;\n' + \
             'IplImage * block$id$_frame = NULL;\n' + \
-            'block$id$_capture = cvCreateFileCapture("$filename$");\n' + \
-            'IplImage * block$id$_img_o0 = NULL; //Capture\n'
+            'block$id$_capture = cvCreateFileCapture("$prop[filename]$");\n' + \
+            'IplImage * $port[output_image]$ = NULL; //Capture\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '// Video Mode \n' + \
-            'if(key == \'$key$\'){\n' +\
+            'if(key == \'$prop[key]$\'){\n' +\
             '\tcvSetCaptureProperty(block$id$_capture, ' + \
             'CV_CAP_PROP_POS_AVI_RATIO , 0);\n' + \
             '}\n' + \
@@ -58,14 +62,8 @@ class VideoFile(BlockModel):
             'CV_CAP_PROP_POS_AVI_RATIO , 0);\n' + \
             '\tcontinue;\n' + \
             '}\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_frame);\n'
+            '$port[output_image]$ = cvCloneImage(block$id$_frame);\n'
 
-        self.codes[3] = "cvReleaseImage(&block$id$_img_o0);\n"
-
-        self.codes[4] = 'cvReleaseCapture(&block$id$_capture);\n'
-
-
-
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["deallocation"] = "cvReleaseImage(&$port[output_image]$);\n"
+        self.codes["cleanup"] = 'cvReleaseCapture(&block$id$_capture);\n'
 # -----------------------------------------------------------------------------

@@ -8,9 +8,5 @@ class Image(Port):
         self.label = "IMG"
         self.color = "#F0F"
         self.multiple = False
-        self.code = "block$sink$_img_i$sink_port$ = cvCloneImage(block$source$_img_o$source_port$);// IMG conection\n"
-        self.input_codes[1] = "IplImage * block$id$_img_i$port_number$ = NULL;\n"
-        self.output_codes[1] = "IplImage * block$id$_img_o$port_number$ = NULL;\n"
-        self.input_codes[3] = "cvReleaseImage(&block$id$_img_i$port_number$);\n"
-        self.output_codes[3] = "cvReleaseImage(&block$id$_img_o$port_number$);\n"
-
+        self.var_name = "b_$id$_$conn_type$_$port_number$"
+        self.code = "if (!$output$.empty()) $input$ = $output$.clone();\n"

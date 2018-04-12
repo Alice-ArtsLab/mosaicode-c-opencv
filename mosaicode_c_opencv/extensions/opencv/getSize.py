@@ -16,23 +16,32 @@ class GetSize(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Extracts the input image size."
         self.label = "Get Size"
         self.color = "250:20:30:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.rect"]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"input_image",
+                       "label":"Input Image",
+                       "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
+                       "name":"rect",
+                       "label":"Output Rect",
+                       "conn_type":"Output"}]
+
         self.group = "Experimental"
-        self.time_shifts = False
 
         # ------------------------------C/OpenCv code--------------------------
-        self.codes[2] = \
-            '\nif(block$id$_img_i0)\n{\n' + \
-            '  \tblock$id$_rect_o0 = cvRect( 0, 0, ' + \
-            'block$id$_img_i0->width, block$id$_img_i0->height);\n' + \
+
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' 
+
+        self.codes["execution"] = \
+            '\nif($port[input_image]$)\n{\n' + \
+            '  \t$port[rect]$ = Rect( 0, 0, ' + \
+            '$port[input_image]$.cols, $port[input_image]$.rows);\n' + \
             '}\n'
-
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

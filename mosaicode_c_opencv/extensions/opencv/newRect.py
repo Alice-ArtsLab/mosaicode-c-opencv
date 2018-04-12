@@ -18,9 +18,10 @@ class NewRect(BlockModel):
         self.help = "Creates new rectangle"
         self.label = "New Rectangle"
         self.color = "50:50:200:150"
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.rect",
-                          "name":"size",
-                          "label":"Size"}]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
+                          "name":"rect",
+                          "conn_type":"Output",
+                          "label":"Rect"}]
         self.group = "Basic Data Type"
 
         self.properties = [{"label": "X",
@@ -57,10 +58,8 @@ class NewRect(BlockModel):
                             }
                            ]
 
-        self.codes[1] = "CvRect block$id$_rect_o0 = cvRect( 0, 0, 1, 1);"
-        self.codes[2] = \
-            'block$id$_rect_o0 = cvRect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
-
+        self.codes["execution"] = \
+            '$port[rect]$ = Rect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
 
         self.language = "c"
         self.framework = "opencv"

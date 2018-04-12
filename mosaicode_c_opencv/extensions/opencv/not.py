@@ -21,28 +21,29 @@ class Not(BlockModel):
             "Corresponde à negativa da imagem."
         self.label = "Not"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
-                           "label":"Output Image"}]
-        self.group = "Arithmetic and logical operations"
-
-        self.codes[1] = "IplImage * block$id$_img_i0 = NULL;\n" + \
-                    "IplImage * block$id$_img_o0 = NULL;\n"
-
-        self.codes[2] = \
-            'if(block$id$_img_i0){\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvNot(block$id$_img_i0, block$id$_img_o0);\n' + \
-            '}\n'
-
-        self.codes[3] = "cvReleaseImage(&block$id$_img_i0);\n" + \
-                       "cvReleaseImage(&block$id$_img_o0);\n"
-
-
         self.language = "c"
         self.framework = "opencv"
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "name":"input_image",
+                          "conn_type":"Input",
+                          "label":"Input Image"},
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "name":"output_image",
+                          "conn_type":"Output",
+                          "label":"Output Image"}]
+        self.group = "Arithmetic and logical operations"
+
+        self.codes["declaration"] = \
+            "Mat $port[input_image]$;\n" + \
+            "Mat $port[output_image]$;\n"
+
+        self.codes["execution"] = \
+            'if(!$port[input_image]$.empty()){\n' + \
+            'bitwise_not($port[input_image]$, $port[output_image]$);\n' + \
+            '}\n'
+
+        self.codes["deallocation"] = \
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
+
 # -----------------------------------------------------------------------------

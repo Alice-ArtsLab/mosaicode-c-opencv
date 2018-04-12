@@ -29,8 +29,21 @@ class HaarDetect(BlockModel):
             'The last output is the number of detected faces.'
         self.label = "Haar Detector"
         self.color = "50:220:40:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.point", "mosaicode_c_opencv.extensions.ports.rect", "mosaicode_c_opencv.extensions.ports.image", "mosaicode_c_opencv.extensions.ports.double"]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"input0",
+                       "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.point",
+                       "name":"",
+                       "conn_type":"Output"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
+                       "name":"output0",
+                       "conn_type":"Output"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"output1",
+                       "conn_type":"Output"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.double",
+                       "name":"output2",
+                       "conn_type":"Output"}]
         self.group = "Feature Detection"
 
         self.properties = [{"name": "File Name",
@@ -47,7 +60,7 @@ class HaarDetect(BlockModel):
                            ]
 
         # ------------------------------C/OpenCv code--------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'CvPoint block$id$_point_o0 = cvPoint(0,0);\n' + \
             'CvRect block$id$_rect_o1 = cvRect( 0, 0, 1, 1);\n' + \
@@ -57,7 +70,7 @@ class HaarDetect(BlockModel):
             'static CvHaarClassifierCascade* block$id$_cascade = 0;\n' + \
             'const char* block$id$_cascade_name = "$cascade_name$";\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0){\n' + \
             '  double scale = 1.3;\n' + \
             '  block$id$_cascade = (CvHaarClassifierCascade*)' + \
@@ -116,7 +129,7 @@ class HaarDetect(BlockModel):
             '  cvReleaseImage( &small_img );\n' + \
             '}\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_o2);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n' + \
             'cvReleaseMemStorage(&block$id$_storage);\n'

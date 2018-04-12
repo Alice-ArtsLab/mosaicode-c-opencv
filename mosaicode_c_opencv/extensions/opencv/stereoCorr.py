@@ -22,8 +22,8 @@ class StereoCorr(BlockModel):
             "is the right image. Output is the depth image.'
         self.label = "images/stereoCorr.png"
         self.color = "10:10:20:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image", "mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image", "mosaicode_lib_c_opencv.extensions.ports.image"]
+        self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.group = "Feature Detection"
 
         self.properties = [{"name": "Max Distance",
@@ -36,14 +36,14 @@ class StereoCorr(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
+        self.codes["declaration"] = \
             'IplImage * block$id$_img_i0 = NULL;\n' + \
             'IplImage * block$id$_img_i1 = NULL;\n' + \
             'IplImage * block$id$_img_o0 = NULL;\n' + \
             'IplImage * block$id$_img_ts0 = NULL;\n' + \
             'IplImage * block$id$_img_ts1 = NULL;\n'
 
-        self.codes[2] = \
+        self.codes["execution"] = \
             '\nif(block$id$_img_i0 && block$id$_img_i1)\n{\n' + \
             '   if(!block$id$_img_o0)\n' + \
             '       block$id$_img_o0 = cvCreateImage' + \
@@ -63,7 +63,7 @@ class StereoCorr(BlockModel):
             'CV_DISPARITY_BIRCHFIELD,' +\
             'block$id$_img_o0, $maxDist$, 15, 3, 6, 8, 15 );\n}\n'
 
-        self.codes[3] = \
+        self.codes["deallocation"] = \
             'cvReleaseImage(&block$id$_img_o0);\n' + \
             'cvReleaseImage(&block$id$_img_i0);\n' + \
             'cvReleaseImage(&block$id$_img_i1);\n' + \

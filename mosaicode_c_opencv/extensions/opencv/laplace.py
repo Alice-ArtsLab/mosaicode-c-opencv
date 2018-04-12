@@ -15,48 +15,57 @@ class Laplace(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
+
+        self.language = "c"
+        self.framework = "opencv"
+
         self.help = "Operação de filtragem que calcula o " + \
             "Laplaciano de uma imagem," + \
             "realçando cantos e bordas de objetos."
         self.label = "Laplace"
         self.color = "250:180:80:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.int",
-                          "name":"masksize",
-                          "label":"Mask Size"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
-                           "label":"Output Image"}]
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
+                          "conn_type":"Input",
+                          "name":"input_masksize",
+                          "label":"Mask Size"},
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "name":"output_image",
+                          "conn_type":"Output",
+                          "label":"Output Image"}]
         self.group = "Gradients, Edges and Corners"
 
         self.properties = [{"label": "Mask Size",
                             "name": "masksize",
-                            "type": MOSAICODE_COMBO,
-                            "value":3,
-                            "values": ["1", "3", "5", "7", "9", "11", "13"]
+                            "type": MOSAICODE_INT,
+                            "value": 3,
+                            "lower": 1,
+                            "upper": 13
                             }
                            ]
 
         # ------------------------------C/OpenCv code--------------------------
-        self.codes[1] = \
-            'IplImage * block$id$_img_i0 = NULL; //Laplace In \n' + \
-            'IplImage * block$id$_img_o0 = NULL; //Laplace Out \n' + \
-            'int block$id$_int_i1 = $prop[masksize]$; // Laplace Mask Size\n'
 
-        self.codes[2] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'block$id$_int_i1 = (block$id$_int_i1 > 31)? 31 : ' + \
-            'block$id$_int_i1; // Laplace Mask Constraint\n' + \
-            'block$id$_int_i1 = (block$id$_int_i1 % 2 == 0)? ' + \
-            'block$id$_int_i1 + 1 : block$id$_int_i1; // Only Odd\n' + \
-            'CvSize size$id$ = cvGetSize(block$id$_img_i0);\n' + \
-            'block$id$_img_o0 = cvCreateImage' + \
-            '(size$id$, IPL_DEPTH_32F,block$id$_img_i0->nChannels);\n' + \
-            'cvLaplace(block$id$_img_i0, block$id$_img_o0, ' + \
-            'block$id$_int_i1);}\n'
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'int $port[input_masksize]$ = $prop[masksize]$;\n'
+
+        self.codes["execution"] = \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '$port[input_masksize]$ = ($port[input_masksize]$ > 31)? 31 : ' + \
+            '$port[input_masksize]$ = ($port[input_masksize]$ % 2 == 0)? ' + \
+            '$port[input_masksize]$ + 1 : $port[input_masksize]$;\n' + \
+            'cvtColor($port[input_image]$, $port[input_image]$, COLOR_RGB2GRAY);\n' + \
+            'Laplacian($port[input_image]$, $port[output_image]$, ' + \
+            'CV_16S, $port[input_masksize]$, 1, 0);\n' + \
+            'convertScaleAbs($port[output_image]$, $port[output_image]$);\n}\n'
+
+        self.codes["deallocation"] = \
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n'     
+        
 # -----------------------------------------------------------------------------

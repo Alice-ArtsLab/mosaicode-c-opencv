@@ -16,46 +16,46 @@ class Exp(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Aplica a função exponencial a uma imagem, ou seja, " + \
             "eleva a constante neperiana ao valor " + \
             "de intensidade luminosa de cada ponto da imagem."
         self.label = "Exp"
         self.color = "230:230:60:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
                           "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "label":"Input Image"},
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
+
         self.group = "Math Functions"
 
         # --------------------------C/OpenCv code------------------------------
-        self.codes[1] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
-            'IplImage * block$id$_img_t = NULL;\n'
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_img_t;\n'
 
-        self.codes[2] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'block$id$_img_t = cvCreateImage' + \
-            '(cvGetSize(block$id$_img_i0), IPL_DEPTH_32F,' + \
-            'block$id$_img_i0->nChannels);\n' + \
-            'block$id$_img_o0 = cvCloneImage' + \
-            '(block$id$_img_i0);\n' + \
-            'cvConvertScale(block$id$_img_i0, ' + \
-            'block$id$_img_t,(1/255.0),0);\n' + \
-            'cvExp(block$id$_img_t, block$id$_img_t);\n' + \
-            'cvConvertScale(block$id$_img_t, block$id$_img_o0,' + \
-            ' (double)93.8092,0);\n}\n'
+        self.codes["execution"] = \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            'cvtColor($port[input_image]$, block$id$_img_t, ' + \
+            'COLOR_RGB2GRAY);\n' + \
+            'block$id$_img_t.convertTo(block$id$_img_t, CV_32F);\n' + \
+            'block$id$_img_t = block$id$_img_t + 1;\n' + \
+            'exp(block$id$_img_t, block$id$_img_t);\n' + \
+            'convertScaleAbs(block$id$_img_t, block$id$_img_t);\n' + \
+            'normalize(block$id$_img_t, $port[output_image]$, ' + \
+            '0, 255, NORM_MINMAX);\n' + \
+            '}\n'
 
-        self.codes[3] = \
-            'cvReleaseImage(&block$id$_img_o0);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n' + \
-            'cvReleaseImage(&block$id$_img_t);\n'
-
-
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["deallocation"] = \
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n' + \
+            'block$id$_img_t.release();\n'
 # -----------------------------------------------------------------------------

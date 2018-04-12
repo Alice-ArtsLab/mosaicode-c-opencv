@@ -15,18 +15,24 @@ class Pow(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
+
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Eleva cada ponto de uma " + \
             "imagem a um valor fixo de potência."
         self.label = "Pow"
         self.color = "230:230:60:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Input Image"},
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
+
         self.group = "Math Functions"
 
         self.properties = [{"label": "Exponent",
@@ -34,19 +40,23 @@ class Pow(BlockModel):
                             "value":1,
                             "type": MOSAICODE_INT,
                             "lower": 1,
-                            "upper": 10,
-                            "step": 1
+                            "upper": 10
                             }
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[2] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvPow(block$id$_img_i0, block$id$_img_o0, $exponent$);\n' + \
+
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n'
+
+        self.codes["execution"] = \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            'pow($port[input_image]$, $prop[exponent]$, $port[output_image]$);\n' + \
             '}\n'
 
-
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["deallocation"] = \
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n'
 # -----------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 This module contains the SideBySide class.
@@ -19,46 +19,45 @@ class SideBySide(BlockModel):
         self.help = "Coloca uma imagem do lado da outra."
         self.label = "Side By Side"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"left_image",
+        self.language = "c"
+        self.framework = "opencv"
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "name":"input_image1",
+                          "conn_type":"Input",
                           "label":"Left Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"right_image",
-                          "label":"Right Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "name":"input_image2",
+                          "conn_type":"Input",
+                          "label":"Right Image"},
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                            "name":"output_image",
+                          "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes[1] = "IplImage * block$id$_img_i0 = NULL;\n" + \
-                    "IplImage * block$id$_img_i1 = NULL;\n" + \
-                    "IplImage * block$id$_img_o0 = NULL;\n"
+        # -------------------C/OpenCv code------------------------------------
+        self.codes["declaration"] = \
+            "Mat $port[input_image1]$;\n" + \
+            "Mat $port[input_image2]$;\n" + \
+            "Mat $port[output_image]$;\n"
 
-        self.codes[2] =  \
-            'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
-            'int width=block$id$_img_i0->width' + \
-            ' + block$id$_img_i1->width;\n' + \
-            'int height= (block$id$_img_i0->height > ' + \
-            'block$id$_img_i1->height)?' + \
-            'block$id$_img_i0->height:block$id$_img_i1->height;\n' + \
-            'block$id$_img_o0=cvCreateImage(cvSize' + \
-            '(width,height),IPL_DEPTH_8U,3); \n' + \
-            'cvSetImageROI(block$id$_img_o0, cvRect(0, 0, ' + \
-            'block$id$_img_i0->width, block$id$_img_i0->height) );\n' + \
-            'cvCopy(block$id$_img_i0,block$id$_img_o0,NULL);\n' + \
-            'cvResetImageROI(block$id$_img_o0);\n' + \
-            'cvSetImageROI(block$id$_img_o0, cvRect' + \
-            '(block$id$_img_i0->width, 0, width, ' + \
-            'block$id$_img_i1->height) );\n' + \
-            'cvCopy(block$id$_img_i1,block$id$_img_o0,NULL);\n' + \
-            'cvResetImageROI(block$id$_img_o0);\n' + \
+        self.codes["execution"] =  \
+            'if(!$port[input_image1]$.empty() && !$port[input_image2]$.empty()){\n' + \
+            'Size size_1($port[input_image1]$.cols, $port[input_image1]$.rows);\n' + \
+            'Size size_2($port[input_image2]$.cols, $port[input_image2]$.rows);\n' + \
+            'Mat block$id$_img_t(size_1.height, size_1.width+size_2.width, ' + \
+            'CV_8UC3);\n' + \
+            'Mat left_image(block$id$_img_t, ' + \
+            'Rect(0, 0, size_1.width, size_1.height));\n' + \
+            '$port[input_image1]$.copyTo(left_image);\n' + \
+            'Mat right_image(block$id$_img_t, Rect(size_1.width, 0, ' + \
+            'size_2.width, size_2.height));\n' + \
+            '$port[input_image2]$.copyTo(right_image);\n' + \
+            '$port[output_image]$ = block$id$_img_t.clone();\n' + \
             '}\n'
 
-        self.codes[3] = \
-            'if (block$id$_img_o0) cvReleaseImage(&block$id$_img_o0);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n' + \
-            'cvReleaseImage(&block$id$_img_i1);\n'
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["deallocation"] = \
+            '$port[output_image]$.release();\n' + \
+            '$port[input_image1]$.release();\n' + \
+            '$port[input_image2]$.release();\n'
 # -----------------------------------------------------------------------------

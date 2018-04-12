@@ -21,38 +21,44 @@ class Resize(BlockModel):
             "dimensions of the input rectangle."
         self.label = "Resize Image"
         self.color = "20:80:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.rect",
-                          "name":"size",
-                          "label":"Size"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
-                           "label":"Output Image"}]
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "name":"output_image",
+                          "conn_type":"Output",
+                          "label":"Output Image"}]
+
         self.group = "Experimental"
 
-        self.properties = [{"label": "Method",
-                            "name": "method",
-                            "type": MOSAICODE_COMBO,
-                            "value": "CV_INTER_LINEAR",
-                            "values": ["CV_INTER_NN",
-                                       "CV_INTER_LINEAR",
-                                       "CV_INTER_AREA",
-                                       "CV_INTER_CUBIC"]
+        self.properties = [{"label": "Tamanho em X",
+                            "name": "size_x",
+                            "type": MOSAICODE_INT,
+                            "value": 1,
+                            "lower": 1,
+                            "upper": 5000
+                            },
+                            {"label": "Tamanho em Y",
+                            "name": "size_y",
+                            "type": MOSAICODE_INT,
+                            "value": 1,
+                            "lower": 1,
+                            "upper": 5000
                             }
                            ]
 
-        self.codes[2] = \
-            'if(block$id$_img_i0){\n' + \
-            'CvSize size$id$ = cvSize(block$id$_rect_i1.width,' + \
-            'block$id$_rect_i1.height);\n' + \
-            'block$id$_img_o0 = cvCreateImage(size$id$, ' + \
-            'block$id$_img_i0->depth,block$id$_img_i0->nChannels);\n' + \
-            'cvResize(block$id$_img_i0, block$id$_img_o0, $method$);\n' + \
-            '}\n'
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Size size$id$;\n' 
 
+        self.codes["execution"] = \
+            'if(!$port[input_image]$.empty()){\n' + \
+            'size$id$ = Size($prop[size_x]$,' + \
+            '$prop[size_y]$);\n' + \
+            'resize($port[input_image]$, $port[output_image]$, size$id$);\n' + \
+            '}\n'
 
         self.language = "c"
         self.framework = "opencv"

@@ -21,28 +21,71 @@ class FillRect(BlockModel):
         self.help = "Preenche o retângulo de uma cor."
         self.label = "Fill Rectangle"
         self.color = "50:100:200:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"input_image",
-                          "label":"Input Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.rect",
-                          "name":"rect",
-                          "label":"Rectangle"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
-                           "label":"Output Image"}]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"input_image",
+                       "conn_type":"Input",
+                       "label":"Input Image"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
+                       "name":"rect",
+                       "conn_type":"Input",
+                       "label":"Rectangle"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "conn_type":"Output",
+                       "name":"output_image",
+                       "label":"Output Image"}]
         self.group = "Basic Shapes"
 
-        self.properties = [{"name": "color",
+        self.properties = [{"name": "x",
+                            "label": "X",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                           {"name": "y",
+                            "label": "Y",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                            {"name": "width",
+                            "label": "Width",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                           {"name": "height",
+                            "label": "Height",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                            {"name": "line",
+                            "label": "Line",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                            {"name": "color",
                             "label": "Color",
-                            "type": MOSAICODE_COLOR
+                            "type": MOSAICODE_COLOR,
+                            "value": "#FF0000"
                             }
                            ]
 
-        self.codes[0] = \
-            "CvScalar get_scalar_color(const char * rgbColor){\n" + \
+        self.codes["function"] = \
+            "Scalar get_scalar_color(const char * rgbColor){\n" + \
             "   if (strlen(rgbColor) < 13 || rgbColor[0] != '#')\n" + \
-            "       return cvScalar(0,0,0,0);\n" + \
+            "       return Scalar(0,0,0,0);\n" + \
             "   char r[4], g[4], b[4];\n" + \
             "   strncpy(r, rgbColor+1, 4);\n" + \
             "   strncpy(g, rgbColor+5, 4);\n" + \
@@ -57,25 +100,28 @@ class FillRect(BlockModel):
             "   gi /= 257;\n" + \
             "   bi /= 257;\n" + \
             "   \n" + \
-            "   return cvScalar(bi, gi, ri, 0);\n" + \
+            "   return Scalar(bi, gi, ri, 0);\n" + \
             "}\n"
 
-        self.codes[1] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'CvRect block$id$_rect_i1;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n'
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' + \
+            'Rect $port[rect]$($prop[x]$, $prop[y]$, ' + \
+            '$prop[width]$, $prop[height]$);\n' + \
+            'Mat $port[output_image]$;\n'
 
         # ----------------------------------------------------------------------
-        self.codes[2] = \
-            '\nif(block$id$_img_i0)\n{\n' + \
-            '\tblock$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            '\tcvSetImageROI(block$id$_img_o0 , block$id$_rect_i1);\n' + \
-            '\tCvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            '\tcvSet(block$id$_img_o0,color,NULL);\n' + \
-            '\tcvResetImageROI(block$id$_img_o0);\n' + \
+        self.codes["execution"] = \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '\t$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            '\tScalar color = get_scalar_color("$prop[color]$");\n' + \
+            '\trectangle($port[output_image]$, $port[rect]$, ' + \
+            'color, $prop[line]$, 8, 0);\n' + \
             '}\n'
 
-
+        self.codes["deallocation"] = \
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
+                    
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------

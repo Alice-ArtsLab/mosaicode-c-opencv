@@ -16,54 +16,54 @@ class ComposeRGB(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
-        self.help = "BLOCO Composição RGB"
+        self.help = "Realiza a composição RGB de várias imagens."
         self.label = "Compose RGB"
         self.color = "50:125:50:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image", "mosaicode_c_opencv.extensions.ports.image", "mosaicode_c_opencv.extensions.ports.image"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"input_image1",
+                       "label":"Image 1",
+                       "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"input_image2",
+                       "label":"Image 2",
+                       "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"input_image3",
+                       "label":"Image 3",
+                       "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"output_image",
+                       "label":"Output Image",
+                       "conn_type":"Output"}]
+
         self.group = "Filters and Color Conversion"
 
         # ------------------------C/OpenCv code-------------------------------
-        self.codes[1] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_i1 = NULL;\n' + \
-            'IplImage * block$id$_img_i2 = NULL;\n' + \
-            'IplImage * block$id$_img_t0 = NULL;\n' + \
-            'IplImage * block$id$_img_t1 = NULL;\n' + \
-            'IplImage * block$id$_img_t2 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n'
+        self.codes["declaration"] = \
+            'Mat $port[input_image1]$;\n' + \
+            'Mat $port[input_image2]$;\n' + \
+            'Mat $port[input_image3]$;\n' + \
+            'Mat block$id$_img_t0[3];\n' + \
+            'Mat $port[output_image]$;\n'
 
-        self.codes[2] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'CvSize size$id$ = cvSize' + \
-            '(block$id$_img_i0->width,block$id$_img_i0->height);\n' + \
-            'block$id$_img_t0 = cvCreateImage' + \
-            '(size$id$, block$id$_img_i0->depth, 1);\n' +\
-            'block$id$_img_t1 = cvCreateImage' + \
-            '(size$id$, block$id$_img_i0->depth, 1);\n' +\
-            'block$id$_img_t2 = cvCreateImage' + \
-            '(size$id$, block$id$_img_i0->depth, 1);\n' +\
-            'cvSplit(block$id$_img_i0 ,' + \
-            'block$id$_img_t0  ,NULL, NULL , NULL);\n' + \
-            'cvSplit(block$id$_img_i1 ,' + \
-            'NULL ,block$id$_img_t1, NULL, NULL);\n' + \
-            'cvSplit(block$id$_img_i2 ,' + \
-            'NULL ,NULL, block$id$_img_t2 , NULL);\n' + \
-            'cvMerge(block$id$_img_t2 ,block$id$_img_t1 ,' + \
-            'block$id$_img_t0 , NULL, block$id$_img_o0);}\n'
+        self.codes["execution"] = \
+            '\nif(!$port[input_image1]$.empty()){\n' + \
+            'block$id$_img_t0[0] = $port[input_image1]$;\n' + \
+            'block$id$_img_t0[1] = $port[input_image2]$;\n' + \
+            'block$id$_img_t0[2] = $port[input_image3]$;\n' + \
+            'merge(block$id$_img_t0, 3, $port[output_image]$);\n}\n'
 
-        self.codes[3] = \
-            'cvReleaseImage(&block$id$_img_t0);\n' + \
-            'cvReleaseImage(&block$id$_img_t1);\n' + \
-            'cvReleaseImage(&block$id$_img_t2);\n' + \
-            'cvReleaseImage(&block$id$_img_o0);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n' + \
-            'cvReleaseImage(&block$id$_img_i1);\n' + \
-            'cvReleaseImage(&block$id$_img_i2);\n'
+        self.codes["deallocation"] = \
+            'block$id$_img_t0[0].release();\n' + \
+            'block$id$_img_t0[1].release();\n' + \
+            'block$id$_img_t0[2].release();\n' + \
+            '$port[output_image]$.release();\n' + \
+            '$port[input_image1]$.release();\n' + \
+            '$port[input_image2]$.release();\n' + \
+            '$port[input_image3]$.release();\n'
 
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

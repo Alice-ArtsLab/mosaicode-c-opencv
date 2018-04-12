@@ -20,13 +20,17 @@ class Dilate(BlockModel):
             "nos objetos de uma imagem, aumentando suas dimensões."
         self.label = "Dilate"
         self.color = "180:230:220:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                           "name":"output_image",
-                           "label":"Output Image"}]
+        self.language = "c"
+        self.framework = "opencv"
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                        "name":"input_image",
+                        "conn_type":"Input",
+                        "label":"Input Image"},
+                        {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                         "name":"output_image",
+                         "conn_type":"Output",
+                         "label":"Output Image"}]
+
         self.group = "Morphological Operations"
 
         self.properties = [{"label": "Mask Size X",
@@ -40,39 +44,25 @@ class Dilate(BlockModel):
                             "type": MOSAICODE_COMBO,
                             "values": ["1", "3", "5", "7"],
                             "value":"3"
-                            },
-                           {"label": "Iterations",
-                            "name": "iterations",
-                            "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 65535,
-                            "step": 1, 
-                            "value":1
                             }
                            ]
 
         # ----------------------------C/OpenCv code---------------------------
-        self.codes[1] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
-            'int block$id$_arg_iterations = $iterations$;\n' + \
-            'IplConvKernel * block$id$_arg_mask = ' + \
-            'cvCreateStructuringElementEx($masksizex$ , $masksizey$, 1, 1,CV_SHAPE_RECT,NULL);\n'
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_arg_mask = ' + \
+            'getStructuringElement(MORPH_RECT, Size($prop[masksizex]$, $prop[masksizey]$), Point(1, 1));\n'
 
-        self.codes[2] = '''
-            if(block$id$_img_i0){
-                block$id$_img_o0 = cvCloneImage(block$id$_img_i0);
-                cvDilate(block$id$_img_i0,
-                        block$id$_img_o0,
-                        block$id$_arg_mask,
-                        block$id$_arg_iterations);
-            }
-            '''
-        self.codes[3] = "cvReleaseImage(&block$id$_img_i0);\n" + \
-                       "cvReleaseImage(&block$id$_img_o0);\n"
+        self.codes["execution"] = \
+            'if(!$port[input_image]$.empty()){\n' + \
+                '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+                'dilate($port[input_image]$,' + \
+                        '$port[output_image]$,' + \
+                        'block$id$_arg_mask);\n' + \
+            '}\n'
 
-
-
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["deallocation"] = \
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
 # -----------------------------------------------------------------------------

@@ -17,48 +17,43 @@ class LiveMode(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.camera = "/dev/video0"
 
         # Appearance
         self.help = "Realiza a aquisição de uma imagem a partir de câmera."
         self.label = "Live Mode"
         self.color = "50:100:200:150"
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
+                          "name":"output_image",
+                          "label":"Output Image"}
+                          ]
         self.group = "Image Source"
 
-        # ------------------------------C/OpenCv code--------------------------
-        self.codes[2] = \
+        self.properties = [{"name": "camera",
+                 "label": "Camera",
+                 "type": MOSAICODE_INT,
+                 "value":"0",
+                 "lower": 0,
+                 "upper": 4}]
+
+        self.language = "c"
+        self.framework = "opencv"
+
+        self.codes["declaration"] = \
+            '// Live Mode Cam \n' + \
+            'CvCapture * block$id$_capture = NULL;\n' + \
+            'block$id$_capture = cvCaptureFromCAM($prop[camera]$);\n' + \
+            'IplImage * block$id$_frame = NULL;\n' + \
+            'IplImage * $port[output_image]$ = NULL;\n'
+
+        self.codes["execution"] = \
             '// Live Mode \n' + \
             'int value = cvGrabFrame(block$id$_capture);\n' + \
             'block$id$_frame = cvRetrieveFrame(block$id$_capture);\n' + \
-            'if(!block$id$_frame){\ncontinue;\n}\n' +\
-            '\tblock$id$_img_o0 = cvCloneImage(block$id$_frame);\n'
+            'if(block$id$_frame){\n' +\
+            '\t$port[output_image]$ = cvCloneImage(block$id$_frame);\n'+ \
+            '}\n'
 
-        self.codes[4] = 'cvReleaseCapture(&block$id$_capture);\n'
+        self.codes["cleanup"] = 'cvReleaseCapture(&block$id$_capture);\n'
 
-    # ----------------------------------------------------------------------
-    def get_properties(self):
-
-        available_cams = 4
-        device_list = []
-
-        if os.name == 'posix':
-            device_list = glob("/dev/video*")
-
-        return [{"name": "Camera",
-                 "type": MOSAICODE_COMBO,
-                 "values": device_list}]
-
-    # ----------------------------------------------------------------------
-    def generate_vars(self):
-        camera = self.camera[10:]
-
-        return \
-            '// Live Mode Cam \n' + \
-            'CvCapture * block$id$_capture = NULL;\n' + \
-            'block$id$_capture = cvCaptureFromCAM(' + camera + ');\n' + \
-            'IplImage * block$id$_frame = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n'
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

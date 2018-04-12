@@ -16,12 +16,16 @@ class Show(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Mostra uma imagem da cadeia de processamento de imagens."
         self.label = "Show Image"
         self.color = "50:100:200:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"}
                          ]
         self.group = "General"
@@ -40,22 +44,21 @@ class Show(BlockModel):
                             }
                            ]
 
-        self.codes[1] = "IplImage * block$id$_img_i0 = NULL;\n" + \
-                "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
-                "cvNamedWindow(\"$prop[title]$\",CV_WINDOW_NORMAL);\n" + \
-                "else\n" + \
-                "cvNamedWindow(\"$prop[title]$\",CV_WINDOW_AUTOSIZE);\n"
+# ----------------------------C/OpenCv code-------------------------
 
-        self.codes[2] = "\nif(block$id$_img_i0){\n" + \
-            "cvShowImage(\"$prop[title]$\",block$id$_img_i0);\n" + \
+        self.codes["declaration"] = "Mat $port[input_image]$;\n" + \
+            "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
+            "namedWindow(\"$prop[title]$\",WINDOW_NORMAL);\n" + \
+            "else\n" + \
+            "namedWindow(\"$prop[title]$\",WINDOW_AUTOSIZE);\n"
+
+        self.codes["execution"] = "\nif(!$port[input_image]$.empty()){\n" + \
+            "imshow(\"$prop[title]$\",$port[input_image]$);\n" + \
             "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
             "cvSetWindowProperty(\"$prop[title]$\", " + \
             "CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);\n" + \
             "}\n"
 
-        self.codes[3] = "cvReleaseImage(&block$id$_img_i0);"
+        self.codes["deallocation"] = "$port[input_image]$.release();"
 
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

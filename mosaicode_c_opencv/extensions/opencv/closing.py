@@ -15,8 +15,9 @@ class Closing(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        self.masksize = "7x7"
-
+        
+        self.language = "c"
+        self.framework = "opencv"
         # Appearance
         self.help = "Operação de morfologia matemática para realizar o " + \
             "fechamento da imagem de acordo com o elemento estruturante." + \
@@ -24,17 +25,20 @@ class Closing(BlockModel):
         self.label = "Closing"
         self.color = "180:230:220:150"
         self.group = "Morphological Operations"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
+                          "conn_type":"Input",
                           "label":"Input Image"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                           "name":"masksizex",
+                          "conn_type":"Input",
                           "label":"Mask Size X"},
-                          {"type":"mosaicode_c_opencv.extensions.ports.int",
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
                           "name":"masksizey",
-                          "label":"Mask Size Y"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Mask Size Y"},
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
 
@@ -53,32 +57,29 @@ class Closing(BlockModel):
                             ]
 
         # -------------------C/OpenCv code---------------------------------
-        self.codes[1] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'int block$id$_int_i1 = $masksizex$;\n' + \
-            'int block$id$_int_i2 = $masksizey$;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
-            'IplConvKernel * block$id$_arg_mask = NULL;\n'
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' + \
+            'int $port[masksizex]$ = $prop[masksizex]$;\n' + \
+            'int $port[masksizey]$ = $prop[masksizey]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_arg_mask;\n'
 
-        self.codes[2] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'if (block$id$_int_i1 % 2 == 0) block$id$_int_i1++;\n' + \
-            'if (block$id$_int_i2 % 2 == 0) block$id$_int_i2++;\n' + \
+        self.codes["execution"] = \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            'if ($port[masksizex]$ % 2 == 0) $port[masksizex]$++;\n' + \
+            'if ($port[masksizey]$ % 2 == 0) $port[masksizey]$++;\n' + \
             'block$id$_arg_mask = ' + \
-            'cvCreateStructuringElementEx(block$id$_int_i1 ,' + \
-            'block$id$_int_i2, 1, 1,CV_SHAPE_RECT,NULL);\n' + \
-            'IplImage * block$id$_auxImg;\n' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'block$id$_auxImg = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvMorphologyEx(block$id$_img_i0, block$id$_img_o0, NULL,' + \
-            'block$id$_arg_mask, CV_MOP_CLOSE, 1);\n}\n'
+            'getStructuringElement(MORPH_RECT, Size($port[masksizex]$ ,' + \
+            '$port[masksizey]$), Point(1, 1));\n' + \
+            'Mat block$id$_auxImg;\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            'block$id$_auxImg = $port[input_image]$.clone();\n' + \
+            'morphologyEx($port[input_image]$, $port[output_image]$,' + \
+            'MORPH_CLOSE, block$id$_arg_mask);\n}\n'
 
-        self.codes[3] = \
-            'cvReleaseImage(&block$id$_img_o0);\n' + \
-            'cvReleaseStructuringElement(&block$id$_arg_mask);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n'
+        self.codes["deallocation"] = \
+            '$port[input_image]$.release();\n' + \
+            'block$id$_arg_mask.release();\n' + \
+            '$port[output_image]$.release();\n'
 
-# --------------------------------------------------------------------------
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

@@ -16,20 +16,32 @@ class Opening(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.masksize = "3x3"
+
+        self.language = "c"
+        self.framework = "opencv"
 
         # Appearance
         self.help = "Operação morfológica que visa " + \
             "desconectar objetos em uma imagem ou suprimir ruídos."
         self.label = "Opening"
         self.color = "180:230:220:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
-                          "label":"Input Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                          "conn_type":"Input",
+                          "label":"Input Image"},
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
+                          "name":"masksizex",
+                          "conn_type":"Input",
+                          "label":"Mask Size X"},
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
+                          "name":"masksizey",
+                          "conn_type":"Input",
+                          "label":"Mask Size Y"},
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
+
         self.group = "Morphological Operations"
 
         self.properties = [{"label": "Mask Size X",
@@ -47,25 +59,23 @@ class Opening(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes[1] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
-            'IplConvKernel * block$id$_arg_mask = cvCreateStructuringElementEx($masksizex$ , $masksizey$, 1, 1,CV_SHAPE_RECT,NULL);\n'
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_arg_mask = getStructuringElement(MORPH_RECT, Size($prop[masksizex]$ , $prop[masksizey]$), Point(1, 1));\n' + \
+            'int $port[masksizex]$ = $prop[masksizex]$;\n' + \
+            'int $port[masksizey]$ = $prop[masksizey]$;\n'
 
-        self.codes[2] = \
-            '\nif(block$id$_img_i0){\n' + \
-            'IplImage * block$id$_auxImg;' + \
-            'block$id$_img_o0 = cvCloneImage(block$id$_img_i0);\n' + \
-            'block$id$_auxImg = cvCloneImage(block$id$_img_i0);\n' + \
-            'cvMorphologyEx(block$id$_img_i0, block$id$_img_o0, NULL,' + \
-            'block$id$_arg_mask, CV_MOP_OPEN, 1);\n}\n'
+        self.codes["execution"] = \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            'Mat block$id$_auxImg;\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            'block$id$_auxImg = $port[input_image]$.clone();\n' + \
+            'morphologyEx($port[input_image]$, $port[output_image]$, ' + \
+            'MORPH_OPEN, block$id$_arg_mask);\n}\n'
 
-        self.codes[3] = \
-            'cvReleaseImage(&block$id$_img_o0);\n' + \
-            'cvReleaseStructuringElement(&block$id$_arg_mask);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n'
-
-
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["deallocation"] = \
+            '$port[input_image]$.release();\n' + \
+            'block$id$_arg_mask.release();\n' + \
+            '$port[output_image]$.release();\n'
 # -----------------------------------------------------------------------------

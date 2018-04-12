@@ -16,81 +16,77 @@ class CropImage(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        self.x0 = 0
-        self.y0 = 0
-        self.width = 640
-        self.height = 480
+
+        self.language = "c"
+        self.framework = "opencv"
 
         # Appearance
-        self.help = "Corta a Imagem de acordo com o Retangulo de entrada."
+        self.help = "Corta a imagem de acordo com o retângulo de entrada."
         self.label = "Crop Image"
         self.color = "50:50:200:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.image", "mosaicode_c_opencv.extensions.ports.rect"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.image"]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"input_image",
+                       "label":"Input Image",
+                       "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
+                       "name":"rect",
+                       "label":"Rect",
+                       "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"output_image",
+                       "label":"Output Image",
+                       "conn_type":"Output"}]
+
         self.group = "Experimental"
 
-        self.properties = [{"name": "X",
-                            "label": "x0",
+        self.properties = [{"name": "x",
+                            "label": "X",
                             "type": MOSAICODE_INT,
                             "lower": 1,
                             "upper": 65535,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
                             },
-                           {"name": "Y",
-                            "label": "y0",
+                           {"name": "y",
+                            "label": "Y",
                             "type": MOSAICODE_INT,
                             "lower": 1,
                             "upper": 65535,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
                             },
-                           {"name": "Width",
-                            "label": "width",
+                           {"name": "width",
+                            "label": "Width",
                             "type": MOSAICODE_INT,
                             "lower": 1,
                             "upper": 65535,
-                            "step": 1
+                            "step": 1,
+                            "value": 200
                             },
-                           {"name": "Height",
-                            "label": "height",
+                           {"name": "height",
+                            "label": "Height",
                             "type": MOSAICODE_INT,
                             "lower": 1,
                             "upper": 65535,
-                            "step": 1
+                            "step": 1,
+                            "value": 200
                             }
                            ]
 
         # ------------------------C/OpenCv code--------------------------------
-        self.codes[1] = \
-            'IplImage * block$id$_img_i0 = NULL;\n' + \
-            'IplImage * block$id$_img_o0 = NULL;\n' + \
-            'CvRect  block$id$_rect_i1 = cvRect' + \
-            '($x0$, $y0$, $width$, $height$);\n'
+        self.codes["declaration"] = \
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Rect $port[rect]$(' + \
+            '$prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
 
-        self.codes[2] = \
-            '\nif(block$id$_img_i0){\n' + \
-            '   block$id$_rect_i1.x = MAX' + \
-            '(0,block$id$_rect_i1.x);//Check whether point is negative\n' + \
-            '   block$id$_rect_i1.y = MAX' + \
-            '(0,block$id$_rect_i1.y);\n' + \
-            '   block$id$_rect_i1.x = MIN(block$id$_img_i0->width-1,' + \
-            'block$id$_rect_i1.x);//Check whether ' + \
-            'point is out of the image\n' + \
-            '   block$id$_rect_i1.y = MIN' + \
-            '(block$id$_img_i0->height-1,' + \
-            'block$id$_rect_i1.y);\n' + \
-            '   block$id$_rect_i1.width = MIN' + \
-            '(block$id$_img_i0->width-block$id$_rect_i1.x,' + \
-            'block$id$_rect_i1.width);' + \
-            '//Check whether rect reaches out of the image\n' + \
-            '   block$id$_rect_i1.height = MIN(block$id$_img_i0->' + \
-            'height-block$id$_rect_i1.y,block$id$_rect_i1.height);\n' + \
-            '   block$id$_img_o0 = cvCreateImage' + \
-            '(cvSize(block$id$_rect_i1.width,' + \
-            'block$id$_rect_i1.height),' + \
-            ' block$id$_img_i0->depth,block$id$_img_i0->nChannels);\n' + \
-            '   cvSetImageROI(block$id$_img_i0,block$id$_rect_i1);\n' + \
-            '   cvCopyImage(block$id$_img_i0,block$id$_img_o0);\n' + \
+        self.codes["execution"] = \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '$port[output_image]$ = $port[input_image]$($port[rect]$);\n' + \
             '}\n'
-        self.language = "c"
-        self.framework = "opencv"
+
+        self.codes["deallocation"] = \
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
+
 # -----------------------------------------------------------------------------

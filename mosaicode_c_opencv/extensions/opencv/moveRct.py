@@ -22,8 +22,19 @@ class MoveRct(BlockModel):
         self.help = "Move Rectangle`s (0,0) point to input point"
         self.label = "Move Rectangle"
         self.color = "50:50:200:150"
-        self.in_types = ["mosaicode_c_opencv.extensions.ports.rect", "mosaicode_c_opencv.extensions.ports.point"]
-        self.out_types = ["mosaicode_c_opencv.extensions.ports.rect"]
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
+                       "name":"rect",
+                       "label":"Rect",
+                       "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.point",
+                       "name":"point",
+                       "label":"Point",
+                       "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
+                       "name":"output",
+                       "label":"Output Rect",
+                       "conn_type":"Output"}]
+
         self.group = "Experimental"
 
         self.properties = [{"name": "Offset x",
@@ -41,16 +52,18 @@ class MoveRct(BlockModel):
                             "step": 1
                             }
                            ]
-        # --------------------C/OpenCv code--------------------------------
-        self.codes[1] = \
-            'CvRect block$id$_rect_i0;\n' + \
-            'CvPoint block$id$_point_i1;\n' + \
-            'CvRect block$id$_rect_o0;\n'
 
-        self.codes[2] = \
-            'block$id$_rect_o0 = block$id$_rect_i0;\n' + \
-            'block$id$_rect_o0.x = block$id$_point_i1.x + $offset_x$;\n' + \
-            'block$id$_rect_o0.y = block$id$_point_i1.y + $offset_y$;\n'
+        # --------------------C/OpenCv code--------------------------------
+        self.codes["declaration"] = \
+            'Rect $port[rect]$;\n' + \
+            'Point $port[point]$;\n' + \
+            'Rect $port[output]$;\n'
+
+        self.codes["execution"] = \
+            '$port[output]$ = $port[rect]$;\n' + \
+            '$port[output]$.x = $port[point]$.x + $offset_x$;\n' + \
+            '$port[output]$.y = $port[point]$.y + $offset_y$;\n'
+
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------

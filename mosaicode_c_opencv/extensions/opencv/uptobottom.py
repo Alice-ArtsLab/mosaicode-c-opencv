@@ -20,48 +20,45 @@ class UpToBottom(BlockModel):
         self.help = "Coloca uma imagem debaixo da outra."
         self.label = "Up to Bottom"
         self.color = "10:180:10:150"
-        self.in_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"top_image",
+        self.language = "c"
+        self.framework = "opencv"
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "name":"input_image1",
+                          "conn_type":"Input",
                           "label":"Top Image"},
-                         {"type":"mosaicode_c_opencv.extensions.ports.image",
-                          "name":"bottom_image",
-                          "label":"Bottom Image"}
-                         ]
-        self.out_ports = [{"type":"mosaicode_c_opencv.extensions.ports.image",
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "name":"input_image2",
+                          "conn_type":"Input",
+                          "label":"Bottom Image"},
+                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                          "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes[1] = "IplImage * block$id$_img_i0 = NULL;\n" + \
-                    "IplImage * block$id$_img_i1 = NULL;\n" + \
-                    "IplImage * block$id$_img_o0 = NULL;\n"
+        # -------------------C/OpenCv code------------------------------------
+        self.codes["declaration"] = \
+            "Mat $port[input_image1]$;\n" + \
+            "Mat $port[input_image2]$;\n" + \
+            "Mat $port[output_image]$;\n"
 
-        self.codes[2] = \
-            'if(block$id$_img_i0 && block$id$_img_i1){\n' + \
-            'int width = (block$id$_img_i0->width > ' + \
-            'block$id$_img_i1->width)? block$id$_img_i0->width :' + \
-            ' block$id$_img_i1->width;\n' + \
-            'int height = block$id$_img_i0->height +' + \
-            ' block$id$_img_i1->height;\n' + \
-            'block$id$_img_o0=cvCreateImage' + \
-            '(cvSize(width,height),IPL_DEPTH_8U,3); \n' + \
-            'cvSetImageROI(block$id$_img_o0, cvRect(0, 0, ' + \
-            'block$id$_img_i0->width, block$id$_img_i0->height) );\n' + \
-            'cvCopy(block$id$_img_i0,block$id$_img_o0,NULL);\n' + \
-            'cvResetImageROI(block$id$_img_o0);\n' + \
-            'cvSetImageROI(block$id$_img_o0, cvRect' + \
-            '(0, block$id$_img_i0->height, ' + \
-            'block$id$_img_i1->width, height) );\n' + \
-            'cvCopy(block$id$_img_i1,block$id$_img_o0,NULL);\n' + \
-            'cvResetImageROI(block$id$_img_o0);\n' + \
+        self.codes["execution"] = \
+            'if(!$port[input_image1]$.empty() && !$port[input_image2]$.empty()){\n' + \
+            'Size size_1($port[input_image1]$.cols, $port[input_image1]$.rows);\n' + \
+            'Size size_2($port[input_image2]$.cols, $port[input_image2]$.rows);\n' + \
+            'Mat block$id$_img_t(size_1.height+size_2.height, size_1.width, ' + \
+            'CV_8UC3);\n' + \
+            'Mat top_image(block$id$_img_t, ' + \
+            'Rect(0, 0, size_1.width, size_1.height));\n' + \
+            '$port[input_image1]$.copyTo(top_image);\n' + \
+            'Mat bottom_image(block$id$_img_t, Rect(0, size_1.height, ' + \
+            'size_2.width, size_2.height));\n' + \
+            '$port[input_image2]$.copyTo(bottom_image);\n' + \
+            '$port[output_image]$ = block$id$_img_t.clone();\n' + \
             '}\n'
 
-        self.codes[3] = \
-            'if (block$id$_img_o0) cvReleaseImage(&block$id$_img_o0);\n' + \
-            'cvReleaseImage(&block$id$_img_i0);\n' + \
-            'cvReleaseImage(&block$id$_img_i1);\n'
-
-
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["deallocation"] = \
+            '$port[output_image]$.release();\n' + \
+            '$port[input_image1]$.release();\n' + \
+            '$port[input_image2]$.release();\n'
 # -----------------------------------------------------------------------------
