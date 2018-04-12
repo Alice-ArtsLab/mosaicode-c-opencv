@@ -1,20 +1,22 @@
-Metadata-Version: 1.0
-Name: Mosaicode C/OpenCV
-Version: 1.0
-Summary: Image Processing and Computer Vision Automatic Programming Tool
+Metadata-Version: 1.2
+Name: mosaicode-lib-c-opencv
+Version: 1.4
+Summary: Image Processing and Computer Vision       Automatic Programming Tool
 Home-page: https://mosaicode.github.io/
 Author: Mosaicode Group
 Author-email: mosaicode-dev@googlegroups.com
-License: GNU GPL
-Description: Mosaicode library
+Maintainer: Mosaicode Group
+Maintainer-email: mosaicode-dev@googlegroups.com
+License: GNU GPL3
+Description: UNKNOWN
 Platform: UNKNOWN
-Classifier: Development Status :: 5 - Production/Stable
+Classifier: Development Status :: 3 - Alpha
 Classifier: Intended Audience :: Developers
 Classifier: Intended Audience :: Science/Research
 Classifier: License :: OSI Approved :: GNU General Public License (GPL)
 Classifier: Natural Language :: English
 Classifier: Operating System :: OS Independent
-Classifier: Programming Language :: C
 Classifier: Programming Language :: Python
+Classifier: Programming Language :: C
 Classifier: Topic :: Scientific/Engineering
 Classifier: Topic :: Software Development :: Code Generators
