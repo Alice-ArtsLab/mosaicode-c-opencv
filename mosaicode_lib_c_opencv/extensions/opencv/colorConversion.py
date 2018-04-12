@@ -38,20 +38,21 @@ class ColorConversion(BlockModel):
         self.properties = [{"name": "conversion_type",
                             "label": "Conversion Type",
                             "type": MOSAICODE_COMBO,
+                            "value": 'COLOR_RGB2GRAY',
                             "values": [
-                                'CV_RGB2GRAY',
-                                'CV_RGB2YCrCb',
-                                'CV_YCrCb2RGB',
-                                'CV_RGB2HSV',
-                                'CV_HSV2RGB',
-                                'CV_RGB2HLS',
-                                'CV_HLS2RGB',
-                                'CV_RGB2XYZ',
-                                'CV_XYZ2RGB',
-                                'CV_RGB2Lab',
-                                'CV_Lab2RGB',
-                                'CV_RGB2Luv',
-                                'CV_Luv2RGB'
+                                'COLOR_RGB2GRAY',
+                                'COLOR_RGB2YCrCb',
+                                'COLOR_YCrCb2RGB',
+                                'COLOR_RGB2HSV',
+                                'COLOR_HSV2BGR',
+                                'COLOR_RGB2HLS',
+                                'COLOR_HLS2RGB',
+                                'COLOR_RGB2XYZ',
+                                'COLOR_XYZ2RGB',
+                                'COLOR_RGB2Lab',
+                                'COLOR_Lab2RGB',
+                                'COLOR_RGB2Luv',
+                                'COLOR_Luv2RGB'
                             ]
                             }
                            ]
@@ -59,26 +60,22 @@ class ColorConversion(BlockModel):
         # -----------------C/OpenCv code ---------------------------
 
         self.codes["declaration"] =  \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'IplImage * block$id$_img_t = NULL;\n'
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_img_t;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'block$id$_img_t = cvCreateImage(cvGetSize($port[input_image]$),' + \
-            '$port[input_image]$->depth,3);\n' + \
-            'cvCvtColor($port[input_image]$, ' + \
-            'block$id$_img_t ,$prop[conversion_type]$ );}\n' + \
-            'if ($prop[conversion_type]$ == ' + "CV_RGB2GRAY" + ')\n' + \
-            '{    cvMerge(block$id$_img_t ,block$id$_img_t ,' + \
-            'block$id$_img_t ,NULL ,$port[output_image]$);\n }\n' + \
-            'else\n' + \
-            '{ $port[output_image]$ = cvCloneImage(block$id$_img_t);\n}'
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            'Mat block$id$_img_t(Size($port[input_image]$.cols, ' + \
+            '$port[input_image]$.rows), CV_8U);\n' + \
+            'cvtColor($port[input_image]$, ' + \
+            'block$id$_img_t, $prop[conversion_type]$);\n' + \
+            '$port[output_image]$ = block$id$_img_t.clone();\n}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&block$id$_img_t);\n' + \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n'
+            'block$id$_img_t.release();\n' + \
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n'
 
 # -----------------------------------------------------------------------------

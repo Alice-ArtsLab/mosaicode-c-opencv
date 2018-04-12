@@ -37,8 +37,7 @@ class NewDouble(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = 'double $port[double]$ = ' + \
-            '$prop[value]$; // New Double Out\n'
-
+            '$prop[value]$;\n'
 
         self.language = "c"
         self.framework = "opencv"

@@ -37,11 +37,11 @@ class GetSize(BlockModel):
         # ------------------------------C/OpenCv code--------------------------
 
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' 
+            'Mat $port[input_image]$;\n' 
 
         self.codes["execution"] = \
             '\nif($port[input_image]$)\n{\n' + \
-            '  \t$port[rect]$ = cvRect( 0, 0, ' + \
-            '$port[input_image]$->width, $port[input_image]$->height);\n' + \
+            '  \t$port[rect]$ = Rect( 0, 0, ' + \
+            '$port[input_image]$.cols, $port[input_image]$.rows);\n' + \
             '}\n'
 # -----------------------------------------------------------------------------

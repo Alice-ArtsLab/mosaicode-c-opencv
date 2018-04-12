@@ -40,24 +40,23 @@ class Pow(BlockModel):
                             "value":1,
                             "type": MOSAICODE_INT,
                             "lower": 1,
-                            "upper": 10,
-                            "step": 1
+                            "upper": 10
                             }
                            ]
 
         # -------------------C/OpenCv code------------------------------------
 
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n'
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'cvPow($port[input_image]$, $port[output_image]$, $prop[exponent]$);\n' + \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            'pow($port[input_image]$, $prop[exponent]$, $port[output_image]$);\n' + \
             '}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n'
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n'
 # -----------------------------------------------------------------------------

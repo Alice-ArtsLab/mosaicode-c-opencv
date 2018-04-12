@@ -37,23 +37,24 @@ class Log(BlockModel):
 
         # ------------------------------C/OpenCv code--------------------------
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'IplImage * block$id$_img_t = NULL;\n'
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_img_t;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            'block$id$_img_t = cvCreateImage(cvGetSize' + \
-            '($port[input_image]$), IPL_DEPTH_32F,' + \
-            '$port[input_image]$->nChannels);\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'cvConvertScale($port[input_image]$, ' + \
-            'block$id$_img_t,(1/93.8092),0);\n' + \
-            'cvLog(block$id$_img_t, block$id$_img_t);\n' + \
-            'cvConvertScale(block$id$_img_t,$port[output_image]$,255.0,0);}\n'
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            'cvtColor($port[input_image]$, block$id$_img_t, ' + \
+            'COLOR_RGB2GRAY);\n' + \
+            'block$id$_img_t.convertTo(block$id$_img_t, CV_32F);\n' + \
+            'block$id$_img_t = block$id$_img_t + 1;\n' + \
+            'log(block$id$_img_t, block$id$_img_t);\n' + \
+            'convertScaleAbs(block$id$_img_t, block$id$_img_t);\n' + \
+            'normalize(block$id$_img_t, $port[output_image]$, ' + \
+            '0, 255, NORM_MINMAX);\n' + \
+            '}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n' + \
-            'cvReleaseImage(&block$id$_img_t);\n'
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n' + \
+            'block$id$_img_t.release();\n'
 # -----------------------------------------------------------------------------

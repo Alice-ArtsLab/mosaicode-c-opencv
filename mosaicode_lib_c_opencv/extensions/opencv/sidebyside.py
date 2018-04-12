@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 This module contains the SideBySide class.
@@ -22,11 +22,11 @@ class SideBySide(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                          "name":"left_image",
+                          "name":"input_image1",
                           "conn_type":"Input",
                           "label":"Left Image"},
                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                          "name":"right_image",
+                          "name":"input_image2",
                           "conn_type":"Input",
                           "label":"Right Image"},
                          {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
@@ -35,32 +35,29 @@ class SideBySide(BlockModel):
                            "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes["declaration"] = "IplImage * $port[left_image]$ = NULL;\n" + \
-                    "IplImage * $port[right_image]$ = NULL;\n" + \
-                    "IplImage * $port[output_image]$ = NULL;\n"
+        # -------------------C/OpenCv code------------------------------------
+        self.codes["declaration"] = \
+            "Mat $port[input_image1]$;\n" + \
+            "Mat $port[input_image2]$;\n" + \
+            "Mat $port[output_image]$;\n"
 
         self.codes["execution"] =  \
-            'if($port[left_image]$ && $port[right_image]$){\n' + \
-            'int width=$port[left_image]$->width' + \
-            ' + $port[right_image]$->width;\n' + \
-            'int height= ($port[left_image]$->height > ' + \
-            '$port[right_image]$->height)?' + \
-            '$port[left_image]$->height:$port[right_image]$->height;\n' + \
-            '$port[output_image]$=cvCreateImage(cvSize' + \
-            '(width,height),IPL_DEPTH_8U,3); \n' + \
-            'cvSetImageROI($port[output_image]$, cvRect(0, 0, ' + \
-            '$port[left_image]$->width, $port[left_image]$->height) );\n' + \
-            'cvCopy($port[left_image]$,$port[output_image]$,NULL);\n' + \
-            'cvResetImageROI($port[output_image]$);\n' + \
-            'cvSetImageROI($port[output_image]$, cvRect' + \
-            '($port[left_image]$->width, 0, width, ' + \
-            '$port[right_image]$->height) );\n' + \
-            'cvCopy($port[right_image]$,$port[output_image]$,NULL);\n' + \
-            'cvResetImageROI($port[output_image]$);\n' + \
+            'if(!$port[input_image1]$.empty() && !$port[input_image2]$.empty()){\n' + \
+            'Size size_1($port[input_image1]$.cols, $port[input_image1]$.rows);\n' + \
+            'Size size_2($port[input_image2]$.cols, $port[input_image2]$.rows);\n' + \
+            'Mat block$id$_img_t(size_1.height, size_1.width+size_2.width, ' + \
+            'CV_8UC3);\n' + \
+            'Mat left_image(block$id$_img_t, ' + \
+            'Rect(0, 0, size_1.width, size_1.height));\n' + \
+            '$port[input_image1]$.copyTo(left_image);\n' + \
+            'Mat right_image(block$id$_img_t, Rect(size_1.width, 0, ' + \
+            'size_2.width, size_2.height));\n' + \
+            '$port[input_image2]$.copyTo(right_image);\n' + \
+            '$port[output_image]$ = block$id$_img_t.clone();\n' + \
             '}\n'
 
         self.codes["deallocation"] = \
-            'if ($port[output_image]$) cvReleaseImage(&$port[output_image]$);\n' + \
-            'cvReleaseImage(&$port[left_image]$);\n' + \
-            'cvReleaseImage(&$port[right_image]$);\n'
+            '$port[output_image]$.release();\n' + \
+            '$port[input_image1]$.release();\n' + \
+            '$port[input_image2]$.release();\n'
 # -----------------------------------------------------------------------------

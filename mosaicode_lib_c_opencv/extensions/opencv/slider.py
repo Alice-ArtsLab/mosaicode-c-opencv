@@ -54,13 +54,12 @@ class Slider(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-            'int  $ports[slider_value]$ = $prop[intVal]$; // New Int Out\n'
+            'int $port[slider_value]$ = $prop[intVal]$;\n'
 
         self.codes["execution"] = \
-            'cvNamedWindow("$prop[window_name]$",CV_WINDOW_AUTOSIZE );\n' + \
-            'cvCreateTrackbar("$prop[label]$", "$prop[window_name]$",' + \
-            '&$ports[slider_value]$, $prop[maxVal]$, NULL);\n'
-
+            'namedWindow("$prop[window_name]$", WINDOW_AUTOSIZE );\n' + \
+            'createTrackbar("$prop[label]$", "$prop[window_name]$",' + \
+            '&$port[slider_value]$, $prop[maxVal]$, NULL);\n'
 
         self.language = "c"
         self.framework = "opencv"

@@ -8,4 +8,5 @@ class Rect(Port):
         self.label = "RCT"
         self.color = "#00F"
         self.multiple = False
-        self.code = "block$sink$_rect_i$sink_port$ = block$source$_rect_o$source_port$;// RECT connection\n"
+        self.var_name = "b_$id$_$conn_type$_$port_number$"
+        self.code = "$input$ = $output$;\n"

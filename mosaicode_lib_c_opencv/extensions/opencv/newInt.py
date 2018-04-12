@@ -37,7 +37,7 @@ class NewInt(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes["declaration"] = 'int  $port[value]$ = $prop[integer]$; // New Int Out\n'
+        self.codes["declaration"] = 'int $port[value]$ = $prop[integer]$;\n'
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------

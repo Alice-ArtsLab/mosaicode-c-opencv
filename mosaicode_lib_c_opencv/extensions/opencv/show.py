@@ -16,6 +16,9 @@ class Show(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
+        self.language = "c"
+        self.framework = "opencv"
+
         # Appearance
         self.help = "Mostra uma imagem da cadeia de processamento de imagens."
         self.label = "Show Image"
@@ -41,22 +44,21 @@ class Show(BlockModel):
                             }
                            ]
 
-        self.codes["declaration"] = "IplImage * $port[input_image]$ = NULL;\n" + \
-                "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
-                "cvNamedWindow(\"$prop[title]$\",CV_WINDOW_NORMAL);\n" + \
-                "else\n" + \
-                "cvNamedWindow(\"$prop[title]$\",CV_WINDOW_AUTOSIZE);\n"
+# ----------------------------C/OpenCv code-------------------------
 
-        self.codes["execution"] = "\nif($port[input_image]$){\n" + \
-            "cvShowImage(\"$prop[title]$\",$port[input_image]$);\n" + \
+        self.codes["declaration"] = "Mat $port[input_image]$;\n" + \
+            "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
+            "namedWindow(\"$prop[title]$\",WINDOW_NORMAL);\n" + \
+            "else\n" + \
+            "namedWindow(\"$prop[title]$\",WINDOW_AUTOSIZE);\n"
+
+        self.codes["execution"] = "\nif(!$port[input_image]$.empty()){\n" + \
+            "imshow(\"$prop[title]$\",$port[input_image]$);\n" + \
             "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
             "cvSetWindowProperty(\"$prop[title]$\", " + \
             "CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);\n" + \
             "}\n"
 
-        self.codes["deallocation"] = "cvReleaseImage(&$port[input_image]$);"
+        self.codes["deallocation"] = "$port[input_image]$.release();"
 
-
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

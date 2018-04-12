@@ -55,14 +55,14 @@ class MoveRct(BlockModel):
 
         # --------------------C/OpenCv code--------------------------------
         self.codes["declaration"] = \
-            'CvRect $ports[rect]$;\n' + \
-            'CvPoint $ports[point]$;\n' + \
-            'CvRect $ports[output]$;\n'
+            'Rect $port[rect]$;\n' + \
+            'Point $port[point]$;\n' + \
+            'Rect $port[output]$;\n'
 
         self.codes["execution"] = \
-            '$ports[output]$ = $ports[rect]$;\n' + \
-            '$ports[output]$.x = $ports[point]$.x + $offset_x$;\n' + \
-            '$ports[output]$.y = $ports[point]$.y + $offset_y$;\n'
+            '$port[output]$ = $port[rect]$;\n' + \
+            '$port[output]$.x = $port[point]$.x + $offset_x$;\n' + \
+            '$port[output]$.y = $port[point]$.y + $offset_y$;\n'
 
         self.language = "c"
         self.framework = "opencv"

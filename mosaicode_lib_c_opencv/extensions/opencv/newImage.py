@@ -47,13 +47,14 @@ class NewImage(BlockModel):
                            ]
 
         self.codes["declaration"] = \
-            'IplImage * $port[output_image]$ = NULL;\n'
+            'Mat $port[output_image]$;\n'
 
         self.codes["execution"] = \
-            'CvSize size$id$ = cvSize($prop[width]$,$prop[height]$);\n' + \
-            '$port[output_image]$ = cvCreateImage(size$id$, IPL_DEPTH_8U, 3);\n' + \
-            'cvSetZero($port[output_image]$);\n'
+            'Size size$id$($prop[width]$, $prop[height]$);\n' + \
+            'Mat $port[output_image]$(size$id$, CV_8UC1);\n' + \
+            'zeros($port[output_image]$.rows, $port[output_image]$.cols, ' + \
+            'CV_8UC1);\n'
 
-        self.codes["deallocation"] = "cvReleaseImage(&$port[output_image]$);\n"
+        self.codes["deallocation"] = "$port[output_image]$.release();\n"
 
 # -----------------------------------------------------------------------------

@@ -15,8 +15,7 @@ class Closing(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        2
-        self.masksize = "7x7"
+        
         self.language = "c"
         self.framework = "opencv"
         # Appearance
@@ -59,28 +58,28 @@ class Closing(BlockModel):
 
         # -------------------C/OpenCv code---------------------------------
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
+            'Mat $port[input_image]$;\n' + \
             'int $port[masksizex]$ = $prop[masksizex]$;\n' + \
             'int $port[masksizey]$ = $prop[masksizey]$;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'IplConvKernel * block$id$_arg_mask = NULL;\n'
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_arg_mask;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
+            '\nif(!$port[input_image]$.empty()){\n' + \
             'if ($port[masksizex]$ % 2 == 0) $port[masksizex]$++;\n' + \
             'if ($port[masksizey]$ % 2 == 0) $port[masksizey]$++;\n' + \
             'block$id$_arg_mask = ' + \
-            'cvCreateStructuringElementEx($port[masksizex]$ ,' + \
-            '$port[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n' + \
-            'IplImage * block$id$_auxImg;\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'block$id$_auxImg = cvCloneImage($port[input_image]$);\n' + \
-            'cvMorphologyEx($port[input_image]$, $port[output_image]$, NULL,' + \
-            'block$id$_arg_mask, CV_MOP_CLOSE, 1);\n}\n'
+            'getStructuringElement(MORPH_RECT, Size($port[masksizex]$ ,' + \
+            '$port[masksizey]$), Point(1, 1));\n' + \
+            'Mat block$id$_auxImg;\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            'block$id$_auxImg = $port[input_image]$.clone();\n' + \
+            'morphologyEx($port[input_image]$, $port[output_image]$,' + \
+            'MORPH_CLOSE, block$id$_arg_mask);\n}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseStructuringElement(&block$id$_arg_mask);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n'
+            '$port[input_image]$.release();\n' + \
+            'block$id$_arg_mask.release();\n' + \
+            '$port[output_image]$.release();\n'
 
 # -----------------------------------------------------------------------------

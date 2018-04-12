@@ -29,62 +29,75 @@ class Smooth(BlockModel):
                       "label":"Input Image",
                       "conn_type":"Input"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                      "name":"input_integer",
-                      "label":"Input Integer",
+                      "name":"input_integer1",
+                      "label":"Input Integer 1",
+                      "conn_type":"Input"},
+                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
+                      "name":"input_integer2",
+                      "label":"Input Integer 2",
                       "conn_type":"Input"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                       "name":"output_image",
                       "label":"Output Image",
-                      "conn_type":"Output"},
-                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                      "name":"output_integer1",
-                      "label":"Output integer 1",
-                      "conn_type":"Output"},
-                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                      "name":"output_integer2",
-                      "label":"Output integer 2",
-                      "conn_type":"Output"}]
+                      "conn_type":"Output"}
+                      ]
 
         self.group = "Filters and Color Conversion"
 
-        self.properties = [{"name": "type",
-                            "label": "smooth_type",
-                            "type": MOSAICODE_COMBO,
-                            "values": ["CV_GAUSSIAN", "CV_BLUR", "CV_MEDIAN"],
-                            "step":"CV_GAUSSIAN"
-                            },
-                           {"name": "integer1",
-                            "label": "Integer 1",
+        self.properties = [{"name": "integer1",
+                            "label": "Sigma A",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 99,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
                             },
                            {"name": "integer2",
-                            "label": "Integer 2",
+                            "label": "Sigma B",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 99,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
+                            },
+                            {"name": "type",
+                            "label": "Smooth Type",
+                            "type": MOSAICODE_COMBO,
+                            "value":"Gaussian Blur",
+                            "values": ["Gaussian Blur",
+                                      "Homogeneous Blur",
+                                      "Median Blur"]
                             }
                            ]
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'int $port[input_integer]$ = $prop[integer1]$;\n' + \
-            'int block$id$_int_i2 = $prop[integer2]$;\n' + \
-            'IplImage * $port[output]$ = NULL;\n'
+            'Mat $port[input_image]$;\n' + \
+            'int $port[input_integer1]$ = $prop[integer1]$;\n' + \
+            'int $port[input_integer2]$ = $prop[integer2]$;\n' + \
+            'Mat $port[output_image]$;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input]$){\n' + \
-            '$port[output]$ = cvCloneImage($port[input]$);\n' + \
-            '$port[integer]$ = ($port[integer]$ %2 == 0)? ' + \
-            '$port[integer]$ + 1 : $port[integer]$;\n' + \
-            'block$id$_int_i2 = (block$id$_int_i2 %2 == 0)? ' + \
-            'block$id$_int_i2 + 1 : block$id$_int_i2;\n' + \
-            'cvSmooth($port[input]$, $port[output]$, ' + \
-            '$smooth_type$,$port[integer]$,block$id$_int_i2,0,0);\n' + \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            '$port[input_integer1]$ = ($port[input_integer1]$ %2 == 0)? ' + \
+            '$port[input_integer1]$ + 1 : $port[input_integer1]$;\n' + \
+            '$port[input_integer2]$ = ($port[input_integer2]$ %2 == 0)? ' + \
+            '$port[input_integer2]$ + 1 : $port[input_integer2]$;\n' + \
+            '//Size size$id$();\n' + \
+            'if("$prop[type]$" == "Gaussian Blur"){\n' + \
+            'GaussianBlur($port[input_image]$, $port[output_image]$, ' + \
+            'Size(0,0), $port[input_integer1]$, $port[input_integer2]$);\n}\n' + \
+            'if("$prop[type]$" == "Homogeneous Blur"){\n' + \
+            'blur($port[input_image]$, $port[output_image]$, ' + \
+            'Size($port[input_integer1]$, $port[input_integer2]$), Point(-1,-1));\n}\n' + \
+            'if("$prop[type]$" == "Median Blur"){\n' + \
+            'medianBlur($port[input_image]$, $port[output_image]$, ' + \
+            '$port[input_integer1]$);\n}\n' + \
             '}\n'
+
+        self.codes["deallocation"] = \
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n'
 
 # -----------------------------------------------------------------------------

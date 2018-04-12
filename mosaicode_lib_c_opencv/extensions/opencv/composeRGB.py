@@ -44,41 +44,26 @@ class ComposeRGB(BlockModel):
 
         # ------------------------C/OpenCv code-------------------------------
         self.codes["declaration"] = \
-            'IplImage * $port[input_image1]$ = NULL;\n' + \
-            'IplImage * $port[input_image2]$ = NULL;\n' + \
-            'IplImage * $port[input_image3]$ = NULL;\n' + \
-            'IplImage * block$id$_img_t0 = NULL;\n' + \
-            'IplImage * block$id$_img_t1 = NULL;\n' + \
-            'IplImage * block$id$_img_t2 = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n'
+            'Mat $port[input_image1]$;\n' + \
+            'Mat $port[input_image2]$;\n' + \
+            'Mat $port[input_image3]$;\n' + \
+            'Mat block$id$_img_t0[3];\n' + \
+            'Mat $port[output_image]$;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image1]$){\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image1]$);\n' + \
-            'CvSize size$id$ = cvSize' + \
-            '($port[input_image1]$->width,$port[input_image1]$->height);\n' + \
-            'block$id$_img_t0 = cvCreateImage' + \
-            '(size$id$, $port[input_image1]$->depth, 1);\n' +\
-            'block$id$_img_t1 = cvCreateImage' + \
-            '(size$id$, $port[input_image2]$->depth, 1);\n' +\
-            'block$id$_img_t2 = cvCreateImage' + \
-            '(size$id$, $port[input_image3]$->depth, 1);\n' +\
-            'cvSplit($port[input_image1]$ ,' + \
-            'block$id$_img_t0  ,NULL, NULL , NULL);\n' + \
-            'cvSplit($port[input_image2]$ ,' + \
-            'NULL ,block$id$_img_t1, NULL, NULL);\n' + \
-            'cvSplit( $port[input_image3]$,' + \
-            'NULL ,NULL, block$id$_img_t2 , NULL);\n' + \
-            'cvMerge(block$id$_img_t2 ,block$id$_img_t1 ,' + \
-            'block$id$_img_t0 , NULL, $port[output_image]$);}\n'
+            '\nif(!$port[input_image1]$.empty()){\n' + \
+            'block$id$_img_t0[0] = $port[input_image1]$;\n' + \
+            'block$id$_img_t0[1] = $port[input_image2]$;\n' + \
+            'block$id$_img_t0[2] = $port[input_image3]$;\n' + \
+            'merge(block$id$_img_t0, 3, $port[output_image]$);\n}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&block$id$_img_t0);\n' + \
-            'cvReleaseImage(&block$id$_img_t1);\n' + \
-            'cvReleaseImage(&block$id$_img_t2);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n' + \
-            'cvReleaseImage(&$port[input_image1]$);\n' + \
-            'cvReleaseImage(&$port[input_image2]$);\n' + \
-            'cvReleaseImage(&$port[input_image3]$);\n'
+            'block$id$_img_t0[0].release();\n' + \
+            'block$id$_img_t0[1].release();\n' + \
+            'block$id$_img_t0[2].release();\n' + \
+            '$port[output_image]$.release();\n' + \
+            '$port[input_image1]$.release();\n' + \
+            '$port[input_image2]$.release();\n' + \
+            '$port[input_image3]$.release();\n'
 
 # -----------------------------------------------------------------------------

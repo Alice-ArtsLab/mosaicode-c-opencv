@@ -28,21 +28,22 @@ class Not(BlockModel):
                           "conn_type":"Input",
                           "label":"Input Image"},
                           {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                           "name":"output_image",
+                          "name":"output_image",
                           "conn_type":"Output",
-                           "label":"Output Image"}]
+                          "label":"Output Image"}]
         self.group = "Arithmetic and logical operations"
 
-        self.codes["declaration"] = "IplImage * $port[input_image]$ = NULL;\n" + \
-                    "IplImage * $port[output_image]$ = NULL;\n"
+        self.codes["declaration"] = \
+            "Mat $port[input_image]$;\n" + \
+            "Mat $port[output_image]$;\n"
 
         self.codes["execution"] = \
-            'if($port[input_image]$){\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'cvNot($port[input_image]$, $port[output_image]$);\n' + \
+            'if(!$port[input_image]$.empty()){\n' + \
+            'bitwise_not($port[input_image]$, $port[output_image]$);\n' + \
             '}\n'
 
-        self.codes["deallocation"] = "cvReleaseImage(&$port[input_image]$);\n" + \
-                       "cvReleaseImage(&$port[output_image]$);\n"
+        self.codes["deallocation"] = \
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
 
 # -----------------------------------------------------------------------------

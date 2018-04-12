@@ -40,14 +40,17 @@ class Cfile(CodeTemplate):
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <opencv/cv.h>
-#include <opencv/cxmisc.h>
-#include <opencv/cxcore.h>
-#include <opencv/ml.h>
-#include <opencv/cvaux.h>
-#include <opencv/cvwimage.h>
-#include <opencv/highgui.h>
 #include <math.h>
+#include "opencv2/core.hpp"
+#include "opencv2/opencv.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/objdetect.hpp"
+
+using namespace cv;
+using namespace std;
+
 $single_code[include]$
 
 #define FRAMERATE 1000.0 / 25.0
@@ -72,6 +75,4 @@ return 0;
 
 } //closing main()
 """
-
-
 #----------------------------------------------------------------------

@@ -8,5 +8,6 @@ class Double(Port):
         self.label = "DOUBLE"
         self.color = "#000"
         self.multiple = False
+        self.var_name = "b_$id$_$conn_type$_$port_number$"
         self.code = "$input$ = $output$;\n"
 

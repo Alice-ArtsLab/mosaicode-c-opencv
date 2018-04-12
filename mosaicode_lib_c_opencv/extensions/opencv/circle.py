@@ -49,28 +49,32 @@ class Circle(BlockModel):
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 1000,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
                             },
                            {"name": "y",
                             "label": "Y",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 1000,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
                             },
                            {"name": "radius",
                             "label": "Radius",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 1000,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
                             },
                            {"name": "line",
                             "label": "Line",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 1000,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
                             },
                            {"name": "color",
                             "label": "Color",
@@ -82,9 +86,9 @@ class Circle(BlockModel):
         # -----------------C/OpenCv code ---------------------------
 
         self.codes["function"] = \
-            "CvScalar get_scalar_color(const char * rgbColor){\n" + \
+            "Scalar get_scalar_color(const char * rgbColor){\n" + \
             "   if (strlen(rgbColor) < 13 || rgbColor[0] != '#')\n" + \
-            "       return cvScalar(0,0,0,0);\n" + \
+            "       return Scalar(0,0,0,0);\n" + \
             "   char r[4], g[4], b[4];\n" + \
             "   strncpy(r, rgbColor+1, 4);\n" + \
             "   strncpy(g, rgbColor+5, 4);\n" + \
@@ -99,24 +103,25 @@ class Circle(BlockModel):
             "   gi /= 257;\n" + \
             "   bi /= 257;\n" + \
             "   \n" + \
-            "   return cvScalar(bi, gi, ri, 0);\n" + \
+            "   return Scalar(bi, gi, ri, 0);\n" + \
             "}\n"
         
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'int $port[radius]$ = $prop[radius]$;\n' + \
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'int $port[input_radius]$ = $prop[radius]$;\n' + \
             'int $port[input_x]$ = $prop[x]$;\n' + \
             'int $port[input_y]$ = $prop[y]$;\n'
+
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            'CvPoint center = cvPoint($port[input_x]$, $port[input_y]$);\n' + \
-            'CvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            'cvCircle($port[input_image]$, center, $port[radius]$, color, $prop[line]$, 8, 0);\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);}\n'
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            'Point center = Point($port[input_x]$, $port[input_y]$);\n' + \
+            'Scalar color = get_scalar_color("$prop[color]$");\n' + \
+            'circle($port[input_image]$, center, $port[input_radius]$, color, $prop[line]$, 8, 0);\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n}\n'
 
         self.codes["deallocation"] = \
-            "cvReleaseImage(&$port[input_image]$);\n" + \
-            "cvReleaseImage(&$port[output_image]$);\n"
-        
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
+
 # -----------------------------------------------------------------------------

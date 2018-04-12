@@ -22,7 +22,7 @@ class FillRect(BlockModel):
         self.label = "Fill Rectangle"
         self.color = "50:100:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                       "name":"image",
+                       "name":"input_image",
                        "conn_type":"Input",
                        "label":"Input Image"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
@@ -31,20 +31,61 @@ class FillRect(BlockModel):
                        "label":"Rectangle"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "conn_type":"Output",
-                       "name":"output",
+                       "name":"output_image",
                        "label":"Output Image"}]
         self.group = "Basic Shapes"
 
-        self.properties = [{"name": "color",
+        self.properties = [{"name": "x",
+                            "label": "X",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                           {"name": "y",
+                            "label": "Y",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                            {"name": "width",
+                            "label": "Width",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                           {"name": "height",
+                            "label": "Height",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                            {"name": "line",
+                            "label": "Line",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 1000,
+                            "step": 1,
+                            "value": 1
+                            },
+                            {"name": "color",
                             "label": "Color",
-                            "type": MOSAICODE_COLOR
+                            "type": MOSAICODE_COLOR,
+                            "value": "#FF0000"
                             }
                            ]
 
         self.codes["function"] = \
-            "CvScalar get_scalar_color(const char * rgbColor){\n" + \
+            "Scalar get_scalar_color(const char * rgbColor){\n" + \
             "   if (strlen(rgbColor) < 13 || rgbColor[0] != '#')\n" + \
-            "       return cvScalar(0,0,0,0);\n" + \
+            "       return Scalar(0,0,0,0);\n" + \
             "   char r[4], g[4], b[4];\n" + \
             "   strncpy(r, rgbColor+1, 4);\n" + \
             "   strncpy(g, rgbColor+5, 4);\n" + \
@@ -59,26 +100,27 @@ class FillRect(BlockModel):
             "   gi /= 257;\n" + \
             "   bi /= 257;\n" + \
             "   \n" + \
-            "   return cvScalar(bi, gi, ri, 0);\n" + \
+            "   return Scalar(bi, gi, ri, 0);\n" + \
             "}\n"
 
         self.codes["declaration"] = \
-            'IplImage * $port[image]$ = NULL;\n' + \
-            'CvRect $port[rect]$;\n' + \
-            'IplImage * $port[output]$ = NULL;\n'
+            'Mat $port[input_image]$;\n' + \
+            'Rect $port[rect]$($prop[x]$, $prop[y]$, ' + \
+            '$prop[width]$, $prop[height]$);\n' + \
+            'Mat $port[output_image]$;\n'
 
         # ----------------------------------------------------------------------
         self.codes["execution"] = \
-            '\nif($port[image]$)\n{\n' + \
-            '\t$port[output]$ = cvCloneImage($port[image]$);\n' + \
-            '\tcvSetImageROI($port[output]$ , $port[rect]$);\n' + \
-            '\tCvScalar color = get_scalar_color("$prop[color]$");\n' + \
-            '\tcvSet($port[output]$,color,NULL);\n' + \
-            '\tcvResetImageROI($port[output]$);\n' + \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '\t$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            '\tScalar color = get_scalar_color("$prop[color]$");\n' + \
+            '\trectangle($port[output_image]$, $port[rect]$, ' + \
+            'color, $prop[line]$, 8, 0);\n' + \
             '}\n'
 
-        self.codes["deallocation"] = "cvReleaseImage(&$port[image]$);\n" + \
-                    "cvReleaseImage(&$port[output]$);\n"
+        self.codes["deallocation"] = \
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
                     
         self.language = "c"
         self.framework = "opencv"

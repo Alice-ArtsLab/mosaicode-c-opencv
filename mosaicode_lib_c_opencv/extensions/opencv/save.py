@@ -25,11 +25,11 @@ class Save(BlockModel):
         self.in_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.image"]
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                        "name":"input",
+                        "name":"input_image",
                         "label":"Input Image",
                         "conn_type":"Input"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                         "name":"output",
+                         "name":"output_image",
                          "label":"Output Image",
                          "conn_type":"Output"}]
 
@@ -42,13 +42,13 @@ class Save(BlockModel):
 
         # -------------------C/OpenCv code------------------------------------
         self.codes["declaration"] = \
-        'IplImage * $port[input]$ = NULL;\n' + \
-        'IplImage * $port[output]$ = NULL;\n'
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n'
 
         self.codes["execution"] = \
-            '$port[output]$ = cvCloneImage($port[input]$);\n' + \
-            'if($port[input]$)\n' + \
-            'cvSaveImage("$prop[filename]$" ,$port[input]$);\n'
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            'if(!$port[input_image]$.empty())\n' + \
+            'imwrite("$prop[filename]$", $port[input_image]$);\n'
 
         self.language = "c"
         self.framework = "opencv"

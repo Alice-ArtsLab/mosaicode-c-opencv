@@ -26,10 +26,6 @@ class Erode(BlockModel):
                           "conn_type":"Input",
                           "name":"input_image",
                           "label":"Input Image"},
-                          {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                          "conn_type":"Input",
-                          "name":"iteraction",
-                          "label":"Iteractions"},
                           {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "conn_type":"Output",
                            "name":"output_image",
@@ -48,32 +44,25 @@ class Erode(BlockModel):
                             "type": MOSAICODE_COMBO,
                             "values": ["1", "3", "5", "7"],
                             "value":"3"
-                            },
-                           {"label": "Iterations",
-                            "name": "iterations",
-                            "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 65535,
-                            "step": 1
                             }
                            ]
 
         # --------------------------C/OpenCv code------------------------------
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL; // ERODE input\n' + \
-            'int $port[iteraction]$ = $prop[iterations]$; // ERODE iterarions\n' + \
-            'IplImage * $port[output_image]$ = NULL; // ERODE output\n' + \
-            'IplConvKernel * block$id$_arg_mask = ' + \
-            'cvCreateStructuringElementEx($prop[masksizex]$ , $prop[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n'
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_arg_mask = ' + \
+            'getStructuringElement(MORPH_RECT, Size($prop[masksizex]$ , $prop[masksizey]$), Point(1, 1));\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'cvErode($port[input_image]$, $port[output_image]$, ' + \
-            'block$id$_arg_mask, $port[iteraction]$);\n' + \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            'erode($port[input_image]$, $port[output_image]$, ' + \
+            'block$id$_arg_mask);\n' + \
             '}\n'
 
-        self.codes["deallocation"] = "cvReleaseImage(&$port[input_image]$);\n" + \
-                    "cvReleaseImage(&$port[output_image]$);\n"
+        self.codes["deallocation"] =  \
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n'
 
 # -----------------------------------------------------------------------------

@@ -58,10 +58,8 @@ class NewRect(BlockModel):
                             }
                            ]
 
-        self.codes["declaration"] = "CvRect $port[rect]$ = cvRect( 0, 0, 1, 1);"
         self.codes["execution"] = \
-            '$port[rect]$ = cvRect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
-
+            '$port[rect]$ = Rect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
 
         self.language = "c"
         self.framework = "opencv"

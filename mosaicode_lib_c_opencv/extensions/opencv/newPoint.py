@@ -46,10 +46,10 @@ class NewPoint(BlockModel):
                            ]
 
         # -------------------C/OpenCv code------------------------------------
-        self.codes["declaration"] = 'CvPoint $port[point]$ = cvPoint($prop[x]$,$prop[y]$);\n'
+        self.codes["declaration"] = 'Point $port[point]$ = Point($prop[x]$, $prop[y]$);\n'
 
         self.codes["execution"] = \
-            '$port[point]$ = cvPoint($prop[x]$,$prop[y]$);\n'
+            '$port[point]$ = Point($prop[x]$, $prop[y]$);\n'
         self.language = "c"
         self.framework = "opencv"
 # -----------------------------------------------------------------------------

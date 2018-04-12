@@ -40,40 +40,43 @@ class Threshold(BlockModel):
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 255,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
                             },
                            {"name": "value",
                             "label": "Gray max value",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 255,
-                            "step": 1
+                            "step": 1,
+                            "value": 1
                             },
                            {"name": "type",
                             "label": "Threshold Type",
                             "type": MOSAICODE_COMBO,
-                            "values": ["CV_THRESH_BINARY",
-                                       "CV_THRESH_BINARY_INV",
-                                       "CV_THRESH_TRUNC",
-                                       "CV_THRESH_TOZERO",
-                                       "CV_THRESH_TOZERO_INV"]
+                            "value":"THRESH_BINARY",
+                            "values": ["THRESH_BINARY",
+                                       "THRESH_BINARY_INV",
+                                       "THRESH_TRUNC",
+                                       "THRESH_TOZERO",
+                                       "THRESH_TOZERO_INV"]
                             }
                            ]
 
         # -------------------C/OpenCv code------------------------------------
 
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n'
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n'
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$){\n' + \
-            '$port[output_image]$ = cvCloneImage($port[input_image]$);\n' + \
-            'cvThreshold($port[input_image]$, $port[output_image]$, ' + \
+            '\nif(!$port[input_image]$.empty()){\n' + \
+            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+            'threshold($port[input_image]$, $port[output_image]$, ' + \
             '$prop[threshold]$, $prop[value]$, $prop[type]$);\n' + \
             '}\n'
 
         self.codes["deallocation"] = \
-            'cvReleaseImage(&$port[input_image]$);\n' + \
-            'cvReleaseImage(&$port[output_image]$);\n'
+            '$port[input_image]$.release();\n' + \
+            '$port[output_image]$.release();\n'
 # -----------------------------------------------------------------------------

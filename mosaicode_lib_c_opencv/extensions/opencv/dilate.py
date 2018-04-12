@@ -44,34 +44,25 @@ class Dilate(BlockModel):
                             "type": MOSAICODE_COMBO,
                             "values": ["1", "3", "5", "7"],
                             "value":"3"
-                            },
-                           {"label": "Iterations",
-                            "name": "iterations",
-                            "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 65535,
-                            "step": 1, 
-                            "value":1
                             }
                            ]
 
         # ----------------------------C/OpenCv code---------------------------
         self.codes["declaration"] = \
-            'IplImage * $port[input_image]$ = NULL;\n' + \
-            'IplImage * $port[output_image]$ = NULL;\n' + \
-            'int block$id$_arg_iterations = $prop[iterations]$;\n' + \
-            'IplConvKernel * block$id$_arg_mask = ' + \
-            'cvCreateStructuringElementEx($prop[masksizex]$ , $prop[masksizey]$, 1, 1,CV_SHAPE_RECT,NULL);\n'
+            'Mat $port[input_image]$;\n' + \
+            'Mat $port[output_image]$;\n' + \
+            'Mat block$id$_arg_mask = ' + \
+            'getStructuringElement(MORPH_RECT, Size($prop[masksizex]$, $prop[masksizey]$), Point(1, 1));\n'
 
-        self.codes["execution"] = '''
-            if($port[input_image]$){
-                $port[output_image]$ = cvCloneImage($port[input_image]$);
-                cvDilate($port[input_image]$,
-                        $port[output_image]$,
-                        block$id$_arg_mask,
-                        block$id$_arg_iterations);
-            }
-            '''
-        self.codes["deallocation"] = "cvReleaseImage(&$port[input_image]$);\n" + \
-                       "cvReleaseImage(&$port[output_image]$);\n"
+        self.codes["execution"] = \
+            'if(!$port[input_image]$.empty()){\n' + \
+                '$port[output_image]$ = $port[input_image]$.clone();\n' + \
+                'dilate($port[input_image]$,' + \
+                        '$port[output_image]$,' + \
+                        'block$id$_arg_mask);\n' + \
+            '}\n'
+
+        self.codes["deallocation"] = \
+            "$port[input_image]$.release();\n" + \
+            "$port[output_image]$.release();\n"
 # -----------------------------------------------------------------------------
