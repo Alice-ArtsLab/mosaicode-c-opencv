@@ -24,21 +24,21 @@ config['classifiers'] = [
     'Topic :: Software Development :: Code Generators',
 ]
 
-setup(name='mosaicode_c_opencv.extensions',
-      install_requires=['Python>=2.7'],
+setup(name='mosaicode-lib-c-opencv',
+      install_requires=['mosaicode'],
       tests_require=[],
       test_suite='',
-      version='1.0',
+      version='1.4',
       packages = find_packages(exclude=["tests.*", "tests"]),
       scripts=[],
       description='Image Processing and Computer Vision \
       Automatic Programming Tool',
-      author='Ouroboros',
-      author_email='',
-      maintainer="Ouroboros",
-      maintainer_email="",
+      author='Mosaicode Group',
+      author_email='mosaicode-dev@googlegroups.com',
+      maintainer="Mosaicode Group",
+      maintainer_email="mosaicode-dev@googlegroups.com",
       license="GNU GPL3",
-      url='http://ges.dcomp.ufsj.edu.br/index.php/ouroboros/',
+      url='https://mosaicode.github.io/',
 
       # this is fucked up! must put it in package_data!!
       data_files=[],

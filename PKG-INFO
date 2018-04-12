@@ -1,12 +1,12 @@
 Metadata-Version: 1.0
-Name: mosaicode
+Name: Mosaicode C/OpenCV
 Version: 1.0
 Summary: Image Processing and Computer Vision Automatic Programming Tool
-Home-page: http://s2i.das.ufsc.br/mosaicode/en/home.html
-Author: Clovis Peruchi Scotti
-Author-email: scotti@ieee.org
+Home-page: https://mosaicode.github.io/
+Author: Mosaicode Group
+Author-email: mosaicode-dev@googlegroups.com
 License: GNU GPL
-Description: UNKNOWN
+Description: Mosaicode library
 Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Intended Audience :: Developers

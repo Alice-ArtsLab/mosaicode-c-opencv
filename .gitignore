@@ -1,3 +1,10 @@
 build/
 dist/
 mosaicode_lib_c_opencv.extensions.egg-info
+<<<<<<< HEAD
+=======
+
+\.idea/
+
+mosaicode_lib_c_opencv\.egg-info/
+>>>>>>> 48485a7e5a5dd9b3164781cf110f7bb494d22f02
