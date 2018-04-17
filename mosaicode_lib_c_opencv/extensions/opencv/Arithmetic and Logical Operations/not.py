@@ -31,7 +31,7 @@ class Not(BlockModel):
                           "name":"output_image",
                           "conn_type":"Output",
                           "label":"Output Image"}]
-        self.group = "Arithmetic and logical operations"
+        self.group = "Arithmetic and Logical Operations"
 
         self.codes["declaration"] = \
             "Mat $port[input_image]$;\n" + \
