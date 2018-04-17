@@ -1,24 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the Division class.
+This module contains the Subtraction class.
 """
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
 
-class Division(BlockModel):
+class Subtraction(BlockModel):
     """
-    This class contains methods related the Division class.
+    This class contains methods related the Subtraction class.
     """
-
     # -------------------------------------------------------------------------
+
     def __init__(self):
         BlockModel.__init__(self)
 
         # Appearance
-        self.help = "Realiza a divisão de duas imagens."
-        self.label = "Division"
+        self.help = "Realiza a subtração de duas imagens."
+        self.label = "Subtraction"
         self.color = "180:10:10:150"
         self.language = "c"
         self.framework = "opencv"
@@ -34,7 +34,7 @@ class Division(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-        self.group = "Arithmetic and logical operations"
+        self.group = "Arithmetic and Logical Operations"
 
         self.codes["declaration"] = \
             "Mat $port[first_image]$;\n" + \
@@ -45,13 +45,13 @@ class Division(BlockModel):
             'if(!$port[first_image]$.empty() && !$port[second_image]$.empty()){\n' + \
             'Size size$id$($port[first_image]$.cols, $port[first_image]$.rows);\n' + \
             'resize($port[second_image]$, $port[second_image]$, size$id$);\n' + \
-            'divide($port[first_image]$, $port[second_image]$, ' + \
-            '$port[output_image]$);\n' + \
+            'subtract($port[first_image]$, ' + \
+            '$port[second_image]$, $port[output_image]$);\n' + \
             '}\n'
 
         self.codes["deallocation"] = \
             "$port[first_image]$.release();\n" + \
             "$port[second_image]$.release();\n" + \
-            "$port[output_image]$.release();\n"
+            "$port[output_image]$.release();\n"    
 
 # -----------------------------------------------------------------------------

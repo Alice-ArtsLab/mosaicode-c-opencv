@@ -20,7 +20,7 @@ class Cfile(CodeTemplate):
         self.command += "export PKG_CONFIG_PATH=/lib/pkgconfig/;\n"
         self.command += "g++ $filename$$extension$  -o $filename$ `pkg-config --cflags --libs opencv`\n"
         self.command += "LD_LIBRARY_PATH=/lib/ $dir_name$./$filename$"
-        self.code_parts = ["include", "function", "declaration", "execution", "deallocation", "cleanup"]
+        self.code_parts = ["include", "function", "declaration", "execution", "deallocation"]
 
         self.code = r"""
 // Auto-generated C Code - S2i Mosaicode
