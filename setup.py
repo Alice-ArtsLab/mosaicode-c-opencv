@@ -19,23 +19,23 @@ config['classifiers'] = [
     'Natural Language :: English',
     'Operating System :: OS Independent',
     'Programming Language :: Python',
-    'Programming Language :: C',
+    'Programming Language :: JavaScript',
     'Topic :: Scientific/Engineering',
     'Topic :: Software Development :: Code Generators',
 ]
 
 setup(name='mosaicode-lib-c-opencv',
       install_requires=['mosaicode'],
+      python_requires='>=2.7',
       tests_require=[],
       test_suite='',
-      version='1.4',
-      packages = find_packages(exclude=["tests.*", "tests"]),
+      version='1.0.0.dev1',
+      packages=find_packages(exclude=["tests.*", "tests"]),
       scripts=[],
-      description='Image Processing and Computer Vision \
-      Automatic Programming Tool',
-      author='Mosaicode Group',
+      description='Computer Music Programming Tool',
+      author='ALICE: Arts Lab in Interfaces, Computers, and Experiences',
       author_email='mosaicode-dev@googlegroups.com',
-      maintainer="Mosaicode Group",
+      maintainer="ALICE: Arts Lab in Interfaces, Computers, and Experiences",
       maintainer_email="mosaicode-dev@googlegroups.com",
       license="GNU GPL3",
       url='https://mosaicode.github.io/',
@@ -43,4 +43,4 @@ setup(name='mosaicode-lib-c-opencv',
       # this is fucked up! must put it in package_data!!
       data_files=[],
       **config
-      )
+)
