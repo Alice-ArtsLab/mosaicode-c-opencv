@@ -102,7 +102,8 @@ class Canny(BlockModel):
             "    \t\tcvtColor($port[input_image]$," + \
             " tmpImg$id$ ,COLOR_RGB2GRAY);\n" + \
             "\t}else{\n" + \
-            "    \t\ttmpImg$id$ = $port[input_image]$ = NULL;\n" + \
+            "    \t\ttmpImg$id$ = $port[input_image]$ = Mat::zeros($port[input_image]$.cols, " + \
+            "$port[input_image]$.rows, CV_8UC1);\n" + \
             "}\n" + \
             "Canny(tmpImg$id$, tmpImg$id$, $port[input_threshold1]$," + \
             " $port[input_threshold2]$, $port[input_apertureSize]$);\n" + \
