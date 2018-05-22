@@ -7,7 +7,7 @@ This module contains the Sobel class.
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
-class FaceDetection(BlockModel):
+class InvertImage(BlockModel):
 	"""
 	This class contains methods related the FaceDetection class.
 	"""
