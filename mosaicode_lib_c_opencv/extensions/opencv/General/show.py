@@ -38,27 +38,33 @@ class Show(BlockModel):
                            {"label": "Window Type",
                             "name": "window_type",
                             "type": MOSAICODE_COMBO,
-                            "values": ["Window Size",
-                                       "Image Size"],
-                            "value":"Image Size"
+                            "values": ["WINDOW_AUTOSIZE",
+                                       "WINDOW_NORMAL"],
+                            "value":"WINDOW_AUTOSIZE"
                             }
                            ]
 
 # ----------------------------C/OpenCv code-------------------------
 
-        self.codes["declaration"] = "Mat $port[input_image]$;\n" + \
-            "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
-            "namedWindow(\"$prop[title]$\",WINDOW_NORMAL);\n" + \
-            "else\n" + \
-            "namedWindow(\"$prop[title]$\",WINDOW_AUTOSIZE);\n"
+        self.codes["declaration"] = \
+"""        
+    Mat $port[input_image]$;
+    if(strcmp(\"WINDOW_NORMAL\", \"$prop[window_type]$\") == 0)
+        namedWindow(\"$prop[title]$\",WINDOW_NORMAL);
+    else
+        namedWindow(\"$prop[title]$\",WINDOW_AUTOSIZE);
+"""
 
-        self.codes["execution"] = "\nif(!$port[input_image]$.empty()){\n" + \
-            "imshow(\"$prop[title]$\",$port[input_image]$);\n" + \
-            "if (strcmp(\"Window Size\", \"$prop[window_type]$\") == 0)\n" + \
-            "cvSetWindowProperty(\"$prop[title]$\", " + \
-            "CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);\n" + \
-            "}\n"
-
-        self.codes["deallocation"] = "$port[input_image]$.release();"
+        self.codes["execution"] = \
+"""
+        if(!$port[input_image]$.empty()){
+            imshow(\"$prop[title]$\",$port[input_image]$);
+        }
+"""
+        
+        self.codes["deallocation"] = \
+"""        
+        $port[input_image]$.release();
+"""            
 
 # -----------------------------------------------------------------------------

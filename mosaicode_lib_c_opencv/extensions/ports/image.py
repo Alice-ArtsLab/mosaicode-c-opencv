@@ -9,4 +9,8 @@ class Image(Port):
         self.color = "#F0F"
         self.multiple = False
         self.var_name = "$block[label]$_$block[id]$_$port[name]$"
-        self.code = "if (!$output$.empty()) $input$ = $output$.clone();\n"
+        self.code = \
+"""        
+        if(!$output$.empty()) 
+        	$input$ = $output$.clone();
+"""        	
