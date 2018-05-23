@@ -32,8 +32,6 @@ class Cfile(CodeTemplate):
 *	the libraries and the headers necessary when using opencv. The command also returns other necessary compiler options.
 */
 
-// header:
-
 #ifdef _CH_
 #pragma package <opencv>
 #endif
@@ -54,28 +52,19 @@ class Cfile(CodeTemplate):
 
 using namespace cv;
 using namespace std;
-
 $single_code[include]$
-
 #define FRAMERATE 1000.0 / 25.0
-
 $single_code[function]$
 
 int main(int argc, char ** argv){
-        char key = ' ';
-        //declaration block
-        $code[declaration]$
-        while((key = (char)cvWaitKey(FRAMERATE)) != 27){
-            //execution block
-            $code[execution, connection]$
+    char key = ' ';
+    $code[declaration]$
+    while((key = (char)waitKey(FRAMERATE)) != 27){
+        $code[execution, connection]$
+        $code[deallocation]$
+    }
 
-            //deallocation block
-            $code[deallocation]$
-
-        } // End of while
-
-return 0;
-
-} //closing main()
+    return 0;
+}
 """
 #----------------------------------------------------------------------

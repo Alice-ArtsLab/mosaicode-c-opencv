@@ -38,13 +38,21 @@ class ImageFile(BlockModel):
                             }
                            ]
 
-        # ----------------------------C/OpenCv code-------------------------
+# ----------------------------C/OpenCv code-------------------------
+
         self.codes["declaration"] = \
-            'Mat $port[output_image]$;\n' + \
-            '$port[output_image]$ = imread("$prop[filename]$", IMREAD_COLOR);\n'
+"""        
+    Mat $port[output_image]$;
+"""    
 
-        self.codes["execution"] = "\n"
+        self.codes["execution"] = \
+"""
+        $port[output_image]$ = imread("$prop[filename]$", IMREAD_COLOR);
+"""                
 
-        self.codes["deallocation"] = "$port[output_image]$.release();\n"
+        self.codes["deallocation"] = \
+"""        
+        $port[output_image]$.release();
+"""
 
 # -----------------------------------------------------------------------------
