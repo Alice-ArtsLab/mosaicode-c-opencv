@@ -39,7 +39,7 @@ class FillRect(BlockModel):
                             "label": "X",
                             "type": MOSAICODE_INT,
                             "lower": 0,
-                            "upper": 1000,
+                            "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
@@ -47,7 +47,7 @@ class FillRect(BlockModel):
                             "label": "Y",
                             "type": MOSAICODE_INT,
                             "lower": 0,
-                            "upper": 1000,
+                            "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
@@ -55,7 +55,7 @@ class FillRect(BlockModel):
                             "label": "Width",
                             "type": MOSAICODE_INT,
                             "lower": 0,
-                            "upper": 1000,
+                            "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
@@ -63,7 +63,7 @@ class FillRect(BlockModel):
                             "label": "Height",
                             "type": MOSAICODE_INT,
                             "lower": 0,
-                            "upper": 1000,
+                            "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
@@ -71,7 +71,7 @@ class FillRect(BlockModel):
                             "label": "Line",
                             "type": MOSAICODE_INT,
                             "lower": 0,
-                            "upper": 1000,
+                            "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
