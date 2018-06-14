@@ -47,13 +47,13 @@ class Opening(BlockModel):
         self.properties = [{"label": "Mask Size X",
                             "name": "masksizex",
                             "type": MOSAICODE_COMBO,
-                            "values": ["1", "3", "5", "7"],
+                            "values": ["3", "5", "7"],
                             "value":"3"
                             },
                             {"label": "Mask Size Y",
                             "name": "masksizey",
                             "type": MOSAICODE_COMBO,
-                            "values": ["1", "3", "5", "7"],
+                            "values": ["3", "5", "7"],
                             "value":"3"
                             }
                            ]

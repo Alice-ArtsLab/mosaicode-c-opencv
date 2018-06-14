@@ -40,10 +40,9 @@ class Laplace(BlockModel):
 
         self.properties = [{"label": "Mask Size",
                             "name": "masksize",
-                            "type": MOSAICODE_INT,
+                            "type": MOSAICODE_COMBO,
                             "value": 3,
-                            "lower": 1,
-                            "upper": 13
+                            "values": ["3", "5", "7"]
                             }
                            ]
 
