@@ -23,6 +23,7 @@ class Cfile(CodeTemplate):
         self.code_parts = ["include", "function", "declaration", "execution", "deallocation"]
 
         self.code = r"""
+        
 // Auto-generated C Code - S2i Mosaicode
 /*
 *	In order to compile this source code run, in a terminal window, the following command:
