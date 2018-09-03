@@ -7,7 +7,7 @@ This module contains the Sobel class.
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
-class FaceDetection(BlockModel):
+class ShiTomasi(BlockModel):
 	"""
 	This class contains methods related the FaceDetection class.
 	"""
@@ -24,6 +24,10 @@ class FaceDetection(BlockModel):
 						"name": "input_image",
 						"label": "Input Image",
 						"conn_type":"Input"},
+						{"type": "mosaicode_lib_c_opencv.extensions.ports.int",
+						"name": "input_int",
+						"label": "Max Corners",
+						"conn_type": "Input"},
 						{"type": "mosaicode_lib_c_opencv.extensions.ports.image",
 						"name": "output_image",
 						"label": "Output Image",
@@ -45,6 +49,7 @@ class FaceDetection(BlockModel):
 	Mat $port[input_image]$;
 	Mat $port[output_image]$;
 	Mat Mat_tmp_$id$;
+	int $port[input_int]$ = $prop[max_corners]$;
 	RNG rng(12345);
 """			
 
@@ -54,7 +59,7 @@ class FaceDetection(BlockModel):
 		cvtColor($port[input_image]$, Mat_tmp_$id$, COLOR_BGR2GRAY);
 		$port[output_image]$ = $port[input_image]$.clone();
 		vector<Point2f> corners;
-		goodFeaturesToTrack(Mat_tmp_$id$, corners, $prop[max_corners]$, 0.01, 10, Mat(), 3, false, 0.04);
+		goodFeaturesToTrack(Mat_tmp_$id$, corners, $port[input_int]$, 0.01, 10, Mat(), 3, false, 0.04);
 		for(int i = 0; i < corners.size(); i++){ 
 			circle($port[output_image]$, corners[i], 5, Scalar(rng.uniform(0,255), rng.uniform(0,255), rng.uniform(0,255)), -1, 8, 0); 
 		}

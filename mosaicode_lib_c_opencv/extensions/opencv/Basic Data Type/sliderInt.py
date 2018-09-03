@@ -7,7 +7,7 @@ from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
 
-class Slider(BlockModel):
+class IntSlider(BlockModel):
     """
     This class contains methods related the Slider class.
     """
@@ -15,30 +15,33 @@ class Slider(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.help = "Creates Slider to int value."
-        self.label = "Slider"
+        self.help = "Creates Slider to integer value."
+        self.label = "Integer Slider"
         self.color = "50:50:200:150"
+        self.language = "c"
+        self.framework = "opencv"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                          "conn_type":"Output",
-                          "name":"slider_value",
-                          "label":"Slider Value"}]
+                        "conn_type":"Output",
+                        "name":"slider_Ivalue",
+                        "label":"Slider Int Value"}
+                        ]
         self.group = "Basic Data Type"
 
-        self.properties = [{"label": "Value",
+        self.properties = [{"label": "Integer Value",
                             "name": "intVal",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,
                             "step": 1,
-                            "value":1
+                            "value":0
                             },
-                           {"label": "Max Value",
-                            "name": "maxVal",
+                           {"label": "Max Integer Value",
+                            "name": "maxIntVal",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,
                             "step": 1,
-                            "value":31
+                            "value":0
                             },
                            {"label": "Label",
                             "name": "label",
@@ -52,15 +55,17 @@ class Slider(BlockModel):
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
+# -------------------C/OpenCv code------------------------------------
+
         self.codes["declaration"] = \
-            'int $port[slider_value]$ = $prop[intVal]$;\n'
+"""        
+    int $port[slider_Ivalue]$ = $prop[intVal]$;
+"""    
 
         self.codes["execution"] = \
-            'namedWindow("$prop[window_name]$", WINDOW_AUTOSIZE );\n' + \
-            'createTrackbar("$prop[label]$", "$prop[window_name]$",' + \
-            '&$port[slider_value]$, $prop[maxVal]$, NULL);\n'
-
-        self.language = "c"
-        self.framework = "opencv"
+"""        
+    namedWindow("$prop[window_name]$", WINDOW_AUTOSIZE );
+    createTrackbar("$prop[label]$", "$prop[window_name]$", &$port[slider_Ivalue]$, $prop[maxIntVal]$, NULL);
+"""
+        
 # -----------------------------------------------------------------------------
