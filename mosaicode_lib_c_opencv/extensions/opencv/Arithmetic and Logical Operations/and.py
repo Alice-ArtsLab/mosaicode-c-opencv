@@ -42,6 +42,8 @@ class And(BlockModel):
 
         self.group = "Arithmetic and Logical Operations"
 
+#----------------------------- C/OpenCV code --------------------------------------
+
         self.codes["declaration"] = \
 """        
     Mat $port[first_image]$;
@@ -55,10 +57,14 @@ class And(BlockModel):
         Size size$id$($port[first_image]$.cols, $port[first_image]$.rows);
         resize($port[second_image]$, $port[second_image]$, size$id$);
         bitwise_and($port[first_image]$, $port[second_image]$, $port[output_image]$);
-        }\n'
+    }
+"""
 
         self.codes["deallocation"] = \
-            "$port[first_image]$.release();\n" + \
-            "$port[second_image]$.release();\n" + \
-            "$port[output_image]$.release();\n"
-# -----------------------------------------------------------------------------
+"""        
+    $port[first_image]$.release();
+    $port[second_image]$.release();
+    $port[output_image]$.release();
+"""
+
+#-----------------------------------------------------------------------------

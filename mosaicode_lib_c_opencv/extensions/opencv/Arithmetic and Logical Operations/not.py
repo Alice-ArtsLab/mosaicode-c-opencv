@@ -31,19 +31,28 @@ class Not(BlockModel):
                           "name":"output_image",
                           "conn_type":"Output",
                           "label":"Output Image"}]
+
+#-------------------------------- C/OpenCV Code ---------------------------------                          
+
         self.group = "Arithmetic and Logical Operations"
 
         self.codes["declaration"] = \
-            "Mat $port[input_image]$;\n" + \
-            "Mat $port[output_image]$;\n"
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+"""            
 
         self.codes["execution"] = \
-            'if(!$port[input_image]$.empty()){\n' + \
-            'bitwise_not($port[input_image]$, $port[output_image]$);\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        bitwise_not($port[input_image]$, $port[output_image]$);
+    }
+"""    
 
         self.codes["deallocation"] = \
-            "$port[input_image]$.release();\n" + \
-            "$port[output_image]$.release();\n"
+"""        
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+"""    
 
 # -----------------------------------------------------------------------------

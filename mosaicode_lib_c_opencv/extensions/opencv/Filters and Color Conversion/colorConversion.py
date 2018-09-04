@@ -57,25 +57,30 @@ class ColorConversion(BlockModel):
                             }
                            ]
 
-        # -----------------C/OpenCv code ---------------------------
+# -----------------C/OpenCv code ---------------------------
 
         self.codes["declaration"] =  \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n' + \
-            'Mat block$id$_img_t;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    Mat block$id$_img_t;
+"""    
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
-            'Mat block$id$_img_t(Size($port[input_image]$.cols, ' + \
-            '$port[input_image]$.rows), CV_8U);\n' + \
-            'cvtColor($port[input_image]$, ' + \
-            'block$id$_img_t, $prop[conversion_type]$);\n' + \
-            '$port[output_image]$ = block$id$_img_t.clone();\n}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        $port[output_image]$ = $port[input_image]$.clone();
+        Mat block$id$_img_t(Size($port[input_image]$.cols, $port[input_image]$.rows), CV_8U);
+        cvtColor($port[input_image]$, block$id$_img_t, $prop[conversion_type]$);
+        $port[output_image]$ = block$id$_img_t.clone();
+    }
+"""    
 
         self.codes["deallocation"] = \
-            'block$id$_img_t.release();\n' + \
-            '$port[input_image]$.release();\n' + \
-            '$port[output_image]$.release();\n'
+"""        
+    block$id$_img_t.release();
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+"""    
 
 # -----------------------------------------------------------------------------
