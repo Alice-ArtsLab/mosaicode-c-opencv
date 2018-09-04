@@ -34,24 +34,32 @@ class Sum(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
+
         self.group = "Arithmetic and Logical Operations"
 
+#---------------------------------- C/OpenCV Code ---------------------------------        
+
         self.codes["declaration"] = \
-            "Mat $port[first_image]$;\n" + \
-            "Mat $port[second_image]$;\n" + \
-            "Mat $port[output_image]$;\n"
-            
+"""        
+    Mat $port[first_image]$;
+    Mat $port[second_image]$;
+    Mat $port[output_image]$;
+"""            
+
         self.codes["execution"] = \
-            'if(!$port[first_image]$.empty() && !$port[second_image]$.empty()){\n' + \
-            'Size size$id$($port[first_image]$.cols, $port[first_image]$.rows);\n' + \
-            'resize($port[second_image]$, $port[second_image]$, size$id$);\n' + \
-            'add($port[first_image]$, $port[second_image]$, ' + \
-            '$port[output_image]$);\n' + \
-            '}\n'
+"""        
+    if(!$port[first_image]$.empty() && !$port[second_image]$.empty()){
+        Size size$id$($port[first_image]$.cols, $port[first_image]$.rows);
+        resize($port[second_image]$, $port[second_image]$, size$id$);
+        add($port[first_image]$, $port[second_image]$, $port[output_image]$);
+    }
+"""
 
         self.codes["deallocation"] = \
-            "$port[first_image]$.release();\n" + \
-            "$port[second_image]$.release();\n" + \
-            "$port[output_image]$.release();\n"
+"""        
+    $port[first_image]$.release();
+    $port[second_image]$.release();
+    $port[output_image]$.release();
+"""            
 
 # -----------------------------------------------------------------------------
