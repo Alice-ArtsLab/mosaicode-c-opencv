@@ -14,7 +14,6 @@ class Contrast(BlockModel):
 
 	def __init__(self):
 		BlockModel.__init__(self)
-
 		self.language = "c"
 		self.framework = "opencv"
 		self.label = "Contrast"

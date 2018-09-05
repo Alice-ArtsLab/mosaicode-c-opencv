@@ -15,11 +15,9 @@ class Show(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
+        # Appearance
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
         self.help = "Mostra uma imagem da cadeia de processamento de imagens."
         self.label = "Show Image"
         self.color = "50:100:200:150"
@@ -29,7 +27,6 @@ class Show(BlockModel):
                           "label":"Input Image"}
                          ]
         self.group = "General"
-
         self.properties = [{"label": "Window Title",
                             "name": "title",
                             "type": MOSAICODE_STRING,
@@ -50,21 +47,21 @@ class Show(BlockModel):
 """        
     Mat $port[input_image]$;
     if(strcmp(\"WINDOW_NORMAL\", \"$prop[window_type]$\") == 0)
-        namedWindow(\"$prop[title]$\",WINDOW_NORMAL);
+        namedWindow(\"$prop[title]$\", WINDOW_NORMAL);
     else
-        namedWindow(\"$prop[title]$\",WINDOW_AUTOSIZE);
+        namedWindow(\"$prop[title]$\", WINDOW_AUTOSIZE);
 """
 
         self.codes["execution"] = \
 """
-        if(!$port[input_image]$.empty()){
-            imshow(\"$prop[title]$\",$port[input_image]$);
-        }
+    if(!$port[input_image]$.empty()){
+        imshow(\"$prop[title]$\", $port[input_image]$);
+    }
 """
         
         self.codes["deallocation"] = \
 """        
-        $port[input_image]$.release();
+    $port[input_image]$.release();
 """            
 
 # -----------------------------------------------------------------------------

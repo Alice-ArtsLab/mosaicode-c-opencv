@@ -34,7 +34,6 @@ class AddBorder(BlockModel):
                     "conn_type":"Output",
                     "label":"Output Image"}]
         self.group = "Experimental"
-
         self.properties = [{"label": "Color",
                             "name": "color",
                             "type": MOSAICODE_COLOR,
@@ -56,44 +55,52 @@ class AddBorder(BlockModel):
                             "lower": 1
                             }
                            ]
+
+#-------------------------------- C/OpenCV Code -------------------------------------                           
     
         self.codes["function"] = \
-            "Scalar get_scalar_color(const char * rgbColor){\n" + \
-            "   if (strlen(rgbColor) < 13 || rgbColor[0] != '#')\n" + \
-            "       return Scalar(0,0,0,0);\n" + \
-            "   char r[4], g[4], b[4];\n" + \
-            "   strncpy(r, rgbColor+1, 4);\n" + \
-            "   strncpy(g, rgbColor+5, 4);\n" + \
-            "   strncpy(b, rgbColor+9, 4);\n" + \
-            "\n" + \
-            "   int ri, gi, bi = 0;\n" + \
-            "   ri = (int)strtol(r, NULL, 16);\n" + \
-            "   gi = (int)strtol(g, NULL, 16);\n" + \
-            "   bi = (int)strtol(b, NULL, 16);\n" + \
-            "\n" + \
-            "   ri /= 257;\n" + \
-            "   gi /= 257;\n" + \
-            "   bi /= 257;\n" + \
-            "   \n" + \
-            "   return Scalar(bi, gi, ri, 0);\n" + \
-            "}\n"                           
+"""        
+    Scalar get_scalar_color(const char * rgbColor){
+        if (strlen(rgbColor) < 13 || rgbColor[0] != '#')
+            return Scalar(0,0,0,0);
+        char r[4], g[4], b[4];
+        strncpy(r, rgbColor+1, 4);
+        strncpy(g, rgbColor+5, 4);
+        strncpy(b, rgbColor+9, 4);
+
+        int ri, gi, bi = 0;
+        ri = (int)strtol(r, NULL, 16);
+        gi = (int)strtol(g, NULL, 16);
+        bi = (int)strtol(b, NULL, 16);
+
+        ri /= 257;
+        gi /= 257;
+        bi /= 257;
+            
+        return Scalar(bi, gi, ri, 0);
+    }
+"""                         
 
         self.codes["declaration"] = \
-            "Mat $port[input_image]$;\n" + \
-            "int $port[border_size]$ = $prop[border_size]$;\n" + \
-            "Mat $port[output_image]$;\n"
+"""        
+    Mat $port[input_image]$;
+    int $port[border_size]$ = $prop[border_size]$;
+    Mat $port[output_image]$;
+"""        
 
         self.codes["execution"] = \
-            'if(!$port[input_image]$.empty()){\n' + \
-            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
-            '\tScalar color = get_scalar_color("$prop[color]$");\n' + \
-            '\tcopyMakeBorder($port[input_image]$, $port[output_image]$,' + \
-            '$port[border_size]$, $port[border_size]$, $port[border_size]$, ' + \
-            '$port[border_size]$, $prop[type]$, color);\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        $port[output_image]$ = $port[input_image]$.clone();
+        Scalar color = get_scalar_color("$prop[color]$");
+        copyMakeBorder($port[input_image]$, $port[output_image]$, $port[border_size]$, $port[border_size]$, $port[border_size]$, $port[border_size]$, $prop[type]$, color);
+    }
+"""    
 
         self.codes["deallocation"] = \
-            "$port[input_image]$.release();\n" + \
-            "$port[output_image]$.release();\n"
+"""        
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+"""
 
 # -----------------------------------------------------------------------------

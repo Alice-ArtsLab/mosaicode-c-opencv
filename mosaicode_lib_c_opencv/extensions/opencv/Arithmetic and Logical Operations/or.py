@@ -40,7 +40,6 @@ class Or(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-
         self.group = "Arithmetic and Logical Operations"
 
 #------------------------------- C/OpenCV Code ---------------------------------        

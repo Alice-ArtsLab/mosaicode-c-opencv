@@ -17,6 +17,8 @@ class NewInt(BlockModel):
         BlockModel.__init__(self)
 
         # Appearance
+        self.language = "c"
+        self.framework = "opencv"
         self.help = "Creates new literal value (Int)."
         self.label = "New Int"
         self.color = "50:50:200:150"
@@ -25,7 +27,6 @@ class NewInt(BlockModel):
                         "label":"Value",
                         "conn_type":"Output"}]
         self.group = "Basic Data Type"
-
         self.properties = [{"name": "integer",
                             "label": "Value",
                             "type": MOSAICODE_INT,
@@ -36,8 +37,11 @@ class NewInt(BlockModel):
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
-        self.codes["declaration"] = 'int $port[value]$ = $prop[integer]$;\n'
-        self.language = "c"
-        self.framework = "opencv"
+# -------------------C/OpenCv code------------------------------------
+
+        self.codes["declaration"] = \
+"""        
+    int $port[value]$ = $prop[integer]$;
+"""    
+        
 # -----------------------------------------------------------------------------

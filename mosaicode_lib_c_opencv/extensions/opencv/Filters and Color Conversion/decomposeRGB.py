@@ -16,11 +16,9 @@ class DecomposeRGB(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-
+        # Appearance
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
         self.help = "Realiza a decomposição RGB de imagens."
         self.label = "Decompose RGB"
         self.color = "50:125:50:150"
@@ -40,31 +38,37 @@ class DecomposeRGB(BlockModel):
                        "name":"output_image3",
                        "label":"Output 3",
                        "conn_type":"Output"}]
-
         self.group = "Filters and Color Conversion"
 
-        # ------------------C/OpenCv code--------------------------------------
+# ------------------C/OpenCv code--------------------------------------
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat block$id$_img_t0[3];\n' + \
-            'Mat $port[output_image1]$;\n' + \
-            'Mat $port[output_image2]$;\n' + \
-            'Mat $port[output_image3]$;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat block$id$_img_t0[3];
+    Mat $port[output_image1]$;
+    Mat $port[output_image2]$;
+    Mat $port[output_image3]$;
+"""    
         
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            'split($port[input_image]$, block$id$_img_t0);\n' + \
-            '$port[output_image1]$ = block$id$_img_t0[0];\n' + \
-            '$port[output_image2]$ = block$id$_img_t0[1];\n' + \
-            '$port[output_image3]$ = block$id$_img_t0[2];\n}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        split($port[input_image]$, block$id$_img_t0);
+        $port[output_image1]$ = block$id$_img_t0[0];
+        $port[output_image2]$ = block$id$_img_t0[1];
+        $port[output_image3]$ = block$id$_img_t0[2];
+    }
+"""    
 
         self.codes["deallocation"] = \
-            'block$id$_img_t0[0].release();\n' + \
-            'block$id$_img_t0[1].release();\n' + \
-            'block$id$_img_t0[2].release();\n' + \
-            '$port[output_image1]$.release();\n' + \
-            '$port[output_image2]$.release();\n' + \
-            '$port[output_image3]$.release();\n' + \
-            '$port[input_image]$.release();\n'
+"""        
+    block$id$_img_t0[0].release();
+    block$id$_img_t0[1].release();
+    block$id$_img_t0[2].release();
+    $port[output_image1]$.release();
+    $port[output_image2]$.release();
+    $port[output_image3]$.release();
+    $port[input_image]$.release();
+"""            
 
 # -----------------------------------------------------------------------------

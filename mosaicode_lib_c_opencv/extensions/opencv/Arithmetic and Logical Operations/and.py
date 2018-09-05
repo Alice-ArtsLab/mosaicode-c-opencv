@@ -39,7 +39,6 @@ class And(BlockModel):
                            "name":"output_image",
                           "conn_type":"Output",
                            "label":"Output Image"}]
-
         self.group = "Arithmetic and Logical Operations"
 
 #----------------------------- C/OpenCV code --------------------------------------

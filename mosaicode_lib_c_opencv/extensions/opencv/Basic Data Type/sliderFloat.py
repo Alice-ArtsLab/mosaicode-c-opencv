@@ -26,7 +26,6 @@ class FloatSlider(BlockModel):
                         "label":"Slider Value"}
                         ]
         self.group = "Basic Data Type"
-
         self.properties = [{"label": "Value",
                             "name": "floatVal",
                             "type": MOSAICODE_FLOAT,

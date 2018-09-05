@@ -15,11 +15,9 @@ class Smooth(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
+        # Appearance
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
         self.help = "Aplicação de um filtro de suavização. " + \
             "Suaviza os contornos de objetos na imagem, borrando-os levemente."
         self.label = "Smooth"
@@ -41,9 +39,7 @@ class Smooth(BlockModel):
                       "label":"Output Image",
                       "conn_type":"Output"}
                       ]
-
         self.group = "Filters and Color Conversion"
-
         self.properties = [{"name": "integer1",
                             "label": "Sigma A",
                             "type": MOSAICODE_INT,
@@ -70,34 +66,38 @@ class Smooth(BlockModel):
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
+#-------------------------------- C/OpenCv Code ------------------------------------
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'int $port[input_integer1]$ = $prop[integer1]$;\n' + \
-            'int $port[input_integer2]$ = $prop[integer2]$;\n' + \
-            'Mat $port[output_image]$;\n'
+"""        
+    Mat $port[input_image]$;
+    int $port[input_integer1]$ = $prop[integer1]$;
+    int $port[input_integer2]$ = $prop[integer2]$;
+    Mat $port[output_image]$;
+    Size size$id$();
+"""    
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
-            '$port[input_integer1]$ = ($port[input_integer1]$ %2 == 0)? ' + \
-            '$port[input_integer1]$ + 1 : $port[input_integer1]$;\n' + \
-            '$port[input_integer2]$ = ($port[input_integer2]$ %2 == 0)? ' + \
-            '$port[input_integer2]$ + 1 : $port[input_integer2]$;\n' + \
-            '//Size size$id$();\n' + \
-            'if("$prop[type]$" == "Gaussian Blur"){\n' + \
-            'GaussianBlur($port[input_image]$, $port[output_image]$, ' + \
-            'Size(0,0), $port[input_integer1]$, $port[input_integer2]$);\n}\n' + \
-            'if("$prop[type]$" == "Homogeneous Blur"){\n' + \
-            'blur($port[input_image]$, $port[output_image]$, ' + \
-            'Size($port[input_integer1]$, $port[input_integer2]$), Point(-1,-1));\n}\n' + \
-            'if("$prop[type]$" == "Median Blur"){\n' + \
-            'medianBlur($port[input_image]$, $port[output_image]$, ' + \
-            '$port[input_integer1]$);\n}\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        $port[output_image]$ = $port[input_image]$.clone();
+        $port[input_integer1]$ = ($port[input_integer1]$ %2 == 0)? $port[input_integer1]$ + 1 : $port[input_integer1]$;
+        $port[input_integer2]$ = ($port[input_integer2]$ %2 == 0)? $port[input_integer2]$ + 1 : $port[input_integer2]$;
+        if("$prop[type]$" == "Gaussian Blur"){
+            GaussianBlur($port[input_image]$, $port[output_image]$, Size(0,0), $port[input_integer1]$, $port[input_integer2]$);
+        }
+        if("$prop[type]$" == "Homogeneous Blur"){
+            blur($port[input_image]$, $port[output_image]$, Size($port[input_integer1]$, $port[input_integer2]$), Point(-1,-1));
+        }
+        if("$prop[type]$" == "Median Blur"){
+            medianBlur($port[input_image]$, $port[output_image]$, $port[input_integer1]$);
+        }
+    }
+"""
 
         self.codes["deallocation"] = \
-            '$port[input_image]$.release();\n' + \
-            '$port[output_image]$.release();\n'
+"""        
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+"""    
 
 # -----------------------------------------------------------------------------

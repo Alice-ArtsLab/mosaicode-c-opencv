@@ -15,9 +15,9 @@ class Save(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.filename = ""
-
         # Appearance
+        self.language = "c"
+        self.framework = "opencv"
         self.help = "Salva uma imagem em uma mídia indicada pelo usuário." + \
             "Atualmente a imagem é salva como PNG por padrão."
         self.label = "Save Image"
@@ -32,7 +32,6 @@ class Save(BlockModel):
                          "name":"output_image",
                          "label":"Output Image",
                          "conn_type":"Output"}]
-
         self.group = "General"
         self.properties = [{"name": "filename",
                             "label": "File Name",
@@ -40,16 +39,19 @@ class Save(BlockModel):
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
+#------------------------------------ C/OpenCv Code --------------------------------------
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+"""
 
         self.codes["execution"] = \
-            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
-            'if(!$port[input_image]$.empty())\n' + \
-            'imwrite("$prop[filename]$", $port[input_image]$);\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        $port[output_image]$ = $port[input_image]$.clone();
+        imwrite("$prop[filename]$", $port[input_image]$);
+    }            
+"""
 
-        self.language = "c"
-        self.framework = "opencv"
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------

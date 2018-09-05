@@ -16,17 +16,13 @@ class Sobel(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
+        # Appearance
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
         self.help = "Operação de filtragem que utiliza uma máscara " + \
             "Sobel para realçar cantos e bordas da imagem."
         self.label = "Sobel"
         self.color = "250:180:80:150"
-        self.in_types = [""]
-        self.out_types = []
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"input_image",
                         "label":"Input Image",
@@ -35,9 +31,7 @@ class Sobel(BlockModel):
                         "name":"output_image",
                         "label":"Output Image",
                         "conn_type":"Output"}]
-
         self.group = "Gradients, Edges and Corners"
-
         self.properties = [{"name": "order",
                             "label": "Derivate Order",
                             "type": MOSAICODE_INT,
@@ -48,28 +42,30 @@ class Sobel(BlockModel):
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
+# ------------------------------- C/OpenCv Code ------------------------------------
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n' + \
-            'Mat block$id$_img_t;\n' + \
-            'Mat grad_x;\n' + \
-            'double minVal, maxVal;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    Mat block$id$_img_t, grad_x;
+    double minVal, maxVal;
+"""    
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            '//GaussianBlur($port[input_image]$, $port[input_image]$,' + \
-            'Size(3,3), 0, 0, BORDER_DEFAULT);\n' + \
-            'cvtColor($port[input_image]$, block$id$_img_t, CV_RGB2GRAY);\n' + \
-            'Sobel(block$id$_img_t, grad_x, CV_32F, 1, 0);\n' + \
-            'minMaxLoc(grad_x, &minVal, &maxVal);\n' + \
-            'grad_x.convertTo($port[output_image]$, CV_8U, 255.0/(maxVal - minVal), ' + \
-            '-minVal * 255.0/(maxVal - minVal));\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        cvtColor($port[input_image]$, block$id$_img_t, CV_RGB2GRAY);
+        Sobel(block$id$_img_t, grad_x, CV_32F, 1, 0);
+        minMaxLoc(grad_x, &minVal, &maxVal);
+        grad_x.convertTo($port[output_image]$, CV_8U, 255.0/(maxVal - minVal), -minVal * 255.0/(maxVal - minVal));
+    }
+"""
 
         self.codes["deallocation"] = \
-            '$port[output_image]$.release();\n' + \
-            '$port[input_image]$.release();\n' + \
-            'block$id$_img_t.release();\n'
+"""        
+    $port[output_image]$.release();
+    $port[input_image]$.release();
+    block$id$_img_t.release();
+"""            
 
 # -----------------------------------------------------------------------------
