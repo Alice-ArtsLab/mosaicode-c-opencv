@@ -15,10 +15,8 @@ class ImageFile(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
         self.language = "c"
         self.framework = "opencv"
-        
         self.help = "Realiza a aquisição de uma imagem a " + \
             "partir de algum dispositivo, " + \
             "seja este uma mídia ou um dispositivo de " + \
@@ -30,7 +28,6 @@ class ImageFile(BlockModel):
                            "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Image Source"
-
         self.properties = [{"label": "File Name",
                             "name": "filename",
                             "type": MOSAICODE_OPEN_FILE,
@@ -38,7 +35,7 @@ class ImageFile(BlockModel):
                             }
                            ]
 
-# ----------------------------C/OpenCv code-------------------------
+# ---------------------------- C/OpenCv Code -------------------------
 
         self.codes["declaration"] = \
 """        
@@ -47,12 +44,12 @@ class ImageFile(BlockModel):
 
         self.codes["execution"] = \
 """
-        $port[output_image]$ = imread("$prop[filename]$", IMREAD_COLOR);
+    $port[output_image]$ = imread("$prop[filename]$", IMREAD_COLOR);
 """                
 
         self.codes["deallocation"] = \
 """        
-        $port[output_image]$.release();
+    $port[output_image]$.release();
 """
 
 # -----------------------------------------------------------------------------

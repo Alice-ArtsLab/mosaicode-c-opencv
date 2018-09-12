@@ -18,7 +18,6 @@ class Canny(BlockModel):
 
         self.language = "c"
         self.framework = "opencv"
-
         self.help = "Operacão de filtragem que implementa o algoritmo " + \
             "Canny para detecção de contornos e bordas." + \
             "\nPropriedades\nLimiar 1 e Limiar 2: os dois valores" + \
@@ -51,9 +50,7 @@ class Canny(BlockModel):
                            "name":"output_image",
                           "conn_type":"Output",
                           "label":"Output Image"}]
-
         self.group = "Gradients, Edges and Corners"
-
         self.properties = [{"label": "Aperture Size",
                             "name": "apertureSize",
                             "type": MOSAICODE_INT,
@@ -80,43 +77,46 @@ class Canny(BlockModel):
                             }
                            ]
 
-        # -------------------------C/OpenCV code----------------------------
+# ----------------------------------- C/OpenCV Code -------------------------------------
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n' + \
-            'int $port[input_apertureSize]$ = $prop[apertureSize]$;\n' + \
-            'int $port[input_threshold1]$ = $prop[threshold1]$;\n' + \
-            'int $port[input_threshold2]$ = $prop[threshold2]$;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    int $port[input_apertureSize]$ = $prop[apertureSize]$;
+    int $port[input_threshold1]$ = $prop[threshold1]$;
+    int $port[input_threshold2]$ = $prop[threshold2]$;
+"""    
 
         self.codes["execution"] = \
-            "\nif(!$port[input_image]$.empty()){ \n" + \
-            "\tif ($port[input_apertureSize]$ < 1) $port[input_apertureSize]$ = 1;\n" + \
-            "\tif ($port[input_threshold1]$ < 1) $port[input_threshold1]$ = 1;\n" + \
-            "\tif ($port[input_threshold2]$ < 1) $port[input_threshold2]$ = 1;\n" + \
-            "\tif ($port[input_apertureSize]$ > 10) $port[input_apertureSize]$ = 10;\n" + \
-            "\tif ($port[input_threshold1]$ > 100) $port[input_threshold1]$ = 100;\n" + \
-            "\tif ($port[input_threshold2]$ > 100) $port[input_threshold2]$ = 100;\n" + \
-            "\t$port[output_image]$ = $port[input_image]$.clone();\n" + \
-            "\tMat tmpImg$id$($port[input_image]$.rows,$port[input_image]$.cols,CV_8U);\n" + \
-            "\tif($port[input_image]$.channels() == 3){\n" + \
-            "    \t\tcvtColor($port[input_image]$," + \
-            " tmpImg$id$ ,COLOR_RGB2GRAY);\n" + \
-            "\t}else{\n" + \
-            "    \t\ttmpImg$id$ = $port[input_image]$ = Mat::zeros($port[input_image]$.cols, " + \
-            "$port[input_image]$.rows, CV_8UC1);\n" + \
-            "}\n" + \
-            "Canny(tmpImg$id$, tmpImg$id$, $port[input_threshold1]$," + \
-            " $port[input_threshold2]$, $port[input_apertureSize]$);\n" + \
-            "\tif($port[input_image]$.channels() == 3){\n" + \
-            "    \t\tcvtColor(tmpImg$id$, " + \
-            "$port[output_image]$,COLOR_GRAY2RGB);\n" + \
-            "\t}else{\n" + \
-            "    \t\t$port[output_image]$ = tmpImg$id$.clone();\n" + \
-            "\t}\n" + \
-            "\ttmpImg$id$.release();\n" + \
-            "}\n"
+"""        
+    if(!$port[input_image]$.empty()){
+        if($port[input_apertureSize]$ < 1) $port[input_apertureSize]$ = 1;
+        if($port[input_threshold1]$ < 1) $port[input_threshold1]$ = 1;
+        if($port[input_threshold2]$ < 1) $port[input_threshold2]$ = 1;
+        if($port[input_apertureSize]$ > 10) $port[input_apertureSize]$ = 10;
+        if($port[input_threshold1]$ > 100) $port[input_threshold1]$ = 100;
+        if($port[input_threshold2]$ > 100) $port[input_threshold2]$ = 100;
+        $port[output_image]$ = $port[input_image]$.clone();
+        Mat tmpImg$id$($port[input_image]$.rows,$port[input_image]$.cols,CV_8U);
+        if($port[input_image]$.channels() == 3){
+            cvtColor($port[input_image]$, tmpImg$id$, COLOR_RGB2GRAY);
+        }else{
+            tmpImg$id$ = $port[input_image]$ = Mat::zeros($port[input_image]$.cols, $port[input_image]$.rows, CV_8UC1);
+        }
+        Canny(tmpImg$id$, tmpImg$id$, $port[input_threshold1]$, $port[input_threshold2]$, $port[input_apertureSize]$);
+        if($port[input_image]$.channels() == 3){
+            cvtColor(tmpImg$id$, $port[output_image]$,COLOR_GRAY2RGB);
+        }else{
+            $port[output_image]$ = tmpImg$id$.clone();
+        }
+        tmpImg$id$.release();
+    }
+"""
 
         self.codes["deallocation"] = \
-            "$port[input_image]$.release();\n" + \
-            "$port[output_image]$.release();\n"
+"""        
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+"""
+
 # -----------------------------------------------------------------------------

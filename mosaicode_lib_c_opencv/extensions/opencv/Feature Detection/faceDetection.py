@@ -57,7 +57,7 @@ class FaceDetection(BlockModel):
                             }
 		]
 
-# --------------------------- C/OpenCV Code --------------------------- #
+# ------------------------------------- C/OpenCV Code -------------------------------------
 
 		self.codes["function"] = \
 """		
@@ -85,7 +85,6 @@ class FaceDetection(BlockModel):
 
 		self.codes["declaration"] = \
 """
-	//Face detection
 	Mat $port[input_image]$;
 	Mat $port[output_image]$;
 	CascadeClassifier face_cascade_$id$;

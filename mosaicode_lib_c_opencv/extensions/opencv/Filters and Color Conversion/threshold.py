@@ -15,11 +15,9 @@ class Threshold(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
+        # Appearance
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
         self.help = "Operador de binarização da imagem, de acordo " + \
             "com um valor fixo de intensidade luminosa (valor de limiar)."
         self.label = "Threshold"
@@ -32,9 +30,7 @@ class Threshold(BlockModel):
                         "name":"output_image",
                         "label":"Output Image",
                         "conn_type":"Output"}]
-
         self.group = "Filters and Color Conversion"
-
         self.properties = [{"name": "threshold",
                             "label": "Threshold",
                             "type": MOSAICODE_INT,
@@ -63,20 +59,26 @@ class Threshold(BlockModel):
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
+# -------------------------------- C/OpenCv code ------------------------------------
 
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+"""
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
-            'threshold($port[input_image]$, $port[output_image]$, ' + \
-            '$prop[threshold]$, $prop[value]$, $prop[type]$);\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        $port[output_image]$ = $port[input_image]$.clone();
+        threshold($port[input_image]$, $port[output_image]$, $prop[threshold]$, $prop[value]$, $prop[type]$);
+    }
+"""    
 
         self.codes["deallocation"] = \
-            '$port[input_image]$.release();\n' + \
-            '$port[output_image]$.release();\n'
+"""        
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+"""
+
 # -----------------------------------------------------------------------------

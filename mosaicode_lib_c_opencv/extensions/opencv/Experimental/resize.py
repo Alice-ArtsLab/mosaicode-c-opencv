@@ -15,8 +15,9 @@ class Resize(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
         # Appearance
+        self.language = "c"
+        self.framework = "opencv"
         self.help = "Resizes the input image to the " + \
             "dimensions of the input rectangle."
         self.label = "Resize Image"
@@ -29,9 +30,7 @@ class Resize(BlockModel):
                           "name":"output_image",
                           "conn_type":"Output",
                           "label":"Output Image"}]
-
         self.group = "Experimental"
-
         self.properties = [{"label": "Tamanho em X",
                             "name": "size_x",
                             "type": MOSAICODE_INT,
@@ -48,18 +47,21 @@ class Resize(BlockModel):
                             }
                            ]
 
+#-------------------------------- C/OpenCV Code ------------------------------
+
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n' + \
-            'Size size$id$;\n' 
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    Size size$id$;
+"""    
 
         self.codes["execution"] = \
-            'if(!$port[input_image]$.empty()){\n' + \
-            'size$id$ = Size($prop[size_x]$,' + \
-            '$prop[size_y]$);\n' + \
-            'resize($port[input_image]$, $port[output_image]$, size$id$);\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        size$id$ = Size($prop[size_x]$, $prop[size_y]$);
+        resize($port[input_image]$, $port[output_image]$, size$id$);
+    }
+"""
 
-        self.language = "c"
-        self.framework = "opencv"
 # -----------------------------------------------------------------------------

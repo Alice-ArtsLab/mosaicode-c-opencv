@@ -16,11 +16,9 @@ class Opening(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
+        # Appearance
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
         self.help = "Operação morfológica que visa " + \
             "desconectar objetos em uma imagem ou suprimir ruídos."
         self.label = "Opening"
@@ -41,9 +39,7 @@ class Opening(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-
         self.group = "Morphological Operations"
-
         self.properties = [{"label": "Mask Size X",
                             "name": "masksizex",
                             "type": MOSAICODE_COMBO,
@@ -58,24 +54,32 @@ class Opening(BlockModel):
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
+# ------------------------------ C/OpenCv Code -------------------------------------
+        
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n' + \
-            'Mat block$id$_arg_mask = getStructuringElement(MORPH_RECT, Size($prop[masksizex]$ , $prop[masksizey]$), Point(1, 1));\n' + \
-            'int $port[masksizex]$ = $prop[masksizex]$;\n' + \
-            'int $port[masksizey]$ = $prop[masksizey]$;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    Mat block$id$_arg_mask = getStructuringElement(MORPH_RECT, Size($prop[masksizex]$ , $prop[masksizey]$), Point(1, 1));
+    int $port[masksizex]$ = $prop[masksizex]$;
+    int $port[masksizey]$ = $prop[masksizey]$;
+"""
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            'Mat block$id$_auxImg;\n' + \
-            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
-            'block$id$_auxImg = $port[input_image]$.clone();\n' + \
-            'morphologyEx($port[input_image]$, $port[output_image]$, ' + \
-            'MORPH_OPEN, block$id$_arg_mask);\n}\n'
+"""
+    if(!$port[input_image]$.empty()){
+        Mat block$id$_auxImg;
+        $port[output_image]$ = $port[input_image]$.clone();
+        block$id$_auxImg = $port[input_image]$.clone();
+        morphologyEx($port[input_image]$, $port[output_image]$, MORPH_OPEN, block$id$_arg_mask);
+    }
+"""
 
         self.codes["deallocation"] = \
-            '$port[input_image]$.release();\n' + \
-            'block$id$_arg_mask.release();\n' + \
-            '$port[output_image]$.release();\n'
+"""        
+    $port[input_image]$.release();
+    block$id$_arg_mask.release();
+    $port[output_image]$.release();
+"""
+    
 # -----------------------------------------------------------------------------

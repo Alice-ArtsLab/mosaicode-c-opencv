@@ -15,11 +15,9 @@ class Log(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
+        # Appearance
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
         self.help = "Aplica a função logarítmica a uma imagem, ou seja," + \
             "calcula o logarítmo natural do valor de intensidade" + \
             " luminosa de cada ponto da imagem."
@@ -35,26 +33,32 @@ class Log(BlockModel):
                            "label":"Output Image"}]
         self.group = "Math Functions"
 
-        # ------------------------------C/OpenCv code--------------------------
+# ------------------------------C/OpenCv code--------------------------
+
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n' + \
-            'Mat block$id$_img_t;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    Mat block$id$_img_t;
+"""            
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            'cvtColor($port[input_image]$, block$id$_img_t, ' + \
-            'COLOR_RGB2GRAY);\n' + \
-            'block$id$_img_t.convertTo(block$id$_img_t, CV_32F);\n' + \
-            'block$id$_img_t = block$id$_img_t + 1;\n' + \
-            'log(block$id$_img_t, block$id$_img_t);\n' + \
-            'convertScaleAbs(block$id$_img_t, block$id$_img_t);\n' + \
-            'normalize(block$id$_img_t, $port[output_image]$, ' + \
-            '0, 255, NORM_MINMAX);\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        cvtColor($port[input_image]$, block$id$_img_t, COLOR_RGB2GRAY);
+        block$id$_img_t.convertTo(block$id$_img_t, CV_32F);
+        block$id$_img_t = block$id$_img_t + 1;
+        log(block$id$_img_t, block$id$_img_t);
+        convertScaleAbs(block$id$_img_t, block$id$_img_t);
+        normalize(block$id$_img_t, $port[output_image]$, 0, 255, NORM_MINMAX);
+    }
+"""
 
         self.codes["deallocation"] = \
-            '$port[input_image]$.release();\n' + \
-            '$port[output_image]$.release();\n' + \
-            'block$id$_img_t.release();\n'
+"""        
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+    block$id$_img_t.release();
+"""
+
 # -----------------------------------------------------------------------------

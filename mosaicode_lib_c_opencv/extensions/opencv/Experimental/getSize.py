@@ -34,14 +34,18 @@ class GetSize(BlockModel):
 
         self.group = "Experimental"
 
-        # ------------------------------C/OpenCv code--------------------------
+# ------------------------------C/OpenCv code--------------------------
 
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' 
+"""        
+    Mat $port[input_image]$;
+"""    
 
         self.codes["execution"] = \
-            '\nif($port[input_image]$)\n{\n' + \
-            '  \t$port[rect]$ = Rect( 0, 0, ' + \
-            '$port[input_image]$.cols, $port[input_image]$.rows);\n' + \
-            '}\n'
+"""        
+    if($port[input_image]$){
+        $port[rect]$ = Rect( 0, 0, $port[input_image]$.cols, $port[input_image]$.rows);
+    }
+"""
+
 # -----------------------------------------------------------------------------

@@ -36,9 +36,7 @@ class CropImage(BlockModel):
                        "name":"output_image",
                        "label":"Output Image",
                        "conn_type":"Output"}]
-
         self.group = "Experimental"
-
         self.properties = [{"name": "x",
                             "label": "X",
                             "type": MOSAICODE_INT,
@@ -73,20 +71,25 @@ class CropImage(BlockModel):
                             }
                            ]
 
-        # ------------------------C/OpenCv code--------------------------------
+#-------------------------------- C/OpenCv Code ---------------------------------
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n' + \
-            'Rect $port[rect]$(' + \
-            '$prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    Rect $port[rect]$($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);
+"""    
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            '$port[output_image]$ = $port[input_image]$($port[rect]$);\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        $port[output_image]$ = $port[input_image]$($port[rect]$);
+    }
+"""    
 
         self.codes["deallocation"] = \
-            "$port[input_image]$.release();\n" + \
-            "$port[output_image]$.release();\n"
+"""        
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+"""            
 
 # -----------------------------------------------------------------------------

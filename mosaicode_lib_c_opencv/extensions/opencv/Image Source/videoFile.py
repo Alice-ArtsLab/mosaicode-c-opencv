@@ -28,7 +28,6 @@ class VideoFile(BlockModel):
                           "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Image Source"
-
         self.properties = [{"name": "filename",
                             "label": "File Name",
                             "type": MOSAICODE_OPEN_FILE,
@@ -42,28 +41,36 @@ class VideoFile(BlockModel):
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
+# -------------------C/OpenCv code------------------------------------
+
         self.codes["declaration"] = \
-            'CvCapture * block$id$_capture = NULL;\n' + \
-            'IplImage * block$id$_frame = NULL;\n' + \
-            'block$id$_capture = cvCreateFileCapture("$prop[filename]$");\n' + \
-            'IplImage * $port[output_image]$ = NULL; //Capture\n'
+"""        
+    CvCapture * block$id$_capture = NULL;
+    IplImage * block$id$_frame = NULL;
+    block$id$_capture = cvCreateFileCapture("$prop[filename]$");
+    IplImage * $port[output_image]$ = NULL;
+"""
 
         self.codes["execution"] = \
-            '// Video Mode \n' + \
-            'if(key == \'$prop[key]$\'){\n' +\
-            '\tcvSetCaptureProperty(block$id$_capture, ' + \
-            'CV_CAP_PROP_POS_AVI_RATIO , 0);\n' + \
-            '}\n' + \
-            'cvGrabFrame(block$id$_capture);\n' + \
-            'block$id$_frame = cvRetrieveFrame (block$id$_capture);\n' + \
-            'if(!block$id$_frame){\n' +\
-            '\tcvSetCaptureProperty(block$id$_capture, ' + \
-            'CV_CAP_PROP_POS_AVI_RATIO , 0);\n' + \
-            '\tcontinue;\n' + \
-            '}\n' + \
-            '$port[output_image]$ = cvCloneImage(block$id$_frame);\n'
-
-        self.codes["deallocation"] = "cvReleaseImage(&$port[output_image]$);\n"
-        self.codes["cleanup"] = 'cvReleaseCapture(&block$id$_capture);\n'
+"""        
+    if(key == \'$prop[key]$\'){
+        cvSetCaptureProperty(block$id$_capture, CV_CAP_PROP_POS_AVI_RATIO , 0);
+    }
+    cvGrabFrame(block$id$_capture);
+    block$id$_frame = cvRetrieveFrame (block$id$_capture);
+    if(!block$id$_frame){
+        cvSetCaptureProperty(block$id$_capture, CV_CAP_PROP_POS_AVI_RATIO , 0);
+        continue;
+    }
+    $port[output_image]$ = cvCloneImage(block$id$_frame);
+"""
+        self.codes["deallocation"] = \
+"""
+    cvReleaseImage(&$port[output_image]$);
+"""        
+        self.codes["cleanup"] = \
+"""
+        cvReleaseCapture(&block$id$_capture);\n'
+"""
+        
 # -----------------------------------------------------------------------------

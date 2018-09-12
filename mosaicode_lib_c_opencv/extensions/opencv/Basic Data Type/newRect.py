@@ -15,6 +15,8 @@ class NewRect(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
+        self.language = "c"
+        self.framework = "opencv"
         self.help = "Creates new rectangle"
         self.label = "New Rectangle"
         self.color = "50:50:200:150"
@@ -23,7 +25,6 @@ class NewRect(BlockModel):
                           "conn_type":"Output",
                           "label":"Rect"}]
         self.group = "Basic Data Type"
-
         self.properties = [{"label": "X",
                             "name": "x",
                             "type": MOSAICODE_INT,
@@ -58,9 +59,11 @@ class NewRect(BlockModel):
                             }
                            ]
 
-        self.codes["execution"] = \
-            '$port[rect]$ = Rect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);\n'
+#----------------------------- C/OpenCv Code ----------------------------------
 
-        self.language = "c"
-        self.framework = "opencv"
+        self.codes["execution"] = \
+"""        
+    $port[rect]$ = Rect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);
+"""            
+
 # -----------------------------------------------------------------------------

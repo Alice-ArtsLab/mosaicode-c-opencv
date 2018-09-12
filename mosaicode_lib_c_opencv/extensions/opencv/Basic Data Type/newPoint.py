@@ -15,10 +15,10 @@ class NewPoint(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        self.x0 = 0
-        self.y0 = 0
 
         # Appearance
+        self.language = "c"
+        self.framework = "opencv"
         self.help = "Creates a new Point."
         self.label = "New Point"
         self.color = "50:50:200:150"
@@ -28,28 +28,29 @@ class NewPoint(BlockModel):
                         "label":"Point",
                         "conn_type":"Output"}]
         self.group = "Basic Data Type"
-
         self.properties = [{"name": "x",
                             "label": "X",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,
-                            "step": 1
+                            "step": 1,
+                            "value": 0
                             },
                            {"name": "y",
                             "label": "Y",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 65535,
-                            "step": 1
+                            "step": 1,
+                            "value": 0
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
-        self.codes["declaration"] = 'Point $port[point]$ = Point($prop[x]$, $prop[y]$);\n'
+# -------------------C/OpenCv code------------------------------------      
 
         self.codes["execution"] = \
-            '$port[point]$ = Point($prop[x]$, $prop[y]$);\n'
-        self.language = "c"
-        self.framework = "opencv"
+"""        
+    $port[point]$ = Point($prop[x]$, $prop[y]$);
+"""    
+        
 # -----------------------------------------------------------------------------

@@ -26,7 +26,6 @@ class IntSlider(BlockModel):
                         "label":"Slider Int Value"}
                         ]
         self.group = "Basic Data Type"
-
         self.properties = [{"label": "Integer Value",
                             "name": "intVal",
                             "type": MOSAICODE_INT,
