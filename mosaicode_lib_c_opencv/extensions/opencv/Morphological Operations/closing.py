@@ -15,10 +15,9 @@ class Closing(BlockModel):
     # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        
+        # Appearance
         self.language = "c"
         self.framework = "opencv"
-        # Appearance
         self.help = "Operação de morfologia matemática para realizar o " + \
             "fechamento da imagem de acordo com o elemento estruturante." + \
             "Equivale a aplicação de uma dilatação seguida de uma erosão."
@@ -41,7 +40,6 @@ class Closing(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-
         self.properties = [{"label": "Mask Size X",
                             "name": "masksizex",
                             "type": MOSAICODE_COMBO,
@@ -56,30 +54,35 @@ class Closing(BlockModel):
                             }
                             ]
 
-        # -------------------C/OpenCv code---------------------------------
+# ----------------------------- C/OpenCv Code ---------------------------------
+
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'int $port[masksizex]$ = $prop[masksizex]$;\n' + \
-            'int $port[masksizey]$ = $prop[masksizey]$;\n' + \
-            'Mat $port[output_image]$;\n' + \
-            'Mat block$id$_arg_mask;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    Mat block$id$_arg_mask;
+    Mat block$id$_auxImg;
+    int $port[masksizey]$ = $prop[masksizey]$;
+    int $port[masksizex]$ = $prop[masksizex]$;
+"""    
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            'if ($port[masksizex]$ % 2 == 0) $port[masksizex]$++;\n' + \
-            'if ($port[masksizey]$ % 2 == 0) $port[masksizey]$++;\n' + \
-            'block$id$_arg_mask = ' + \
-            'getStructuringElement(MORPH_RECT, Size($port[masksizex]$ ,' + \
-            '$port[masksizey]$), Point(1, 1));\n' + \
-            'Mat block$id$_auxImg;\n' + \
-            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
-            'block$id$_auxImg = $port[input_image]$.clone();\n' + \
-            'morphologyEx($port[input_image]$, $port[output_image]$,' + \
-            'MORPH_CLOSE, block$id$_arg_mask);\n}\n'
+"""
+    if(!$port[input_image]$.empty()){
+        if($port[masksizex]$ % 2 == 0) $port[masksizex]$++;
+        if($port[masksizey]$ % 2 == 0) $port[masksizey]$++;
+        block$id$_arg_mask = getStructuringElement(MORPH_RECT, Size($port[masksizex]$, $port[masksizey]$), Point(1, 1));
+        $port[output_image]$ = $port[input_image]$.clone();
+        block$id$_auxImg = $port[input_image]$.clone();
+        morphologyEx($port[input_image]$, $port[output_image]$, MORPH_CLOSE, block$id$_arg_mask);
+    }
+"""    
 
         self.codes["deallocation"] = \
-            '$port[input_image]$.release();\n' + \
-            'block$id$_arg_mask.release();\n' + \
-            '$port[output_image]$.release();\n'
+"""        
+    $port[input_image]$.release();
+    block$id$_arg_mask.release();
+    $port[output_image]$.release();
+"""
 
 # -----------------------------------------------------------------------------

@@ -30,9 +30,7 @@ class Erode(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-
         self.group = "Morphological Operations"
-
         self.properties = [{"label": "Mask Size X",
                             "name": "masksizex",
                             "type": MOSAICODE_COMBO,
@@ -47,22 +45,26 @@ class Erode(BlockModel):
                             }
                            ]
 
-        # --------------------------C/OpenCv code------------------------------
+# ----------------------------------- C/OpenCv Code ------------------------------------
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n' + \
-            'Mat block$id$_arg_mask = ' + \
-            'getStructuringElement(MORPH_RECT, Size($prop[masksizex]$ , $prop[masksizey]$), Point(1, 1));\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    Mat block$id$_arg_mask = getStructuringElement(MORPH_RECT, Size($prop[masksizex]$ , $prop[masksizey]$), Point(1, 1));
+"""    
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
-            'erode($port[input_image]$, $port[output_image]$, ' + \
-            'block$id$_arg_mask);\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        $port[output_image]$ = $port[input_image]$.clone();
+        erode($port[input_image]$, $port[output_image]$, block$id$_arg_mask);
+    }
+"""
 
         self.codes["deallocation"] =  \
-            '$port[input_image]$.release();\n' + \
-            '$port[output_image]$.release();\n'
+"""        
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+"""
 
 # -----------------------------------------------------------------------------

@@ -15,8 +15,6 @@ class NewImage(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
-        # Appearance
         self.help = "Cria uma nova imagem."
         self.label = "New Image"
         self.color = "50:100:200:150"
@@ -27,7 +25,6 @@ class NewImage(BlockModel):
                           "conn_type":"Output",
                            "label":"Output Image"}]
         self.group = "Image Source"
-
         self.properties = [{"name": "width",
                             "label": "Width",
                             "type": MOSAICODE_INT,
@@ -47,14 +44,15 @@ class NewImage(BlockModel):
                            ]
 
         self.codes["declaration"] = \
-            'Mat $port[output_image]$;\n'
-
+"""        
+    Mat $port[output_image]$;
+"""
         self.codes["execution"] = \
-            'Size size$id$($prop[width]$, $prop[height]$);\n' + \
-            'Mat $port[output_image]$(size$id$, CV_8UC1);\n' + \
-            'zeros($port[output_image]$.rows, $port[output_image]$.cols, ' + \
-            'CV_8UC1);\n'
-
-        self.codes["deallocation"] = "$port[output_image]$.release();\n"
+"""        
+    Size size$id$($prop[width]$, $prop[height]$);
+    Mat $port[output_image]$(size$id$, CV_8UC1);
+    zeros($port[output_image]$.rows, $port[output_image]$.cols, CV_8UC1);
+    self.codes["deallocation"] = "$port[output_image]$.release();
+"""
 
 # -----------------------------------------------------------------------------

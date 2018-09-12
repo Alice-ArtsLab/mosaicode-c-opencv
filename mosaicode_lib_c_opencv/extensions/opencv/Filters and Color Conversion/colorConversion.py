@@ -32,9 +32,7 @@ class ColorConversion(BlockModel):
                        "name": "output_image",
                        "label": "Output Image",
                        "conn_type": "Output"}]
-
         self.group = "Filters and Color Conversion"
-
         self.properties = [{"name": "conversion_type",
                             "label": "Conversion Type",
                             "type": MOSAICODE_COMBO,

@@ -15,11 +15,9 @@ class Pow(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
+        # Appearance
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
         self.help = "Eleva cada ponto de uma " + \
             "imagem a um valor fixo de potência."
         self.label = "Pow"
@@ -32,9 +30,7 @@ class Pow(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-
         self.group = "Math Functions"
-
         self.properties = [{"label": "Exponent",
                             "name": "exponent",
                             "value":1,
@@ -44,19 +40,26 @@ class Pow(BlockModel):
                             }
                            ]
 
-        # -------------------C/OpenCv code------------------------------------
+# --------------------------- C/OpenCv Code------------------------------------
 
         self.codes["declaration"] = \
-            'Mat $port[input_image]$;\n' + \
-            'Mat $port[output_image]$;\n'
+"""        
+    Mat $port[input_image]$;
+    Mat $port[output_image]$;
+"""
 
         self.codes["execution"] = \
-            '\nif(!$port[input_image]$.empty()){\n' + \
-            '$port[output_image]$ = $port[input_image]$.clone();\n' + \
-            'pow($port[input_image]$, $prop[exponent]$, $port[output_image]$);\n' + \
-            '}\n'
+"""        
+    if(!$port[input_image]$.empty()){
+        $port[output_image]$ = $port[input_image]$.clone();
+        pow($port[input_image]$, $prop[exponent]$, $port[output_image]$);
+    }
+"""    
 
         self.codes["deallocation"] = \
-            '$port[input_image]$.release();\n' + \
-            '$port[output_image]$.release();\n'
+"""        
+    $port[input_image]$.release();
+    $port[output_image]$.release();
+"""
+
 # -----------------------------------------------------------------------------
