@@ -49,7 +49,7 @@ class SideBySide(BlockModel):
     if(!$port[input_image1]$.empty() && !$port[input_image2]$.empty()){
         Size size_1($port[input_image1]$.cols, $port[input_image1]$.rows);
         Size size_2($port[input_image2]$.cols, $port[input_image2]$.rows);
-        Mat block$id$_img_t(size_1.height, size_1.width+size_2.width, 'CV_8UC3);
+        Mat block$id$_img_t(size_1.height, size_1.width+size_2.width, CV_8UC3);
         Mat left_image(block$id$_img_t, Rect(0, 0, size_1.width, size_1.height));
         $port[input_image1]$.copyTo(left_image);
         Mat right_image(block$id$_img_t, Rect(size_1.width, 0, size_2.width, size_2.height));

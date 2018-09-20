@@ -40,7 +40,8 @@ setup(name='mosaicode-lib-c-opencv',
       license="GNU GPL3",
       url='https://mosaicode.github.io/',
 
-      # this is fucked up! must put it in package_data!!
-      data_files=[],
+      data_files=[
+            ('/usr/share/mosaicode/extensions/examples/c/opencv', glob("examples/*"))
+      ],
       **config
 )
