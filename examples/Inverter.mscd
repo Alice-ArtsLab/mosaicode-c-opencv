@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosaicode>
+ <version value="0.0.1"/>
+ <zoom value="1.0"/>
+ <language value="c"/>
+ <blocks>
+  <block collapsed="False" id="1" type="mosaicode_lib_c_opencv.extensions.opencv.General.show">
+   <position x="490.0" y="100.0"/>
+   <property key="title" value="My Image"/>
+   <property key="window_type" value="WINDOW_AUTOSIZE"/>
+  </block>
+  <block collapsed="False" id="2" type="mosaicode_lib_c_opencv.extensions.opencv.Image Source.imageFile">
+   <position x="30.0" y="80.0"/>
+   <property key="filename" value="/usr/share/mosaicode/extensions/examples/c/opencv/lenna.png"/>
+  </block>
+  <block collapsed="False" id="5" type="mosaicode_lib_c_opencv.extensions.opencv.Experimental.invertImage">
+   <position x="190.0" y="80.0"/>
+  </block>
+  <block collapsed="False" id="6" type="mosaicode_lib_c_opencv.extensions.opencv.Arithmetic and Logical Operations.sidebyside">
+   <position x="340.0" y="140.0"/>
+  </block>
+ </blocks>
+ <connections>
+  <connection from_block="2" from_out="0" to_block="5" to_in="0"/>
+  <connection from_block="2" from_out="0" to_block="6" to_in="1"/>
+  <connection from_block="5" from_out="1" to_block="6" to_in="0"/>
+  <connection from_block="6" from_out="2" to_block="1" to_in="0"/>
+ </connections>
+ <comments/>
+</mosaicode>

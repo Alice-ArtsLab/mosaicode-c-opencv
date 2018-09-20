@@ -31,7 +31,7 @@ class ImageFile(BlockModel):
         self.properties = [{"label": "File Name",
                             "name": "filename",
                             "type": MOSAICODE_OPEN_FILE,
-                            "value":"/usr/share/mosaicode/images/lenna.png"
+                            "value":"/usr/share/mosaicode/extensions/examples/c/opencv/lenna.png"
                             }
                            ]
 
