@@ -50,7 +50,7 @@ class Dilate(BlockModel):
 """        
     Mat $port[input_image]$;
     Mat $port[output_image]$;
-    Mat block$id$_arg_mask = getStructuringElement(MORPH_RECT, Size($prop[masksizex]$, $prop[masksizey]$), Point(1, 1);
+    Mat block$id$_arg_mask = getStructuringElement(MORPH_RECT, Size($prop[masksizex]$, $prop[masksizey]$), Point(1, 1));
 """
 
         self.codes["execution"] = \

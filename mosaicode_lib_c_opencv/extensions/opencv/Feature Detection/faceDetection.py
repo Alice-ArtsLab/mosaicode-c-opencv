@@ -88,6 +88,7 @@ class FaceDetection(BlockModel):
 	Mat $port[input_image]$;
 	Mat $port[output_image]$;
 	CascadeClassifier face_cascade_$id$;
+	vector<Rect> faces_$id$;
 """
 
 		self.codes["execution"] = \
@@ -95,15 +96,14 @@ class FaceDetection(BlockModel):
 	if(!$port[input_image]$.empty()){
 		Scalar color = get_scalar_color("$prop[color]$");
 		face_cascade_$id$.load("/opt/opencv/data/haarcascades/haarcascade_frontalface_alt.xml");
-		vector<Rect> faces;
-		face_cascade_$id$.detectMultiScale($port[input_image]$, faces, 1.1, 3, 0|CV_HAAR_SCALE_IMAGE, Size(0, 0));
-		for(int i = 0; i < faces.size(); i++){
+		face_cascade_$id$.detectMultiScale($port[input_image]$, faces_$id$, 1.1, 3, 0|CV_HAAR_SCALE_IMAGE, Size(0, 0));
+		for(int i = 0; i < faces_$id$.size(); i++){
 			if("$prop[drawing]$" == "Ellipse"){
-				Point center(faces[i].x + faces[i].width*0.5, faces[i].y + faces[i].height*0.5);
-				ellipse($port[input_image]$, center, Size(faces[i].width*$prop[degree]$, faces[i].height*$prop[degree]$), 0, 0, 360, color, $prop[thickness]$, 8, 0);
+				Point center(faces_$id$[i].x + faces_$id$[i].width*0.5, faces_$id$[i].y + faces_$id$[i].height*0.5);
+				ellipse($port[input_image]$, center, Size(faces_$id$[i].width*$prop[degree]$, faces_$id$[i].height*$prop[degree]$), 0, 0, 360, color, $prop[thickness]$, 8, 0);
 			}
 			else if("$prop[drawing]$" == "Rectangle")
-				rectangle($port[input_image]$, faces[i], color, $prop[thickness]$, 8, 0);	
+				rectangle($port[input_image]$, faces_$id$[i], color, $prop[thickness]$, 8, 0);	
 		}
 		$port[output_image]$ = $port[input_image]$.clone();
 	}
