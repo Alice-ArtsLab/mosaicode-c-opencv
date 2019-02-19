@@ -7,9 +7,9 @@ from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
 
-class FillRect(BlockModel):
+class Rectangle(BlockModel):
     """
-    This class contains methods related the FillRect class.
+    This class contains methods related the Rectangle class.
     """
     # -------------------------------------------------------------------------
 
@@ -18,8 +18,7 @@ class FillRect(BlockModel):
         # Appearance
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Preenche o retângulo de uma cor."
-        self.label = "Fill Rectangle"
+        self.label = "Rectangle"
         self.color = "50:100:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
@@ -69,7 +68,7 @@ class FillRect(BlockModel):
                             {"name": "line",
                             "label": "Line",
                             "type": MOSAICODE_INT,
-                            "lower": 0,
+                            "lower": 1,
                             "upper": 10000,
                             "step": 1,
                             "value": 1
@@ -78,6 +77,15 @@ class FillRect(BlockModel):
                             "label": "Color",
                             "type": MOSAICODE_COLOR,
                             "value": "#FF0000"
+                            },
+                            {"name": "fill",
+                            "label": "Fill",
+                            "type": MOSAICODE_COMBO,
+                            "value": 'NO',
+                            "values": [
+                                    'YES',
+                                    'NO'
+                            ]
                             }
                            ]
 
@@ -102,7 +110,7 @@ class FillRect(BlockModel):
         gi /= 257;
         bi /= 257;
             
-        return Scalar(bi, gi, ri, 0);\n" + \
+        return Scalar(bi, gi, ri, 0);
     }
 """
 
@@ -118,7 +126,12 @@ class FillRect(BlockModel):
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
         Scalar color = get_scalar_color("$prop[color]$");
-        rectangle($port[output_image]$, $port[rect]$, color, $prop[line]$, 8, 0);
+        if("$prop[fill]$" == "NO"){
+                rectangle($port[output_image]$, $port[rect]$, color, $prop[line]$, 8, 0);
+        }
+        else{
+                rectangle($port[output_image]$, $port[rect]$, color, -1, 8, 0);
+        }
     }
 """    
 
