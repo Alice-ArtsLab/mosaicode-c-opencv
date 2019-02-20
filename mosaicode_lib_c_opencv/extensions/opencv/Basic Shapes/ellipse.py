@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the Circle class.
+This module contains the Ellipse class.
 """
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
 
-class Circle(BlockModel):
+class Ellipse(BlockModel):
     """
-    This class contains methods related the Circle class.
+    This class contains methods related the Ellipse class.
     """
     # -------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ class Circle(BlockModel):
         # Appearance
         self.language = "c"
         self.framework = "opencv"
-        self.label = "Circle"
+        self.label = "Ellipse"
         self.color = "50:100:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
@@ -45,13 +45,45 @@ class Circle(BlockModel):
                             "step": 1,
                             "value": 1
                             },
-                            {"name": "radius",
-                            "label": "Radius",
+                            {"name": "width",
+                            "label": "Width",
                             "type": MOSAICODE_FLOAT,
                             "lower": 0.0,
                             "upper": 10000.0,
                             "step": 1.0,
                             "value": 1.0
+                            },
+                           {"name": "height",
+                            "label": "Height",
+                            "type": MOSAICODE_FLOAT,
+                            "lower": 0.0,
+                            "upper": 10000.0,
+                            "step": 1.0,
+                            "value": 1.0
+                            },
+                            {"name": "angle",
+                            "label": "Angle",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 360,
+                            "step": 1,
+                            "value": 0
+                            },
+                            {"name": "start_angle",
+                            "label": "Start angle",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 360,
+                            "step": 1,
+                            "value": 0
+                            },
+                            {"name": "end_angle",
+                            "label": "End angle",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 360,
+                            "step": 1,
+                            "value": 360
                             },
                             {"name": "line",
                             "label": "Line",
@@ -114,10 +146,10 @@ class Circle(BlockModel):
         $port[output_image]$ = $port[input_image]$.clone();
         Scalar color = get_scalar_color("$prop[color]$");
         if("$prop[fill]$" == "NO"){
-            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, $prop[line]$, 8);
+            ellipse($port[output_image]$, Point($prop[x]$, $prop[y]$), Size($prop[width]$, $prop[height]$), $prop[angle]$, $prop[start_angle]$, $prop[end_angle]$, color, $prop[line]$, 8);
         }
         else{
-            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, -1, 8);
+            ellipse($port[output_image]$, Point($prop[x]$, $prop[y]$), Size($prop[width]$, $prop[height]$), $prop[angle]$, $prop[start_angle]$, $prop[end_angle]$, color, -1, 8);
         }
     }
 """    

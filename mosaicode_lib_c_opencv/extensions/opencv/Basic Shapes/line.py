@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the Circle class.
+This module contains the Line class.
 """
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
 
-class Circle(BlockModel):
+class Line(BlockModel):
     """
-    This class contains methods related the Circle class.
+    This class contains methods related the Line class.
     """
     # -------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ class Circle(BlockModel):
         # Appearance
         self.language = "c"
         self.framework = "opencv"
-        self.label = "Circle"
+        self.label = "Line"
         self.color = "50:100:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
@@ -29,29 +29,37 @@ class Circle(BlockModel):
                        "name":"output_image",
                        "label":"Output Image"}]
         self.group = "Basic Shapes"
-        self.properties = [{"name": "x",
-                            "label": "X",
+        self.properties = [{"name": "x1",
+                            "label": "X1",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
-                           {"name": "y",
-                            "label": "Y",
+                           {"name": "y1",
+                            "label": "Y1",
                             "type": MOSAICODE_INT,
                             "lower": 0,
                             "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
-                            {"name": "radius",
-                            "label": "Radius",
-                            "type": MOSAICODE_FLOAT,
-                            "lower": 0.0,
-                            "upper": 10000.0,
-                            "step": 1.0,
-                            "value": 1.0
+                            {"name": "x2",
+                            "label": "X2",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 10000,
+                            "step": 1,
+                            "value": 1
+                            },
+                           {"name": "y2",
+                            "label": "Y2",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 10000,
+                            "step": 1,
+                            "value": 1
                             },
                             {"name": "line",
                             "label": "Line",
@@ -65,15 +73,6 @@ class Circle(BlockModel):
                             "label": "Color",
                             "type": MOSAICODE_COLOR,
                             "value": "#FF0000"
-                            },
-                            {"name": "fill",
-                            "label": "Fill",
-                            "type": MOSAICODE_COMBO,
-                            "value": 'NO',
-                            "values": [
-                                    'YES',
-                                    'NO'
-                            ]
                             }
                            ]
 
@@ -113,12 +112,7 @@ class Circle(BlockModel):
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
         Scalar color = get_scalar_color("$prop[color]$");
-        if("$prop[fill]$" == "NO"){
-            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, $prop[line]$, 8);
-        }
-        else{
-            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, -1, 8);
-        }
+        line($port[output_image]$, Point($prop[x1]$, $prop[y1]$), Point($prop[x2]$, $prop[y2]$), color, $prop[line]$, 8);
     }
 """    
 

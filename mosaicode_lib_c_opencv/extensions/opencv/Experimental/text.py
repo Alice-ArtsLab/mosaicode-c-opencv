@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the Circle class.
+This module contains the Text class.
 """
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
 
-class Circle(BlockModel):
+class Text(BlockModel):
     """
-    This class contains methods related the Circle class.
+    This class contains methods related the Line class.
     """
     # -------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ class Circle(BlockModel):
         # Appearance
         self.language = "c"
         self.framework = "opencv"
-        self.label = "Circle"
+        self.label = "Text"
         self.color = "50:100:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
@@ -28,8 +28,13 @@ class Circle(BlockModel):
                        "conn_type":"Output",
                        "name":"output_image",
                        "label":"Output Image"}]
-        self.group = "Basic Shapes"
-        self.properties = [{"name": "x",
+        self.group = "Experimental"
+        self.properties = [{"name": "text",
+                            "label": "Text",
+                            "type": MOSAICODE_STRING,
+                            "value": ''
+                            },
+                            {"name": "x",
                             "label": "X",
                             "type": MOSAICODE_INT,
                             "lower": 0,
@@ -45,8 +50,24 @@ class Circle(BlockModel):
                             "step": 1,
                             "value": 1
                             },
-                            {"name": "radius",
-                            "label": "Radius",
+                            {"name": "font_face",
+                            "label": "Font face",
+                            "type": MOSAICODE_COMBO,
+                            "value": 'FONT_HERSHEY_SIMPLEX',
+                            "values": [
+                                'FONT_HERSHEY_SIMPLEX',
+                                'FONT_HERSHEY_PLAIN',
+                                'FONT_HERSHEY_DUPLEX',
+                                'FONT_HERSHEY_COMPLEX',
+                                'FONT_HERSHEY_TRIPLEX',
+                                'FONT_HERSHEY_COMPLEX_SMALL',
+                                'FONT_HERSHEY_SCRIPT_SIMPLEX',
+                                'FONT_HERSHEY_SCRIPT_COMPLEX',
+                                'FONT_HERSHEY_ITALIC'
+                            ]
+                            },
+                           {"name": "font_scale",
+                            "label": "Font scale",
                             "type": MOSAICODE_FLOAT,
                             "lower": 0.0,
                             "upper": 10000.0,
@@ -65,15 +86,6 @@ class Circle(BlockModel):
                             "label": "Color",
                             "type": MOSAICODE_COLOR,
                             "value": "#FF0000"
-                            },
-                            {"name": "fill",
-                            "label": "Fill",
-                            "type": MOSAICODE_COMBO,
-                            "value": 'NO',
-                            "values": [
-                                    'YES',
-                                    'NO'
-                            ]
                             }
                            ]
 
@@ -113,12 +125,7 @@ class Circle(BlockModel):
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
         Scalar color = get_scalar_color("$prop[color]$");
-        if("$prop[fill]$" == "NO"){
-            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, $prop[line]$, 8);
-        }
-        else{
-            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, -1, 8);
-        }
+        putText($port[output_image]$, "$prop[text]$", Point($prop[x]$, $prop[y]$), $prop[font_face]$, $prop[font_scale]$, color, $prop[line]$);
     }
 """    
 
