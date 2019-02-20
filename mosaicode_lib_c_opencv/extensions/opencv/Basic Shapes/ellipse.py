@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the FillRect class.
+This module contains the Ellipse class.
 """
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
@@ -24,10 +24,6 @@ class Ellipse(BlockModel):
                        "name":"input_image",
                        "conn_type":"Input",
                        "label":"Input Image"},
-                      {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
-                       "name":"rect",
-                       "conn_type":"Input",
-                       "label":"Rectangle"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "conn_type":"Output",
                        "name":"output_image",

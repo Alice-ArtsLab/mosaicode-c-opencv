@@ -18,35 +18,22 @@ class Circle(BlockModel):
         # Appearance
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Desenha círculos."
         self.label = "Circle"
-        self.color = "255:0:0:150"
+        self.color = "50:100:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
-			           "label":"Input Image",
-                       "conn_type":"Input"},
-                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                       "name":"input_x",
-			           "label":"X",
-                       "conn_type":"Input"},
-                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                       "name":"input_y",
-			           "label":"Y",
-                       "conn_type":"Input"},
-                      {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                       "name":"input_radius",
-			           "label":"Radius",
-                       "conn_type":"Input"},
+                       "conn_type":"Input",
+                       "label":"Input Image"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "conn_type":"Output",
                        "name":"output_image",
-			           "label":"Output Image",
-                       "conn_type":"Output"}]
+                       "label":"Output Image"}]
         self.group = "Basic Shapes"
         self.properties = [{"name": "x",
                             "label": "X",
                             "type": MOSAICODE_INT,
                             "lower": 0,
-                            "upper": 1000,
+                            "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
@@ -54,34 +41,43 @@ class Circle(BlockModel):
                             "label": "Y",
                             "type": MOSAICODE_INT,
                             "lower": 0,
-                            "upper": 1000,
+                            "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
-                           {"name": "radius",
+                            {"name": "radius",
                             "label": "Radius",
-                            "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 1000,
-                            "step": 1,
-                            "value": 1
+                            "type": MOSAICODE_FLOAT,
+                            "lower": 0.0,
+                            "upper": 10000.0,
+                            "step": 1.0,
+                            "value": 1.0
                             },
-                           {"name": "line",
+                            {"name": "line",
                             "label": "Line",
                             "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 1000,
+                            "lower": 1,
+                            "upper": 10000,
                             "step": 1,
                             "value": 1
                             },
-                           {"name": "color",
+                            {"name": "color",
                             "label": "Color",
-                            "value":"#FF0000",
-                            "type": MOSAICODE_COLOR
+                            "type": MOSAICODE_COLOR,
+                            "value": "#FF0000"
+                            },
+                            {"name": "fill",
+                            "label": "Fill",
+                            "type": MOSAICODE_COMBO,
+                            "value": 'NO',
+                            "values": [
+                                    'YES',
+                                    'NO'
+                            ]
                             }
                            ]
-        
-# --------------------------------C/OpenCv code --------------------------------------
+
+#------------------------------------- C/OpenCV Code ----------------------------------
 
         self.codes["function"] = \
 """        
@@ -104,31 +100,32 @@ class Circle(BlockModel):
             
         return Scalar(bi, gi, ri, 0);
     }
-"""    
-        
+"""
+
         self.codes["declaration"] = \
 """        
     Mat $port[input_image]$;
     Mat $port[output_image]$;
-    int $port[input_radius]$ = $prop[radius]$;
-    int $port[input_x]$ = $prop[x]$;
-    int $port[input_y]$ = $prop[y]$;
-"""    
+"""            
 
         self.codes["execution"] = \
 """        
     if(!$port[input_image]$.empty()){
-        Point center = Point($port[input_x]$, $port[input_y]$);
-        Scalar color = get_scalar_color("$prop[color]$");
-        circle($port[input_image]$, center, $port[input_radius]$, color, $prop[line]$, 8, 0);
         $port[output_image]$ = $port[input_image]$.clone();
+        Scalar color = get_scalar_color("$prop[color]$");
+        if("$prop[fill]$" == "NO"){
+            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, $prop[line]$, 8);
+        }
+        else{
+            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, -1, 8);
+        }
     }
-"""
+"""    
 
         self.codes["deallocation"] = \
 """        
     $port[input_image]$.release();
     $port[output_image]$.release();
-"""    
+"""                    
 
 # -----------------------------------------------------------------------------
