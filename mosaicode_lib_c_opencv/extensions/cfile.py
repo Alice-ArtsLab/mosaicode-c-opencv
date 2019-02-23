@@ -63,7 +63,7 @@ int main(int argc, char ** argv){
         $code[execution, connection]$
         $code[deallocation]$
     }
-
+    
     destroyAllWindows();
     return 0;
 }
