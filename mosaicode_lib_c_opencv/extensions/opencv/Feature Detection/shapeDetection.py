@@ -29,10 +29,30 @@ class ShapeDetection(BlockModel):
 						"label": "Output Image",
 						"conn_type": "Output"}
 		]
-		self.properties = [{"name": "color",
-                            "label": "Color",
+		self.properties = [{"name": "triangle_color",
+                            "label": "Triangle color",
+                            "type": MOSAICODE_COLOR,
+                            "value": "#BBBBBB"
+                            },
+                            {"name": "square_color",
+                            "label": "Square color",
+                            "type": MOSAICODE_COLOR,
+                            "value": "#CCCCCC"
+                            },
+                            {"name": "polygon_color",
+                            "label": "Polygon color",
                             "type": MOSAICODE_COLOR,
                             "value": "#DDDDDD"
+                            },
+                            {"name": "semi_color",
+                            "label": "Semicircle color",
+                            "type": MOSAICODE_COLOR,
+                            "value": "#EEEEEE"
+                            },
+                            {"name": "circle_color",
+                            "label": "Circle color",
+                            "type": MOSAICODE_COLOR,
+                            "value": "#FFFFFF"
                             },
                             {"label": "Thickness",
                             "name": "thickness",
@@ -76,13 +96,11 @@ class ShapeDetection(BlockModel):
 	Mat $port[output_image]$;
 	vector<vector<Point> > contours_$id$; 
     vector<Point> approx_$id$;
-    Scalar color_$id$ = get_scalar_color("$prop[color]$");
 """
 
 		self.codes["execution"] = \
 """		
 	if(!$port[input_image]$.empty()){
-        Scalar color = get_scalar_color("$prop[color]$");
         $port[output_image]$ = $port[input_image]$.clone();
 		cvtColor($port[input_image]$, $port[input_image]$, COLOR_BGR2GRAY);
         threshold($port[input_image]$, $port[input_image]$, 127, 255, CV_THRESH_BINARY);
@@ -90,22 +108,19 @@ class ShapeDetection(BlockModel):
         for(int i = 0; i < contours_$id$.size(); i++){
             approxPolyDP(contours_$id$[i], approx_$id$, 0.02*arcLength(contours_$id$[i], true), true);
             if(approx_$id$.size() == 3){
-                drawContours($port[output_image]$, contours_$id$, i, color_$id$, $prop[thickness]$, 8);
+                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[triangle_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() == 4){
-                drawContours($port[output_image]$, contours_$id$, i, color_$id$, $prop[thickness]$, 8);
+                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[square_color]$"), $prop[thickness]$, 8);
             }
-            if(approx_$id$.size() == 5){
-                drawContours($port[output_image]$, contours_$id$, i, color_$id$, $prop[thickness]$, 8);
-            }
-            if(approx_$id$.size() > 5 && approx_$id$.size() < 9){
-                drawContours($port[output_image]$, contours_$id$, i, color_$id$, $prop[thickness]$, 8);
+            if(approx_$id$.size() >= 5 && approx_$id$.size() < 9){
+                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[polygon_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() == 9){
-                drawContours($port[output_image]$, contours_$id$, i, color_$id$, $prop[thickness]$, 8);
+                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[semi_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() > 11){
-                drawContours($port[output_image]$, contours_$id$, i, color_$id$, $prop[thickness]$, 8);
+                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[circle_color]$"), $prop[thickness]$, 8);
             }
         }
 	}
