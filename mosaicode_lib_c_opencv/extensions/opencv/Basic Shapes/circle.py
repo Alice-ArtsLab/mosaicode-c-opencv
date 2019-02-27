@@ -24,6 +24,10 @@ class Circle(BlockModel):
                        "name":"input_image",
                        "conn_type":"Input",
                        "label":"Input Image"},
+                       {"type":"mosaicode_lib_c_opencv.extensions.ports.rects",
+                       "name":"input_rects",
+                       "conn_type":"Input",
+                       "label":"Input Rects"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "conn_type":"Output",
                        "name":"output_image",
@@ -81,9 +85,10 @@ class Circle(BlockModel):
 
         self.codes["function"] = \
 """        
-    Scalar get_scalar_color(const char * rgbColor){
-        if (strlen(rgbColor) < 13 || rgbColor[0] != '#')
+    Scalar get_scalar_color$id$(const char * rgbColor){
+        if(strlen(rgbColor) < 13 || rgbColor[0] != '#')
             return Scalar(0,0,0,0);
+
         char r[4], g[4], b[4];
         strncpy(r, rgbColor+1, 4);
         strncpy(g, rgbColor+5, 4);
@@ -97,7 +102,7 @@ class Circle(BlockModel):
         ri /= 257;
         gi /= 257;
         bi /= 257;
-            
+        
         return Scalar(bi, gi, ri, 0);
     }
 """
@@ -106,21 +111,36 @@ class Circle(BlockModel):
 """        
     Mat $port[input_image]$;
     Mat $port[output_image]$;
+    vector<Rect> $port[input_rects]$;
 """            
 
         self.codes["execution"] = \
 """        
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
-        Scalar color = get_scalar_color("$prop[color]$");
-        if("$prop[fill]$" == "NO"){
-            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, $prop[line]$, 8);
+        Scalar color = get_scalar_color$id$("$prop[color]$");
+        if(!$port[input_rects]$.empty()){
+            if("$prop[fill]$" == "NO"){
+                for(int i = 0; i < $port[input_rects]$.size(); i++){
+                    circle($port[output_image]$, Point($port[input_rects]$[i].x, $port[input_rects]$[i].y), $prop[radius]$, color, $prop[line]$, 8);
+                }
+            }
+            else{
+                for(int i = 0; i < $port[input_rects]$.size(); i++){
+                    circle($port[output_image]$, Point($port[input_rects]$[i].x, $port[input_rects]$[i].y), $prop[radius]$, color, -1, 8);
+                }
+            }
         }
-        else{
-            circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, -1, 8);
+        else{ 
+            if("$prop[fill]$" == "NO"){
+                circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, $prop[line]$, 8);
+            }
+            else{
+                circle($port[output_image]$, Point($prop[x]$, $prop[y]$), $prop[radius]$, color, -1, 8);
+            }
         }
     }
-"""    
+"""
 
         self.codes["deallocation"] = \
 """        

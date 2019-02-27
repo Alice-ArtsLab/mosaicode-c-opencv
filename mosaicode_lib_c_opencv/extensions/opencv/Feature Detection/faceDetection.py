@@ -27,6 +27,10 @@ class FaceDetection(BlockModel):
 						{"type": "mosaicode_lib_c_opencv.extensions.ports.image",
 						"name": "output_image",
 						"label": "Output Image",
+						"conn_type": "Output"},
+                        {"type": "mosaicode_lib_c_opencv.extensions.ports.rects",
+						"name": "output_rects",
+						"label": "Output Rects",
 						"conn_type": "Output"}
 		]
 		self.properties = [{"name": "drawing",
@@ -61,7 +65,7 @@ class FaceDetection(BlockModel):
 
 		self.codes["function"] = \
 """		
-    Scalar get_scalar_color(const char * rgbColor){
+    Scalar get_scalar_color$id$(const char * rgbColor){
     	if(strlen(rgbColor) < 13 || rgbColor[0] != '#')
         	return Scalar(0,0,0,0);
 
@@ -69,16 +73,16 @@ class FaceDetection(BlockModel):
         strncpy(r, rgbColor+1, 4);
         strncpy(g, rgbColor+5, 4);
         strncpy(b, rgbColor+9, 4);
-        
+
         int ri, gi, bi = 0;
         ri = (int)strtol(r, NULL, 16);
         gi = (int)strtol(g, NULL, 16);
         bi = (int)strtol(b, NULL, 16);
-        
+
         ri /= 257;
         gi /= 257;
         bi /= 257;
-        
+
         return Scalar(bi, gi, ri, 0);
     }
 """
@@ -87,23 +91,23 @@ class FaceDetection(BlockModel):
 """
 	Mat $port[input_image]$;
 	Mat $port[output_image]$;
+    vector<Rect> $port[output_rects]$;
 	CascadeClassifier face_cascade_$id$;
-	vector<Rect> faces_$id$;
 """
 
 		self.codes["execution"] = \
 """		
 	if(!$port[input_image]$.empty()){
-		Scalar color = get_scalar_color("$prop[color]$");
-		face_cascade_$id$.load("/opt/opencv/data/haarcascades/haarcascade_frontalface_alt.xml");
-		face_cascade_$id$.detectMultiScale($port[input_image]$, faces_$id$, 1.1, 3, 0|CV_HAAR_SCALE_IMAGE, Size(0, 0));
-		for(int i = 0; i < faces_$id$.size(); i++){
+		Scalar color = get_scalar_color$id$("$prop[color]$");
+		face_cascade_$id$.load("/usr/share/mosaicode/extensions/examples/c/opencv/haarcascade_frontalface_alt.xml");
+		face_cascade_$id$.detectMultiScale($port[input_image]$, $port[output_rects]$, 1.1, 3, 0|CV_HAAR_SCALE_IMAGE, Size(0, 0));
+		for(int i = 0; i < $port[output_rects]$.size(); i++){
 			if("$prop[drawing]$" == "Ellipse"){
-				Point center(faces_$id$[i].x + faces_$id$[i].width*0.5, faces_$id$[i].y + faces_$id$[i].height*0.5);
-				ellipse($port[input_image]$, center, Size(faces_$id$[i].width*$prop[degree]$, faces_$id$[i].height*$prop[degree]$), 0, 0, 360, color, $prop[thickness]$, 8, 0);
+				Point center($port[output_rects]$[i].x + $port[output_rects]$[i].width*0.5, $port[output_rects]$[i].y + $port[output_rects]$[i].height*0.5);
+				ellipse($port[input_image]$, center, Size($port[output_rects]$[i].width*$prop[degree]$, $port[output_rects]$[i].height*$prop[degree]$), 0, 0, 360, color, $prop[thickness]$, 8, 0);
 			}
 			else if("$prop[drawing]$" == "Rectangle")
-				rectangle($port[input_image]$, faces_$id$[i], color, $prop[thickness]$, 8, 0);	
+				rectangle($port[input_image]$, $port[output_rects]$[i], color, $prop[thickness]$, 8, 0);	
 		}
 		$port[output_image]$ = $port[input_image]$.clone();
 	}

@@ -102,6 +102,8 @@ class ColorDetection(BlockModel):
 	$port[output_image]$.release();
     temp_image$id$.release();
     mask$id$.release();
+    low_mask$id$.release();
+    high_mask$id$.release();
 """
 
 # --------------------------------------------------------------------- #					
