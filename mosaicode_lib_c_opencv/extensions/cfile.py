@@ -14,7 +14,7 @@ class Cfile(CodeTemplate):
         CodeTemplate.__init__(self)
         self.name = "opencv"
         self.language = "c"
-        self.description = "c / opencv code template"
+        self.description = "A full template to generate OpenCV code"
         self.extension = '.c'
         self.command = "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lib/;\n"
         self.command += "export PKG_CONFIG_PATH=/lib/pkgconfig/;\n"
@@ -63,7 +63,7 @@ int main(int argc, char ** argv){
         $code[execution, connection]$
         $code[deallocation]$
     }
-
+    
     destroyAllWindows();
     return 0;
 }
