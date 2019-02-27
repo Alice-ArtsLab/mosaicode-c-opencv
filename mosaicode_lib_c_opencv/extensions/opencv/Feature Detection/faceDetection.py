@@ -28,7 +28,7 @@ class FaceDetection(BlockModel):
 						"name": "output_image",
 						"label": "Output Image",
 						"conn_type": "Output"},
-                        {"type": "mosaicode_lib_c_opencv.extensions.ports.rects",
+                        {"type": "mosaicode_lib_c_opencv.extensions.ports.rect",
 						"name": "output_rects",
 						"label": "Output Rects",
 						"conn_type": "Output"}

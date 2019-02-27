@@ -27,11 +27,16 @@ class GetSize(BlockModel):
                        "name":"input_image",
                        "label":"Input Image",
                        "conn_type":"Input"},
+                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"output_image",
+                       "label":"Output Image",
+                       "conn_type":"Output"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
-                       "name":"rect",
+                       "name":"output_rect",
                        "label":"Output Rect",
-                       "conn_type":"Output"}]
-
+                       "conn_type":"Output"
+                       }
+                    ]
         self.group = "Experimental"
 
 # ------------------------------C/OpenCv code--------------------------
@@ -39,13 +44,22 @@ class GetSize(BlockModel):
         self.codes["declaration"] = \
 """        
     Mat $port[input_image]$;
+    Mat $port[output_image]$;
+    Rect $port[output_rect]$;
 """    
 
         self.codes["execution"] = \
 """        
-    if($port[input_image]$){
-        $port[rect]$ = Rect( 0, 0, $port[input_image]$.cols, $port[input_image]$.rows);
+    if(!$port[input_image]$.empty()){
+        $port[output_image]$ = Mat::zeros($port[input_image]$.cols, $port[input_image]$.rows, CV_8UC3);
+        $port[output_rect]$ = Rect(0, 0, $port[input_image]$.cols, $port[input_image]$.rows);
     }
+"""
+
+        self.codes["deallocation"] = \
+"""
+    $port[input_image]$.release();
+    $port[output_image]$.release();
 """
 
 # -----------------------------------------------------------------------------

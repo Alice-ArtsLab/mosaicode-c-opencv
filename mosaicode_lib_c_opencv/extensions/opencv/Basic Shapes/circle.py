@@ -24,7 +24,7 @@ class Circle(BlockModel):
                        "name":"input_image",
                        "conn_type":"Input",
                        "label":"Input Image"},
-                       {"type":"mosaicode_lib_c_opencv.extensions.ports.rects",
+                       {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
                        "name":"input_rects",
                        "conn_type":"Input",
                        "label":"Input Rects"},
