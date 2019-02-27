@@ -24,6 +24,10 @@ class Ellipse(BlockModel):
                        "name":"input_image",
                        "conn_type":"Input",
                        "label":"Input Image"},
+                       {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
+                       "name":"input_rects",
+                       "conn_type":"Input",
+                       "label":"Input Rects"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "conn_type":"Output",
                        "name":"output_image",
@@ -113,7 +117,7 @@ class Ellipse(BlockModel):
 
         self.codes["function"] = \
 """        
-    Scalar get_scalar_color(const char * rgbColor){
+    Scalar get_scalar_color$id$(const char * rgbColor){
         if (strlen(rgbColor) < 13 || rgbColor[0] != '#')
             return Scalar(0,0,0,0);
         char r[4], g[4], b[4];
@@ -138,18 +142,33 @@ class Ellipse(BlockModel):
 """        
     Mat $port[input_image]$;
     Mat $port[output_image]$;
+    vector<Rect> $port[input_rects]$;
 """            
 
         self.codes["execution"] = \
 """        
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
-        Scalar color = get_scalar_color("$prop[color]$");
-        if("$prop[fill]$" == "NO"){
-            ellipse($port[output_image]$, Point($prop[x]$, $prop[y]$), Size($prop[width]$, $prop[height]$), $prop[angle]$, $prop[start_angle]$, $prop[end_angle]$, color, $prop[line]$, 8);
+        Scalar color = get_scalar_color$id$("$prop[color]$");
+        if(!$port[input_rects]$.empty()){
+            if("$prop[fill]$" == "NO"){
+                for(int i = 0; i < $port[input_rects]$.size(); i++){
+                    ellipse($port[output_image]$, Point($port[input_rects]$[i].x, $port[input_rects]$[i].y), Size($port[input_rects]$[i].width, $port[input_rects]$[i].height), $prop[angle]$, $prop[start_angle]$, $prop[end_angle]$, color, $prop[line]$, 8);
+                }
+            }
+            else{
+                for(int i = 0; i < $port[input_rects]$.size(); i++){
+                    ellipse($port[output_image]$, Point($port[input_rects]$[i].x, $port[input_rects]$[i].y), Size($port[input_rects]$[i].width, $port[input_rects]$[i].height), $prop[angle]$, $prop[start_angle]$, $prop[end_angle]$, color, -1, 8);
+                }
+            }
         }
-        else{
-            ellipse($port[output_image]$, Point($prop[x]$, $prop[y]$), Size($prop[width]$, $prop[height]$), $prop[angle]$, $prop[start_angle]$, $prop[end_angle]$, color, -1, 8);
+        else{ 
+            if("$prop[fill]$" == "NO"){
+                ellipse($port[output_image]$, Point($prop[x]$, $prop[y]$), Size($prop[width]$, $prop[height]$), $prop[angle]$, $prop[start_angle]$, $prop[end_angle]$, color, $prop[line]$, 8);
+            }
+            else{
+                ellipse($port[output_image]$, Point($prop[x]$, $prop[y]$), Size($prop[width]$, $prop[height]$), $prop[angle]$, $prop[start_angle]$, $prop[end_angle]$, color, -1, 8);
+            }
         }
     }
 """    
