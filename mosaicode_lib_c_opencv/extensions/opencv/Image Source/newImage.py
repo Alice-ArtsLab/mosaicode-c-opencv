@@ -15,44 +15,43 @@ class NewImage(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.help = "Cria uma nova imagem."
-        self.label = "New Image"
-        self.color = "50:100:200:150"
         self.language = "c"
         self.framework = "opencv"
+        self.label = "New Image"
+        self.color = "50:50:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
-                           "name":"output_image",
+                          "name":"output_image",
                           "conn_type":"Output",
-                           "label":"Output Image"}]
+                          "label":"Image"}]
         self.group = "Image Source"
         self.properties = [{"name": "width",
                             "label": "Width",
                             "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 65535,
+                            "lower": 1,
+                            "upper": 10000,
                             "step": 1,
-                            "value":800
+                            "value": 1
                             },
-                           {"name": "height",
+                            {"name": "height",
                             "label": "Height",
                             "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 65535,
+                            "lower": 1,
+                            "upper": 10000,
                             "step": 1,
-                            "value":600
+                            "value": 1
                             }
                            ]
 
-        self.codes["declaration"] = \
-"""        
-    Mat $port[output_image]$;
-"""
+#----------------------------- C/OpenCv Code ----------------------------------
+
         self.codes["execution"] = \
 """        
-    Size size$id$($prop[width]$, $prop[height]$);
-    Mat $port[output_image]$(size$id$, CV_8UC1);
-    zeros($port[output_image]$.rows, $port[output_image]$.cols, CV_8UC1);
-    self.codes["deallocation"] = "$port[output_image]$.release();
+    Mat $port[output_image]$ = Mat::zeros($prop[width]$, $prop[height]$, CV_8UC3);
+"""   
+
+        self.codes["deallocation"] = \
+"""
+    $port[output_image]$.release();
 """
 
 # -----------------------------------------------------------------------------

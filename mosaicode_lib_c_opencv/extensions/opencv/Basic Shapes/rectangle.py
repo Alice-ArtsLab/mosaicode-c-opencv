@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the FillRect class.
+This module contains the Rectangle class.
 """
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
@@ -25,7 +25,7 @@ class Rectangle(BlockModel):
                        "conn_type":"Input",
                        "label":"Input Image"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
-                       "name":"rect",
+                       "name":"input_rects",
                        "conn_type":"Input",
                        "label":"Rectangle"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
@@ -117,8 +117,8 @@ class Rectangle(BlockModel):
         self.codes["declaration"] = \
 """        
     Mat $port[input_image]$;
-    Rect $port[rect]$($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$);
     Mat $port[output_image]$;
+    vector<Rect> $port[input_rects]$;
 """            
 
         self.codes["execution"] = \
@@ -126,11 +126,25 @@ class Rectangle(BlockModel):
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
         Scalar color = get_scalar_color("$prop[color]$");
-        if("$prop[fill]$" == "NO"){
-                rectangle($port[output_image]$, $port[rect]$, color, $prop[line]$, 8, 0);
+        if(!$port[input_rects]$.empty()){
+            if("$prop[fill]$" == "NO"){
+                for(int i = 0; i < $port[input_rects]$.size(); i++){
+                    rectangle($port[output_image]$, Rect($port[input_rects]$[i].x, $port[input_rects]$[i].y, $port[input_rects]$[i].width, $port[input_rects]$[i].height), color, $prop[line]$, 8, 0);
+                }
+            }
+            else{
+                for(int i = 0; i < $port[input_rects]$.size(); i++){
+                    rectangle($port[output_image]$, Rect($port[input_rects]$[i].x, $port[input_rects]$[i].y, $port[input_rects]$[i].width, $port[input_rects]$[i].height), color, -1, 8, 0);
+                }
+            }
         }
-        else{
-                rectangle($port[output_image]$, $port[rect]$, color, -1, 8, 0);
+        else{ 
+            if("$prop[fill]$" == "NO"){
+                rectangle($port[output_image]$, Rect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$), color, $prop[line]$, 8, 0);
+            }
+            else{
+                rectangle($port[output_image]$, Rect($prop[x]$, $prop[y]$, $prop[width]$, $prop[height]$), color, -1, 8, 0);
+            }
         }
     }
 """    
