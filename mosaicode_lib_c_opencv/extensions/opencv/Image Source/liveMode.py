@@ -1,47 +1,56 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """
-This module contains the Sobel class.
+This module contains the LiveMode class.
 """
 
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
 class LiveMode(BlockModel):
-	"""
-	This class contains methods related the FaceDetection class.
-	"""
+    """
+    This class contains methods related the LiveMode class.
+    """
 
-	def __init__(self):
-		BlockModel.__init__(self)
-
-		self.language = "c"
-		self.framework = "opencv"
-		self.label = "Live Mode"
-		self.color = "50:100:200:150"
-		self.group = "Image Source"
-		self.ports = [{"type": "mosaicode_lib_c_opencv.extensions.ports.image",
-						"name": "output_image",
-						"label": "Output Image",
-						"conn_type": "Output"}
-		]
+    def __init__(self):
+        BlockModel.__init__(self)
+        self.language = "c"
+        self.framework = "opencv"
+        self.label = "Live Mode"
+        self.color = "50:100:200:150"
+        self.group = "Image Source"
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+                       "name":"output_image",
+                       "conn_type":"Output",
+                       "label":"Output Image"}
+        ]
+        self.properties = [{"type": MOSAICODE_INT,
+                            "name": "camera",
+                            "label": "Camera ID",
+                            "value": 0,
+                            "lower": 0,
+                            "upper": 10,
+                            "step": 1
+                            }
+        ]
 
 # --------------------------- C/OpenCV Code --------------------------- #
 
-		self.codes["declaration"] = \
+        self.codes["declaration"] = \
 """
-	Mat $port[output_image]$;
-	VideoCapture capture$id$(0);
+    Mat $port[output_image]$;
+    VideoCapture capture$id$($prop[camera]$);
 """
 
-		self.codes["execution"] = \
-"""		
-	if(!capture$id$.isOpened())
+        self.codes["execution"] = \
+"""
+    if(!capture$id$.isOpened())
         return -1;
-	capture$id$ >> $port[output_image]$;
+    capture$id$ >> $port[output_image]$;
 """
 
-		self.codes["deallocation"] = \
-"""		
-	$port[output_image]$.release();
+        self.codes["deallocation"] = \
+"""
+    $port[output_image]$.release();
 """
