@@ -25,13 +25,13 @@ class LiveMode(BlockModel):
                        "conn_type":"Output",
                        "label":"Output Image"}
         ]
-        self.properties = [{"type": MOSAICODE_INT,
-                            "name": "camera",
+        self.properties = [{"name": "camera",
                             "label": "Camera ID",
-                            "value": 0,
+                            "type": MOSAICODE_INT,
                             "lower": 0,
-                            "upper": 10,
-                            "step": 1
+                            "upper": 100,
+                            "step": 1,
+                            "value": 0
                             }
         ]
 
