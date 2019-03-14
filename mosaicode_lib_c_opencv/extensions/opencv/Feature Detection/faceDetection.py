@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the Sobel class.
+This module contains the FaceDetection class.
 """
 
 from mosaicode.GUI.fieldtypes import *
