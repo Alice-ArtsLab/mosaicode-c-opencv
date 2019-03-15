@@ -46,12 +46,15 @@ class Cfile(CodeTemplate):
 #include "opencv2/imgproc.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
+#include <opencv2/face.hpp>
 #include "opencv2/objdetect.hpp"
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/features2d/features2d.hpp"
 
-using namespace cv;
 using namespace std;
+using namespace cv;
+using namespace cv::face;
+
 $single_code[include]$
 #define FRAMERATE 1000.0 / 25.0
 $single_code[function]$
@@ -63,7 +66,6 @@ int main(int argc, char ** argv){
         $code[execution, connection]$
         $code[deallocation]$
     }
-    
     destroyAllWindows();
     return 0;
 }
