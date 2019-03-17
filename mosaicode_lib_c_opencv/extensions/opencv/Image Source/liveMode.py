@@ -28,7 +28,7 @@ class LiveMode(BlockModel):
         self.properties = [{"name": "camera",
                             "label": "Camera ID",
                             "type": MOSAICODE_INT,
-                            "lower": 0,
+                            "lower": -100,
                             "upper": 100,
                             "step": 1,
                             "value": 0
