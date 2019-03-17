@@ -91,25 +91,26 @@ class FaceDetection(BlockModel):
 """
 	Mat $port[input_image]$;
 	Mat $port[output_image]$;
+	Mat tmp_$id$;
     vector<Rect> $port[output_rects]$;
-	CascadeClassifier face_cascade_$id$;
+	CascadeClassifier cascade_$id$("/usr/share/mosaicode/extensions/examples/c/opencv/haarcascade_frontalface_alt2.xml");
 """
 
 		self.codes["execution"] = \
 """		
 	if(!$port[input_image]$.empty()){
 		Scalar color = get_scalar_color$id$("$prop[color]$");
-		face_cascade_$id$.load("/usr/share/mosaicode/extensions/examples/c/opencv/haarcascade_frontalface_alt.xml");
-		face_cascade_$id$.detectMultiScale($port[input_image]$, $port[output_rects]$, 1.1, 5, 0|CV_HAAR_SCALE_IMAGE, Size(30, 30));
+		cvtColor($port[input_image]$, tmp_$id$, COLOR_RGB2GRAY);
+		cascade_$id$.detectMultiScale($port[input_image]$, $port[output_rects]$, 1.3, 5);
+		$port[output_image]$ = $port[input_image]$.clone();
 		for(int i = 0; i < $port[output_rects]$.size(); i++){
 			if("$prop[drawing]$" == "Ellipse"){
 				Point center($port[output_rects]$[i].x + $port[output_rects]$[i].width*0.5, $port[output_rects]$[i].y + $port[output_rects]$[i].height*0.5);
-				ellipse($port[input_image]$, center, Size($port[output_rects]$[i].width*$prop[degree]$, $port[output_rects]$[i].height*$prop[degree]$), 0, 0, 360, color, $prop[thickness]$, 8, 0);
+				ellipse($port[output_image]$, center, Size($port[output_rects]$[i].width*$prop[degree]$, $port[output_rects]$[i].height*$prop[degree]$), 0, 0, 360, color, $prop[thickness]$, 8, 0);
 			}
 			else if("$prop[drawing]$" == "Rectangle")
-				rectangle($port[input_image]$, $port[output_rects]$[i], color, $prop[thickness]$, 8, 0);	
+				rectangle($port[output_image]$, $port[output_rects]$[i], color, $prop[thickness]$, 8, 0);	
 		}
-		$port[output_image]$ = $port[input_image]$.clone();
 	}
 """
 
@@ -117,6 +118,7 @@ class FaceDetection(BlockModel):
 """		
 	$port[input_image]$.release();
 	$port[output_image]$.release();
+	tmp_$id$.release();
 """
 
 # --------------------------------------------------------------------- #					
