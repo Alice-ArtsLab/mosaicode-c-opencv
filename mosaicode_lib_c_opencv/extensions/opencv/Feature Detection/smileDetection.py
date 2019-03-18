@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the FaceDetection class.
+This module contains the SmileDetection class.
 """
 
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
-class FaceDetection(BlockModel):
+class SmileDetection(BlockModel):
 	"""
-	This class contains methods related the FaceDetection class.
+	This class contains methods related the SmileDetection class.
 	"""
 
 	def __init__(self):
@@ -17,7 +17,7 @@ class FaceDetection(BlockModel):
 
 		self.language = "c"
 		self.framework = "opencv"
-		self.label = "Face Detection"
+		self.label = "Smile Detection"
 		self.color = "50:220:40:150"
 		self.group = "Feature Detection"
 		self.ports = [{"type": "mosaicode_lib_c_opencv.extensions.ports.image",
@@ -33,14 +33,7 @@ class FaceDetection(BlockModel):
 						"label": "Output Rects",
 						"conn_type": "Output"}
 		]
-		self.properties = [{"name": "drawing",
-							"label": "Drawing",
-							"type": MOSAICODE_COMBO,
-							"value": "Rectangle",
-							"values":["Ellipse",
-									  "Rectangle"]
-							},
-							{"name": "color",
+		self.properties = [{"name": "color",
                             "label": "Color",
                             "type": MOSAICODE_COLOR,
                             "value": "#DDDDDD"
@@ -52,12 +45,6 @@ class FaceDetection(BlockModel):
                             "step": 1,
                             "upper": 20,
                             "lower": 1
-                            },
-                            {"label": "Degree of Increase",
-                            "name": "degree",
-                            "type": MOSAICODE_FLOAT,
-                            "value": 1.00,
-                            "step": 0.01
                             }
 		]
 
@@ -91,25 +78,20 @@ class FaceDetection(BlockModel):
 """
 	Mat $port[input_image]$;
 	Mat $port[output_image]$;
-	Mat tmp_$id$;
+    Mat tmp_$id$;
     vector<Rect> $port[output_rects]$;
-	CascadeClassifier cascade_$id$("/usr/share/mosaicode/extensions/examples/c/opencv/haarcascade_frontalface_alt2.xml");
+	CascadeClassifier cascade_$id$("/usr/share/mosaicode/extensions/examples/c/opencv/haarcascade_smile.xml");
 """
 
 		self.codes["execution"] = \
 """		
 	if(!$port[input_image]$.empty()){
 		Scalar color = get_scalar_color$id$("$prop[color]$");
-		cvtColor($port[input_image]$, tmp_$id$, COLOR_RGB2GRAY);
-		cascade_$id$.detectMultiScale($port[input_image]$, $port[output_rects]$, 1.3, 5);
+        cvtColor($port[input_image]$, tmp_$id$, COLOR_BGR2GRAY);
+		cascade_$id$.detectMultiScale(tmp_$id$, $port[output_rects]$, 1.7, 22, 0, Size(25, 25));
 		$port[output_image]$ = $port[input_image]$.clone();
-		for(int i = 0; i < $port[output_rects]$.size(); i++){
-			if("$prop[drawing]$" == "Ellipse"){
-				Point center($port[output_rects]$[i].x + $port[output_rects]$[i].width*0.5, $port[output_rects]$[i].y + $port[output_rects]$[i].height*0.5);
-				ellipse($port[output_image]$, center, Size($port[output_rects]$[i].width*$prop[degree]$, $port[output_rects]$[i].height*$prop[degree]$), 0, 0, 360, color, $prop[thickness]$, 8, 0);
-			}
-			else if("$prop[drawing]$" == "Rectangle")
-				rectangle($port[output_image]$, $port[output_rects]$[i], color, $prop[thickness]$, 8, 0);	
+        for(int i = 0; i < $port[output_rects]$.size(); i++){
+			rectangle($port[output_image]$, $port[output_rects]$[i], color, $prop[thickness]$, 8);	
 		}
 	}
 """
@@ -118,7 +100,7 @@ class FaceDetection(BlockModel):
 """		
 	$port[input_image]$.release();
 	$port[output_image]$.release();
-	tmp_$id$.release();
+    tmp_$id$.release();
 """
 
 # --------------------------------------------------------------------- #					

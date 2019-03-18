@@ -27,6 +27,10 @@ class ShapeDetection(BlockModel):
 						{"type": "mosaicode_lib_c_opencv.extensions.ports.image",
 						"name": "output_image",
 						"label": "Output Image",
+						"conn_type": "Output"},
+                        {"type": "mosaicode_lib_c_opencv.extensions.ports.point",
+						"name": "output_points",
+						"label": "Output Point",
 						"conn_type": "Output"}
 		]
 		self.properties = [{"name": "triangle_color",
@@ -94,7 +98,7 @@ class ShapeDetection(BlockModel):
 """
 	Mat $port[input_image]$;
 	Mat $port[output_image]$;
-	vector<vector<Point> > contours_$id$; 
+	vector<vector<Point> > $port[output_points]$;
     vector<Point> approx_$id$;
 """
 
@@ -104,23 +108,23 @@ class ShapeDetection(BlockModel):
         $port[output_image]$ = $port[input_image]$.clone();
 		cvtColor($port[input_image]$, $port[input_image]$, COLOR_BGR2GRAY);
         threshold($port[input_image]$, $port[input_image]$, 127, 255, CV_THRESH_BINARY);
-        findContours($port[input_image]$, contours_$id$, RETR_TREE, CHAIN_APPROX_SIMPLE);
-        for(int i = 0; i < contours_$id$.size(); i++){
-            approxPolyDP(contours_$id$[i], approx_$id$, 0.02*arcLength(contours_$id$[i], true), true);
+        findContours($port[input_image]$, $port[output_points]$, RETR_TREE, CHAIN_APPROX_SIMPLE);
+        for(int i = 0; i < $port[output_points]$.size(); i++){
+            approxPolyDP($port[output_points]$[i], approx_$id$, 0.02*arcLength($port[output_points]$[i], true), true);
             if(approx_$id$.size() == 3){
-                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[triangle_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[triangle_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() == 4){
-                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[square_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[square_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() >= 5 && approx_$id$.size() < 9){
-                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[polygon_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[polygon_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() == 9){
-                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[semi_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[semi_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() > 11){
-                drawContours($port[output_image]$, contours_$id$, i, get_scalar_color("$prop[circle_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[circle_color]$"), $prop[thickness]$, 8);
             }
         }
 	}
