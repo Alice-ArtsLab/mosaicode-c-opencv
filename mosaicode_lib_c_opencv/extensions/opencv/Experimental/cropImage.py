@@ -19,11 +19,9 @@ class CropImage(BlockModel):
 
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
-        self.help = "Corta a imagem de acordo com o retângulo de entrada."
         self.label = "Crop Image"
         self.color = "50:50:200:150"
+        self.group = "Experimental"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
                        "label":"Input Image",
@@ -36,7 +34,6 @@ class CropImage(BlockModel):
                        "name":"output_image",
                        "label":"Output Image",
                        "conn_type":"Output"}]
-        self.group = "Experimental"
         self.properties = [{"name": "x",
                             "label": "X",
                             "type": MOSAICODE_INT,

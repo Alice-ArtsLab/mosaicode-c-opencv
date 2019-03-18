@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the FacialLandrmark class.
+This module contains the FacialLandmark class.
 """
 
 from mosaicode.GUI.fieldtypes import *

@@ -18,11 +18,9 @@ class GetSize(BlockModel):
 
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
-        self.help = "Extracts the input image size."
         self.label = "Get Size"
         self.color = "250:20:30:150"
+        self.group = "Experimental"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
                        "label":"Input Image",
@@ -37,7 +35,6 @@ class GetSize(BlockModel):
                        "conn_type":"Output"
                        }
                     ]
-        self.group = "Experimental"
 
 # ------------------------------C/OpenCv code--------------------------
 
@@ -51,8 +48,8 @@ class GetSize(BlockModel):
         self.codes["execution"] = \
 """        
     if(!$port[input_image]$.empty()){
-        $port[output_image]$ = Mat::zeros($port[input_image]$.cols, $port[input_image]$.rows, CV_8UC3);
-        $port[output_rect]$ = Rect(0, 0, $port[input_image]$.cols, $port[input_image]$.rows);
+        $port[output_image]$ = Mat::zeros($port[input_image]$.rows, $port[input_image]$.cols, CV_8UC3);
+        $port[output_rect]$ = Rect(0, 0, $port[input_image]$.rows, $port[input_image]$.cols);
     }
 """
 
