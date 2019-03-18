@@ -15,9 +15,9 @@ class NewRect(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
+
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Creates new rectangle"
         self.label = "New Rectangle"
         self.color = "50:50:200:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.rect",

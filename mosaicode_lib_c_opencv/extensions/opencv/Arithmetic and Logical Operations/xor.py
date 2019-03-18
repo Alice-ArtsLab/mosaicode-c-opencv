@@ -16,8 +16,6 @@ class Xor(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
-        # Appearance
-        self.help = "Realiza a operação lógica XOR entre duas imagens."
         self.label = "Xor"
         self.color = "10:180:10:150"
         self.language = "c"

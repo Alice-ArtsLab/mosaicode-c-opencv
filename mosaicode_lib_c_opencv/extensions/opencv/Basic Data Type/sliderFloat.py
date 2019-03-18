@@ -15,17 +15,17 @@ class FloatSlider(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        self.help = "Creates Slider to float value."
+
         self.label = "Float Slider"
         self.color = "50:50:200:150"
         self.language = "c"
         self.framework = "opencv"
+        self.group = "Basic Data Type"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.float",
                         "conn_type":"Output",
                         "name":"slider_Fvalue",
                         "label":"Slider Value"}
                         ]
-        self.group = "Basic Data Type"
         self.properties = [{"label": "Value",
                             "name": "floatVal",
                             "type": MOSAICODE_FLOAT,

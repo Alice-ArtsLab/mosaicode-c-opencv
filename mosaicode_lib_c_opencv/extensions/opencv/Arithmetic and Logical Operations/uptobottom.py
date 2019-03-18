@@ -16,8 +16,6 @@ class UpToBottom(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
-        # Appearance
-        self.help = "Coloca uma imagem debaixo da outra."
         self.label = "Up to Bottom"
         self.color = "10:180:10:150"
         self.language = "c"

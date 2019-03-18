@@ -16,10 +16,8 @@ class NewPoint(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
-        # Appearance
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Creates a new Point."
         self.label = "New Point"
         self.color = "50:50:200:150"
         self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.point"]

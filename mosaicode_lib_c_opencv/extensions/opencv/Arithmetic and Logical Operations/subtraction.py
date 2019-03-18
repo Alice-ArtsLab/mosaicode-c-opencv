@@ -16,8 +16,6 @@ class Subtraction(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
-        # Appearance
-        self.help = "Realiza a subtração de duas imagens."
         self.label = "Subtraction"
         self.color = "180:10:10:150"
         self.language = "c"

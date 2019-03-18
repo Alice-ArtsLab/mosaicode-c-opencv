@@ -16,7 +16,6 @@ class SideBySide(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
-        self.help = "Coloca uma imagem do lado da outra."
         self.label = "Side By Side"
         self.color = "10:180:10:150"
         self.language = "c"

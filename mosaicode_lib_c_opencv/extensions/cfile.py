@@ -39,7 +39,6 @@ class Cfile(CodeTemplate):
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <iostream>
 #include "opencv2/core.hpp"
 #include "opencv2/opencv.hpp"
@@ -54,9 +53,9 @@ class Cfile(CodeTemplate):
 using namespace std;
 using namespace cv;
 using namespace cv::face;
-
 $single_code[include]$
 #define FRAMERATE 1000.0 / 25.0
+
 $single_code[function]$
 
 int main(int argc, char ** argv){
