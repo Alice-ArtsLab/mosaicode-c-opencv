@@ -11,16 +11,15 @@ class Fill(BlockModel):
     """
     This class contains methods related the Fill class.
     """
-    # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Preenche toda a imagem de uma cor."
         self.label = "Fill image"
         self.color = "50:100:200:150"
+        self.group = "General"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
                        "label":"Input Image",
@@ -29,14 +28,15 @@ class Fill(BlockModel):
                        "name":"output_image",
                        "label":"Output Image",
                        "conn_type":"Output"}]
-        self.group = "General"
         self.properties = [{"name": "rect_color",
                             "label": "Color",
                             "type": MOSAICODE_COLOR,
                             "value":"#DDDDDD"
                             }
                            ]
+
 # ----------------------------------- C/OpenCv Code -----------------------------------
+        
         self.codes["declaration"] = \
 """        
     Mat $port[input_image]$;
@@ -45,7 +45,7 @@ class Fill(BlockModel):
 
         self.codes["function"] = \
 """        
-    Scalar get_scalar_color(const char * rgbColor){
+    Scalar get_scalar_color_$id$_$id$(const char * rgbColor){
         if (strlen(rgbColor) < 13 || rgbColor[0] != '#')
             return Scalar(0,0,0,0);
         char r[4], g[4], b[4];
@@ -69,7 +69,7 @@ class Fill(BlockModel):
         self.codes["execution"] = \
 """        
     if(!$port[input_image]$.empty()){
-        Scalar color = get_scalar_color("$prop[rect_color]$");
+        Scalar color = get_scalar_color_$id$("$prop[rect_color]$");
         rectangle($port[input_image]$, Point(0, 0), Point($port[input_image]$.cols, $port[input_image]$.rows), color, CV_FILLED, 1, 0);
         $port[output_image]$ = $port[input_image]$.clone();
     }
