@@ -11,15 +11,15 @@ class Select(BlockModel):
     """
     This class contains methods related the Select class.
     """
-    # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)
+
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Select between two images."
         self.label = "Select"
         self.color = "50:100:200:150"
+        self.group = "General"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image1",
                           "label":"First Image",
@@ -32,13 +32,12 @@ class Select(BlockModel):
                           "name":"output_image",
                           "label":"Output Image",
                           "conn_type":"Output"}]
-        self.group = "General"
         self.properties = [{"name": "key",
                             "label": "Key",
                             "type": MOSAICODE_COMBO,
-                            "value": "IMAGEM 1",
-                            "values": ["IMAGEM 1",
-                            "IMAGEM 2"]
+                            "value": "IMAGE 1",
+                            "values": ["IMAGE 1",
+                            "IMAGE 2"]
                             }
                            ]
 #---------------------------------- C/OpenCv Code --------------------------------------
@@ -53,7 +52,7 @@ class Select(BlockModel):
         self.codes["execution"] = \
 """        
     if(!$port[input_image1]$.empty() && !$port[input_image2]$.empty()){
-        if("$prop[key]$" == "IMAGEM 1")
+        if("$prop[key]$" == "IMAGE 1")
             $port[output_image]$ = $port[input_image1]$.clone();
         else
             $port[output_image]$ = $port[input_image2]$.clone();

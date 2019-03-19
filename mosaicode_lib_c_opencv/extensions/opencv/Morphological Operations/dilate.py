@@ -12,16 +12,14 @@ class Dilate(BlockModel):
     This class contains methods related the Dilate class.
     """
 
-    # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
-        self.help = "Operação morfológica que provoca dilatação " + \
-            "nos objetos de uma imagem, aumentando suas dimensões."
+
         self.label = "Dilate"
         self.color = "180:230:220:150"
         self.language = "c"
         self.framework = "opencv"
+        self.group = "Morphological Operations"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"input_image",
                         "conn_type":"Input",
@@ -30,7 +28,6 @@ class Dilate(BlockModel):
                          "name":"output_image",
                          "conn_type":"Output",
                          "label":"Output Image"}]
-        self.group = "Morphological Operations"
         self.properties = [{"label": "Mask Size X",
                             "name": "masksizex",
                             "type": MOSAICODE_COMBO,
@@ -65,6 +62,7 @@ class Dilate(BlockModel):
 """        
     $port[input_image]$.release();
     $port[output_image]$.release();
+    block$id$_arg_mask.release();
 """
 
 # -----------------------------------------------------------------------------

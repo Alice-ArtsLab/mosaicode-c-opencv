@@ -12,17 +12,15 @@ class Sobel(BlockModel):
     """
     This class contains methods related the Sobel class.
     """
-    # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+        
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Operação de filtragem que utiliza uma máscara " + \
-            "Sobel para realçar cantos e bordas da imagem."
         self.label = "Sobel"
         self.color = "250:180:80:150"
+        self.group = "Gradients, Edges and Corners"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"input_image",
                         "label":"Input Image",
@@ -31,7 +29,6 @@ class Sobel(BlockModel):
                         "name":"output_image",
                         "label":"Output Image",
                         "conn_type":"Output"}]
-        self.group = "Gradients, Edges and Corners"
         self.properties = [{"name": "order",
                             "label": "Derivate Order",
                             "type": MOSAICODE_INT,
@@ -47,17 +44,17 @@ class Sobel(BlockModel):
 """        
     Mat $port[input_image]$;
     Mat $port[output_image]$;
-    Mat block$id$_img_t, grad_x;
+    Mat tmp_$id$, grad_x_$id$;
     double minVal, maxVal;
 """    
 
         self.codes["execution"] = \
 """        
     if(!$port[input_image]$.empty()){
-        cvtColor($port[input_image]$, block$id$_img_t, CV_RGB2GRAY);
-        Sobel(block$id$_img_t, grad_x, CV_32F, 1, 0);
-        minMaxLoc(grad_x, &minVal, &maxVal);
-        grad_x.convertTo($port[output_image]$, CV_8U, 255.0/(maxVal - minVal), -minVal * 255.0/(maxVal - minVal));
+        cvtColor($port[input_image]$, tmp_$id$, CV_RGB2GRAY);
+        Sobel(tmp_$id$, grad_x_$id$, CV_32F, 1, 0);
+        minMaxLoc(grad_x_$id$, &minVal, &maxVal);
+        grad_x_$id$.convertTo($port[output_image]$, CV_8U, 255.0/(maxVal - minVal), -minVal * 255.0/(maxVal - minVal));
     }
 """
 
@@ -65,7 +62,7 @@ class Sobel(BlockModel):
 """        
     $port[output_image]$.release();
     $port[input_image]$.release();
-    block$id$_img_t.release();
+    tmp_$id$.release();
 """            
 
 # -----------------------------------------------------------------------------

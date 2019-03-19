@@ -11,18 +11,15 @@ class Laplace(BlockModel):
     """
     This class contains methods related the laplace class.
     """
-    # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)
 
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Operação de filtragem que calcula o " + \
-            "Laplaciano de uma imagem," + \
-            "realçando cantos e bordas de objetos."
         self.label = "Laplace"
         self.color = "250:180:80:150"
+        self.group = "Gradients, Edges and Corners"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
@@ -35,7 +32,6 @@ class Laplace(BlockModel):
                           "name":"output_image",
                           "conn_type":"Output",
                           "label":"Output Image"}]
-        self.group = "Gradients, Edges and Corners"
         self.properties = [{"label": "Mask Size",
                             "name": "masksize",
                             "type": MOSAICODE_COMBO,

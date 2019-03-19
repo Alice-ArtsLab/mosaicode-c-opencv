@@ -12,17 +12,15 @@ class Opening(BlockModel):
     """
     This class contains methods related the Opening class.
     """
-    # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Operação morfológica que visa " + \
-            "desconectar objetos em uma imagem ou suprimir ruídos."
         self.label = "Opening"
         self.color = "180:230:220:150"
+        self.group = "Morphological Operations"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
@@ -39,7 +37,6 @@ class Opening(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-        self.group = "Morphological Operations"
         self.properties = [{"label": "Mask Size X",
                             "name": "masksizex",
                             "type": MOSAICODE_COMBO,

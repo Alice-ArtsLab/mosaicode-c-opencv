@@ -19,11 +19,11 @@ class NewImage(BlockModel):
         self.framework = "opencv"
         self.label = "New Image"
         self.color = "50:50:200:150"
+        self.group = "Image Source"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"output_image",
                           "conn_type":"Output",
                           "label":"Image"}]
-        self.group = "Image Source"
         self.properties = [{"name": "width",
                             "label": "Width",
                             "type": MOSAICODE_INT,
