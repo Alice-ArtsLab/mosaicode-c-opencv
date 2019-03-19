@@ -11,25 +11,16 @@ class Canny(BlockModel):
     """
     This class contains methods related the Canny class.
     """
-    # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)
 
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Operacão de filtragem que implementa o algoritmo " + \
-            "Canny para detecção de contornos e bordas." + \
-            "\nPropriedades\nLimiar 1 e Limiar 2: os dois valores" + \
-            " de limiar são utilizados em conjunto." + \
-            "O menor valor é utilizado para a realizar a " + \
-            "conexão de cantos e bordas." + \
-            "O maior valor é utilizado para encontrar" + \
-            " segmentos iniciais das bordas mais significativas."
         self.label = "Canny"
         self.color = "50:180:80:150"
-        self.language = "c"
         self.framework = "opencv"
+        self.group = "Gradients, Edges and Corners"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
@@ -50,7 +41,6 @@ class Canny(BlockModel):
                            "name":"output_image",
                           "conn_type":"Output",
                           "label":"Output Image"}]
-        self.group = "Gradients, Edges and Corners"
         self.properties = [{"label": "Aperture Size",
                             "name": "apertureSize",
                             "type": MOSAICODE_INT,
@@ -97,19 +87,18 @@ class Canny(BlockModel):
         if($port[input_threshold1]$ > 100) $port[input_threshold1]$ = 100;
         if($port[input_threshold2]$ > 100) $port[input_threshold2]$ = 100;
         $port[output_image]$ = $port[input_image]$.clone();
-        Mat tmpImg$id$($port[input_image]$.rows,$port[input_image]$.cols,CV_8U);
+        Mat tmp_$id$($port[input_image]$.rows,$port[input_image]$.cols,CV_8U);
         if($port[input_image]$.channels() == 3){
-            cvtColor($port[input_image]$, tmpImg$id$, COLOR_RGB2GRAY);
+            cvtColor($port[input_image]$, tmp_$id$, COLOR_RGB2GRAY);
         }else{
-            tmpImg$id$ = $port[input_image]$ = Mat::zeros($port[input_image]$.cols, $port[input_image]$.rows, CV_8UC1);
+            tmp_$id$ = $port[input_image]$ = Mat::zeros($port[input_image]$.cols, $port[input_image]$.rows, CV_8UC1);
         }
-        Canny(tmpImg$id$, tmpImg$id$, $port[input_threshold1]$, $port[input_threshold2]$, $port[input_apertureSize]$);
+        Canny(tmp_$id$, tmp_$id$, $port[input_threshold1]$, $port[input_threshold2]$, $port[input_apertureSize]$);
         if($port[input_image]$.channels() == 3){
-            cvtColor(tmpImg$id$, $port[output_image]$,COLOR_GRAY2RGB);
+            cvtColor(tmp_$id$, $port[output_image]$,COLOR_GRAY2RGB);
         }else{
-            $port[output_image]$ = tmpImg$id$.clone();
+            $port[output_image]$ = tmp_$id$.clone();
         }
-        tmpImg$id$.release();
     }
 """
 

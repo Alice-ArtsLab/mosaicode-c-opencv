@@ -12,16 +12,14 @@ class Erode(BlockModel):
     This class contains methods related the Erode class.
     """
 
-    # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
-        self.help = "Operação morfológica que provoca erosão " + \
-            "nos objetos de uma imagem, reduzindo suas dimensões."
+
         self.label = "Erosion"
         self.color = "180:230:220:150"
         self.language = "c"
         self.framework = "opencv"
+        self.group = "Morphological Operations"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "conn_type":"Input",
                           "name":"input_image",
@@ -30,7 +28,6 @@ class Erode(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-        self.group = "Morphological Operations"
         self.properties = [{"label": "Mask Size X",
                             "name": "masksizex",
                             "type": MOSAICODE_COMBO,
@@ -65,6 +62,7 @@ class Erode(BlockModel):
 """        
     $port[input_image]$.release();
     $port[output_image]$.release();
+    block$id$_arg_mask.release();
 """
 
 # -----------------------------------------------------------------------------

@@ -11,17 +11,14 @@ class Threshold(BlockModel):
     """
     This class contains methods related the Threshold class.
     """
-    # -------------------------------------------------------------------------
-
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+        
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Operador de binarização da imagem, de acordo " + \
-            "com um valor fixo de intensidade luminosa (valor de limiar)."
         self.label = "Threshold"
         self.color = "50:125:50:150"
+        self.group = "Filters and Color Conversion"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"input_image",
                         "label":"Input Image",
@@ -30,7 +27,6 @@ class Threshold(BlockModel):
                         "name":"output_image",
                         "label":"Output Image",
                         "conn_type":"Output"}]
-        self.group = "Filters and Color Conversion"
         self.properties = [{"name": "threshold",
                             "label": "Threshold",
                             "type": MOSAICODE_INT,
@@ -70,7 +66,6 @@ class Threshold(BlockModel):
         self.codes["execution"] = \
 """        
     if(!$port[input_image]$.empty()){
-        $port[output_image]$ = $port[input_image]$.clone();
         threshold($port[input_image]$, $port[output_image]$, $prop[threshold]$, $prop[value]$, $prop[type]$);
     }
 """    

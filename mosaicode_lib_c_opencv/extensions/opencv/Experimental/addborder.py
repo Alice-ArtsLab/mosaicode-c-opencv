@@ -18,9 +18,9 @@ class AddBorder(BlockModel):
 
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Adiciona bordas na imagem."
         self.label = "Add Border"
         self.color = "0:180:210:150"
+        self.group = "Experimental"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                     "name":"input_image",
                     "conn_type":"Input",
@@ -33,7 +33,6 @@ class AddBorder(BlockModel):
                     "name":"output_image",
                     "conn_type":"Output",
                     "label":"Output Image"}]
-        self.group = "Experimental"
         self.properties = [{"label": "Color",
                             "name": "color",
                             "type": MOSAICODE_COLOR,

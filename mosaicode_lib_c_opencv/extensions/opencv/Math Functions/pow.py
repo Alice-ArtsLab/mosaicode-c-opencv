@@ -11,17 +11,15 @@ class Pow(BlockModel):
     """
     This class contains methods related the Pow class.
     """
-    # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+        
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Eleva cada ponto de uma " + \
-            "imagem a um valor fixo de potência."
         self.label = "Pow"
         self.color = "230:230:60:150"
+        self.group = "Math Functions"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
@@ -30,13 +28,13 @@ class Pow(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-        self.group = "Math Functions"
         self.properties = [{"label": "Exponent",
                             "name": "exponent",
                             "value":1,
                             "type": MOSAICODE_INT,
                             "lower": 1,
-                            "upper": 10
+                            "upper": 10,
+                            "step": 1
                             }
                            ]
 

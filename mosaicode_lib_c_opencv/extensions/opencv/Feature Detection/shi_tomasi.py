@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the Sobel class.
+This module contains the Shi Tomasi class.
 """
 
 from mosaicode.GUI.fieldtypes import *
@@ -9,7 +9,7 @@ from mosaicode.model.blockmodel import BlockModel
 
 class ShiTomasi(BlockModel):
 	"""
-	This class contains methods related the FaceDetection class.
+	This class contains methods related the ShiTomasi class.
 	"""
 
 	def __init__(self):
@@ -38,7 +38,8 @@ class ShiTomasi(BlockModel):
 							"type": MOSAICODE_INT,
 							"value": 23,
 							"step": 1,
-							"lower": 1
+							"lower": 1,
+							"upper": 500
 							}
 		]
 
@@ -51,6 +52,7 @@ class ShiTomasi(BlockModel):
 	Mat Mat_tmp_$id$;
 	int $port[input_int]$ = $prop[max_corners]$;
 	RNG rng(12345);
+	vector<Point2f> corners_$id$;
 """			
 
 		self.codes["execution"] = \
@@ -58,10 +60,9 @@ class ShiTomasi(BlockModel):
 	if(!$port[input_image]$.empty()){
 		cvtColor($port[input_image]$, Mat_tmp_$id$, COLOR_BGR2GRAY);
 		$port[output_image]$ = $port[input_image]$.clone();
-		vector<Point2f> corners;
-		goodFeaturesToTrack(Mat_tmp_$id$, corners, $port[input_int]$, 0.01, 10, Mat(), 3, false, 0.04);
-		for(int i = 0; i < corners.size(); i++){ 
-			circle($port[output_image]$, corners[i], 5, Scalar(rng.uniform(0,255), rng.uniform(0,255), rng.uniform(0,255)), -1, 8, 0); 
+		goodFeaturesToTrack(Mat_tmp_$id$, corners_$id$, $port[input_int]$, 0.01, 10, Mat(), 3, false, 0.04);
+		for(int i = 0; i < corners_$id$.size(); i++){ 
+			circle($port[output_image]$, corners_$id$[i], 5, Scalar(rng.uniform(0,255), rng.uniform(0,255), rng.uniform(0,255)), -1, 8, 0); 
 		}
 	}
 """

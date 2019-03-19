@@ -15,13 +15,12 @@ class Smooth(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+        
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Aplicação de um filtro de suavização. " + \
-            "Suaviza os contornos de objetos na imagem, borrando-os levemente."
         self.label = "Smooth"
         self.color = "50:125:50:150"
+        self.group = "Filters and Color Conversion"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                       "name":"input_image",
                       "label":"Input Image",
@@ -39,7 +38,6 @@ class Smooth(BlockModel):
                       "label":"Output Image",
                       "conn_type":"Output"}
                       ]
-        self.group = "Filters and Color Conversion"
         self.properties = [{"name": "integer1",
                             "label": "Sigma A",
                             "type": MOSAICODE_INT,
@@ -73,7 +71,6 @@ class Smooth(BlockModel):
     int $port[input_integer1]$ = $prop[integer1]$;
     int $port[input_integer2]$ = $prop[integer2]$;
     Mat $port[output_image]$;
-    Size size$id$();
 """    
 
         self.codes["execution"] = \

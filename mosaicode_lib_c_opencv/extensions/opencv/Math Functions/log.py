@@ -15,14 +15,12 @@ class Log(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+        
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Aplica a função logarítmica a uma imagem, ou seja," + \
-            "calcula o logarítmo natural do valor de intensidade" + \
-            " luminosa de cada ponto da imagem."
         self.label = "Log"
         self.color = "230:230:60:150"
+        self.group = "Math Functions"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
@@ -31,7 +29,6 @@ class Log(BlockModel):
                           "conn_type":"Output",
                            "name":"output_image",
                            "label":"Output Image"}]
-        self.group = "Math Functions"
 
 # ------------------------------C/OpenCv code--------------------------
 
@@ -39,18 +36,18 @@ class Log(BlockModel):
 """        
     Mat $port[input_image]$;
     Mat $port[output_image]$;
-    Mat block$id$_img_t;
+    Mat tmp_$id$;
 """            
 
         self.codes["execution"] = \
 """        
     if(!$port[input_image]$.empty()){
-        cvtColor($port[input_image]$, block$id$_img_t, COLOR_RGB2GRAY);
-        block$id$_img_t.convertTo(block$id$_img_t, CV_32F);
-        block$id$_img_t = block$id$_img_t + 1;
-        log(block$id$_img_t, block$id$_img_t);
-        convertScaleAbs(block$id$_img_t, block$id$_img_t);
-        normalize(block$id$_img_t, $port[output_image]$, 0, 255, NORM_MINMAX);
+        cvtColor($port[input_image]$, tmp_$id$, COLOR_RGB2GRAY);
+        tmp_$id$.convertTo(tmp_$id$, CV_32F);
+        tmp_$id$ = tmp_$id$ + 1;
+        log(tmp_$id$, tmp_$id$);
+        convertScaleAbs(tmp_$id$, tmp_$id$);
+        normalize(tmp_$id$, $port[output_image]$, 0, 255, NORM_MINMAX);
     }
 """
 
@@ -58,7 +55,7 @@ class Log(BlockModel):
 """        
     $port[input_image]$.release();
     $port[output_image]$.release();
-    block$id$_img_t.release();
+    tmp_$id$.release();
 """
 
 # -----------------------------------------------------------------------------

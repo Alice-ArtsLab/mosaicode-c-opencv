@@ -18,14 +18,6 @@ class Or(BlockModel):
 
         self.language = "c"
         self.framework = "opencv"
-
-        # Appearance
-        self.help = "Permite a operação lógica 'OU' entre as " + \
-            "duas entradas. Para esse bloco há duas possibilidades." + \
-            "Primeira: Executa a operação entre duas " + \
-            "imagens ponto a ponto." + \
-            "Segunda: Executa a operação entre um valor " + \
-            "constante e cada ponto da imagem."
         self.label = "Or"
         self.color = "10:180:10:150"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",

@@ -16,8 +16,6 @@ class Sum(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
-        # Appearance
-        self.help = "Realiza a soma de duas imagens."
         self.label = "Sum"
         self.color = "180:10:10:150"
         self.language = "c"

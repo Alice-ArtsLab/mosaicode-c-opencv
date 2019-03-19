@@ -15,14 +15,7 @@ class And(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-
-        # Appearance
-        self.help = "Permite a operação lógica 'E' entre as duas entradas." + \
-            " Para esse bloco há duas possibilidades." + \
-            "Primeira: Executa a operação entre" + \
-            " duas imagens ponto a ponto." + \
-            "Segunda: Executa a operação entre um " + \
-            "valor constante e cada ponto da imagem."
+        
         self.label = "And"
         self.language = "c"
         self.framework = "opencv"

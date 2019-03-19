@@ -16,7 +16,6 @@ class NewInt(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
-        # Appearance
         self.language = "c"
         self.framework = "opencv"
         self.help = "Creates new literal value (Int)."

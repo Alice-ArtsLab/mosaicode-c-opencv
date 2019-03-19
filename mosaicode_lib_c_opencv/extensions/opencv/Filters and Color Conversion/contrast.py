@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the Sobel class.
+This module contains the Contrast class.
 """
 
 from mosaicode.GUI.fieldtypes import *
@@ -9,11 +9,12 @@ from mosaicode.model.blockmodel import BlockModel
 
 class Contrast(BlockModel):
 	"""
-	This class contains methods related the FaceDetection class.
+	This class contains methods related the Contrast class.
 	"""
 
 	def __init__(self):
 		BlockModel.__init__(self)
+		
 		self.language = "c"
 		self.framework = "opencv"
 		self.label = "Contrast"

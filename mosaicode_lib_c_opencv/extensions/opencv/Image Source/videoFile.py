@@ -11,7 +11,6 @@ class VideoFile(BlockModel):
     """
     This class contains methods related the VideoFile class.
     """
-    # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)

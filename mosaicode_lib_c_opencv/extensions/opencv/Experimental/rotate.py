@@ -15,10 +15,9 @@ class Rotate(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+        
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Adiciona bordas na imagem."
         self.label = "Rotate Image"
         self.color = "90:5:10:150"
         self.group = "Experimental"
@@ -56,21 +55,19 @@ class Rotate(BlockModel):
         self.codes["declaration"] = \
 """        
     Mat $port[input_image]$;
-    double $port[input_angle]$ = $prop[angle]$;
     Mat $port[output_image]$;
+    Mat tmp_$id$;
+    double $port[input_angle]$ = $prop[angle]$;
 """
 
         self.codes["execution"] = \
 """        
     if(!$port[input_image]$.empty()){
-        Mat temp;
-        int H;
-        int W;
-        W = $port[input_image]$.cols;
-        H = $port[input_image]$.rows;
+        int W = $port[input_image]$.cols;
+        int H = $port[input_image]$.rows;
         Point center(W/2.0F, H/2.0F);
-        temp = getRotationMatrix2D(center, $port[input_angle]$, 1.0);
-        warpAffine($port[input_image]$, $port[output_image]$, temp, $port[input_image]$.size());
+        tmp_$id$ = getRotationMatrix2D(center, $port[input_angle]$, 1.0);
+        warpAffine($port[input_image]$, $port[output_image]$, tmp_$id$, $port[input_image]$.size());
     }
 """
 
@@ -78,6 +75,7 @@ class Rotate(BlockModel):
 """          
     $port[input_image]$.release();
     $port[output_image]$.release();
+    tmp_$id$.release();
 """
     
 # -----------------------------------------------------------------------------

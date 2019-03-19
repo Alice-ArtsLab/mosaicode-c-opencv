@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the SmileDetection class.
+This module contains the Smile Detection class.
 """
 
 from mosaicode.GUI.fieldtypes import *

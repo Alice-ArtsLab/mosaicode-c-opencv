@@ -15,11 +15,12 @@ class Line(BlockModel):
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+        
         self.language = "c"
         self.framework = "opencv"
         self.label = "Line"
         self.color = "50:100:200:150"
+        self.group = "Basic Shapes"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
                        "conn_type":"Input",
@@ -28,7 +29,6 @@ class Line(BlockModel):
                        "conn_type":"Output",
                        "name":"output_image",
                        "label":"Output Image"}]
-        self.group = "Basic Shapes"
         self.properties = [{"name": "x1",
                             "label": "X1",
                             "type": MOSAICODE_INT,

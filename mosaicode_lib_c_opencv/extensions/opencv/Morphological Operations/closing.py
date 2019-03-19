@@ -12,15 +12,11 @@ class Closing(BlockModel):
     This class contains methods related the Closing class.
     """
 
-    # -------------------------------------------------------------------------
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Operação de morfologia matemática para realizar o " + \
-            "fechamento da imagem de acordo com o elemento estruturante." + \
-            "Equivale a aplicação de uma dilatação seguida de uma erosão."
         self.label = "Closing"
         self.color = "180:230:220:150"
         self.group = "Morphological Operations"

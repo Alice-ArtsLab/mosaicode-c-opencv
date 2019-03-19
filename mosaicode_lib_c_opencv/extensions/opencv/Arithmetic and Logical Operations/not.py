@@ -16,9 +16,6 @@ class Not(BlockModel):
     def __init__(self):
         BlockModel.__init__(self)
 
-        # Appearance
-        self.help = "Realiza a negação lógica de uma imagem. " + \
-            "Corresponde à negativa da imagem."
         self.label = "Not"
         self.color = "10:180:10:150"
         self.language = "c"

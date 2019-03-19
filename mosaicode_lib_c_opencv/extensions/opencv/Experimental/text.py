@@ -9,17 +9,18 @@ from mosaicode.model.blockmodel import BlockModel
 
 class Text(BlockModel):
     """
-    This class contains methods related the Line class.
+    This class contains methods related the Text class.
     """
     # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+
         self.language = "c"
         self.framework = "opencv"
         self.label = "Text"
         self.color = "50:100:200:150"
+        self.group = "Experimental"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
                        "conn_type":"Input",
@@ -28,7 +29,6 @@ class Text(BlockModel):
                        "conn_type":"Output",
                        "name":"output_image",
                        "label":"Output Image"}]
-        self.group = "Experimental"
         self.properties = [{"name": "text",
                             "label": "Text",
                             "type": MOSAICODE_STRING,

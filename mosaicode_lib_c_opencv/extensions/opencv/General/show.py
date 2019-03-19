@@ -11,22 +11,20 @@ class Show(BlockModel):
     """
     This class contains methods related the Show class.
     """
-    # -------------------------------------------------------------------------
 
     def __init__(self):
         BlockModel.__init__(self)
-        # Appearance
+
         self.language = "c"
         self.framework = "opencv"
-        self.help = "Mostra uma imagem da cadeia de processamento de imagens."
         self.label = "Show Image"
         self.color = "50:100:200:150"
+        self.group = "General"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
                           "conn_type":"Input",
                           "label":"Input Image"}
                          ]
-        self.group = "General"
         self.properties = [{"label": "Window Title",
                             "name": "title",
                             "type": MOSAICODE_STRING,
@@ -46,16 +44,16 @@ class Show(BlockModel):
         self.codes["declaration"] = \
 """        
     Mat $port[input_image]$;
-    if(strcmp(\"WINDOW_NORMAL\", \"$prop[window_type]$\") == 0)
-        namedWindow(\"$prop[title]$\", WINDOW_NORMAL);
+    if("WINDOW_NORMAL" == "$prop[window_type]$")
+        namedWindow("$prop[title]$", WINDOW_NORMAL);
     else
-        namedWindow(\"$prop[title]$\", WINDOW_AUTOSIZE);
+        namedWindow("$prop[title]$", WINDOW_AUTOSIZE);
 """
 
         self.codes["execution"] = \
 """
     if(!$port[input_image]$.empty()){
-        imshow(\"$prop[title]$\", $port[input_image]$);
+        imshow("$prop[title]$", $port[input_image]$);
     }
 """
         

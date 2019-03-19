@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the Sobel class.
+This module contains the InvertImage class.
 """
 
 from mosaicode.GUI.fieldtypes import *
@@ -9,7 +9,7 @@ from mosaicode.model.blockmodel import BlockModel
 
 class InvertImage(BlockModel):
 	"""
-	This class contains methods related the FaceDetection class.
+	This class contains methods related the InvertImage class.
 	"""
 
 	def __init__(self):

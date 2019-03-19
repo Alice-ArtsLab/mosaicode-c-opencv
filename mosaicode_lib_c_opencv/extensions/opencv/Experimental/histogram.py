@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the AddBorder class.
+This module contains the Histogram class.
 """
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
@@ -9,7 +9,7 @@ from mosaicode.model.blockmodel import BlockModel
 
 class Histogram(BlockModel):
     """
-    This class contains methods related the AddBorder class.
+    This class contains methods related the Histogram class.
     """
     # -------------------------------------------------------------------------
 
@@ -20,6 +20,7 @@ class Histogram(BlockModel):
         self.framework = "opencv"
         self.label = "Histogram"
         self.color = "150:180:210:150"
+        self.group = "Experimental"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                     "name":"input_image",
                     "conn_type":"Input",
@@ -28,7 +29,6 @@ class Histogram(BlockModel):
                     "name":"output_image",
                     "conn_type":"Output",
                     "label":"Output Image"}]
-        self.group = "Experimental"
         self.properties = [{"name": "width",
                             "label": "Width",
                             "type": MOSAICODE_INT,
@@ -52,8 +52,8 @@ class Histogram(BlockModel):
 """        
     Mat $port[input_image]$;
     Mat $port[output_image]$;
-    int histogram_$id$[256];
     Mat histogramImage_$id$($prop[height]$, $prop[width]$, CV_8UC1, Scalar(255, 255, 255));
+    int histogram_$id$[256];
 """        
 
         self.codes["execution"] = \
@@ -87,6 +87,7 @@ class Histogram(BlockModel):
         self.codes["deallocation"] = \
 """        
     $port[input_image]$.release();
+    $port[output_image]$.release();
     histogramImage_$id$.release();
 """
 
