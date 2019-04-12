@@ -41,7 +41,9 @@ setup(name='mosaicode-lib-c-opencv',
       url='https://mosaicode.github.io/',
 
       data_files=[
-            ('/usr/share/mosaicode/extensions/examples/c/opencv', glob("examples/*"))
+            ('/usr/share/mosaicode/extensions/c-opencv/images', glob("files/images/*")),
+            ('/usr/share/mosaicode/extensions/c-opencv/examples', glob("files/examples/*")),
+            ('/usr/share/mosaicode/extensions/c-opencv/databases', glob("files/databases/*"))
       ],
       **config
 )
