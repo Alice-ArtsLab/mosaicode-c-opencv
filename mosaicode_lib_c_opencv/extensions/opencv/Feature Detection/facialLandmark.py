@@ -85,8 +85,8 @@ class FacialLandmark(BlockModel):
 """		
 	if(!$port[input_image]$.empty()){
 		Scalar color = get_scalar_color$id$("$prop[color]$");
-		face_cascade_$id$.load("/usr/share/mosaicode/extensions/examples/c/opencv/haarcascade_frontalface_alt.xml");
-		facemark_$id$->loadModel("/usr/share/mosaicode/extensions/examples/c/opencv/lbfmodel.yaml");
+		face_cascade_$id$.load("/usr/share/mosaicode/extensions/c-opencv/databases/haarcascade_frontalface_alt.xml");
+		facemark_$id$->loadModel("/usr/share/mosaicode/extensions/c-opencv/databases/lbfmodel.yaml");
         cvtColor($port[input_image]$, tmp_$id$, COLOR_BGR2GRAY);
         face_cascade_$id$.detectMultiScale(tmp_$id$, faces_$id$);
         $port[output_image]$ = $port[input_image]$.clone();

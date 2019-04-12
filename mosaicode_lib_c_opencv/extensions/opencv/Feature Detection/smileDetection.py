@@ -80,7 +80,7 @@ class SmileDetection(BlockModel):
 	Mat $port[output_image]$;
     Mat tmp_$id$;
     vector<Rect> $port[output_rects]$;
-	CascadeClassifier cascade_$id$("/usr/share/mosaicode/extensions/examples/c/opencv/haarcascade_smile.xml");
+	CascadeClassifier cascade_$id$("/usr/share/mosaicode/extensions/c-opencv/databases/haarcascade_smile.xml");
 """
 
 		self.codes["execution"] = \

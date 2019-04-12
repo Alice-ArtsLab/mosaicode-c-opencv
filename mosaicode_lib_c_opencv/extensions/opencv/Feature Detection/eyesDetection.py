@@ -80,7 +80,7 @@ class EyesDetection(BlockModel):
 	Mat $port[output_image]$;
     Mat tmp_$id$;
     vector<Rect> $port[output_rects]$;
-	CascadeClassifier cascade_$id$("/usr/share/mosaicode/extensions/examples/c/opencv/haarcascade_eye.xml");
+	CascadeClassifier cascade_$id$("/usr/share/mosaicode/extensions/c-opencv/databases/haarcascade_eye.xml");
 """
 
 		self.codes["execution"] = \

@@ -65,7 +65,7 @@ class BlurredFace(BlockModel):
     Mat tmp$id$;
     int $port[input_integer1]$ = $prop[integer1]$;
     int $port[input_integer2]$ = $prop[integer2]$;
-    CascadeClassifier cascade_$id$("/usr/share/mosaicode/extensions/examples/c/opencv/haarcascade_frontalface_alt2.xml");
+    CascadeClassifier cascade_$id$("/usr/share/mosaicode/extensions/c-opencv/databases/haarcascade_frontalface_alt2.xml");
     vector<Rect> faces_$id$;
 """    
 
