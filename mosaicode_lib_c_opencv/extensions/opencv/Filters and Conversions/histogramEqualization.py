@@ -35,14 +35,14 @@ class HistogramEqualization(BlockModel):
 		self.codes["declaration"] = \
 """
 	Mat $port[input_image]$;
-	int $port[brightness]$ = $prop[brightness]$;
 	Mat $port[output_image]$;
 """			
 
 		self.codes["execution"] = \
 """
 	if(!$port[input_image]$.empty()){
-		$port[input_image]$.convertTo($port[output_image]$, -1, 1, $port[brightness]$);
+        cvtColor($port[input_image]$, $port[output_image]$, COLOR_BGR2GRAY);
+        equalizeHist($port[output_image]$, $port[output_image]$);
 	}
 """
 
