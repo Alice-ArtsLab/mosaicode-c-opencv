@@ -51,7 +51,10 @@ class Threshold(BlockModel):
                                        "THRESH_BINARY_INV",
                                        "THRESH_TRUNC",
                                        "THRESH_TOZERO",
-                                       "THRESH_TOZERO_INV"]
+                                       "THRESH_TOZERO_INV",
+                                       "THRESH_MASK",
+                                       "THRESH_OTSU",
+                                       "THRESH_TRIANGLE"]
                             }
                            ]
 
