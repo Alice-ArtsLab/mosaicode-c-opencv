@@ -18,7 +18,7 @@ class InvertImage(BlockModel):
 		self.language = "c"
 		self.framework = "opencv"
 		self.label = "Invert Image"
-		self.color = "90:5:10:150"
+		self.color = "255:217:25:245"
 		self.group = "Experimental"
 		self.ports = [{"type": "mosaicode_lib_c_opencv.extensions.ports.image",
 						"name": "input_image",

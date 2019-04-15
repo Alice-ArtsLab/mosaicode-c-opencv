@@ -19,48 +19,64 @@ class Smooth(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Smooth"
-        self.color = "50:125:50:150"
+        self.color = "230:0:50:245"
         self.group = "Filters and Conversions"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                       "name":"input_image",
                       "label":"Input Image",
                       "conn_type":"Input"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                      "name":"input_integer1",
-                      "label":"Input Integer 1",
+                      "name":"ksizex",
+                      "label":"Kernel X Size",
                       "conn_type":"Input"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.int",
-                      "name":"input_integer2",
-                      "label":"Input Integer 2",
+                      "name":"ksizey",
+                      "label":"Kernel Y Size",
                       "conn_type":"Input"},
                       {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                       "name":"output_image",
                       "label":"Output Image",
                       "conn_type":"Output"}
                       ]
-        self.properties = [{"name": "integer1",
-                            "label": "Sigma A",
-                            "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 99,
-                            "step": 1,
-                            "value": 1
-                            },
-                           {"name": "integer2",
-                            "label": "Sigma B",
-                            "type": MOSAICODE_INT,
-                            "lower": 0,
-                            "upper": 99,
-                            "step": 1,
-                            "value": 1
-                            },
-                            {"name": "type",
+        self.properties = [{"name": "type",
                             "label": "Smooth Type",
                             "type": MOSAICODE_COMBO,
                             "value":"Gaussian Blur",
                             "values": ["Gaussian Blur",
-                                      "Homogeneous Blur",
+                                      "Average Blur",
                                       "Median Blur"]
+                            },
+                            {"name": "ksizex",
+                            "label": "Kernel X Size",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 99,
+                            "step": 1,
+                            "value": 3
+                            },
+                           {"name": "ksizey",
+                            "label": "Kernel Y Size",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 99,
+                            "step": 1,
+                            "value": 3
+                            },
+                            {"name": "sigma1",
+                            "label": "Sigma A",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 150,
+                            "step": 1,
+                            "value": 1
+                            },
+                           {"name": "sigma2",
+                            "label": "Sigma B",
+                            "type": MOSAICODE_INT,
+                            "lower": 0,
+                            "upper": 150,
+                            "step": 1,
+                            "value": 1
                             }
                            ]
 
@@ -68,8 +84,8 @@ class Smooth(BlockModel):
         self.codes["declaration"] = \
 """        
     Mat $port[input_image]$;
-    int $port[input_integer1]$ = $prop[integer1]$;
-    int $port[input_integer2]$ = $prop[integer2]$;
+    int $port[ksizex]$ = $prop[ksizex]$;
+    int $port[ksizey]$ = $prop[ksizey]$;
     Mat $port[output_image]$;
 """    
 
@@ -77,16 +93,16 @@ class Smooth(BlockModel):
 """        
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
-        $port[input_integer1]$ = ($port[input_integer1]$ %2 == 0)? $port[input_integer1]$ + 1 : $port[input_integer1]$;
-        $port[input_integer2]$ = ($port[input_integer2]$ %2 == 0)? $port[input_integer2]$ + 1 : $port[input_integer2]$;
-        if("$prop[type]$" == "Gaussian Blur"){
-            GaussianBlur($port[input_image]$, $port[output_image]$, Size(0,0), $port[input_integer1]$, $port[input_integer2]$);
+        $port[ksizex]$ = ($port[ksizex]$ %2 == 0)? $port[ksizex]$ + 1 : $port[ksizex]$;
+        $port[ksizey]$ = ($port[ksizey]$ %2 == 0)? $port[ksizey]$ + 1 : $port[ksizey]$;
+        if("$prop[type]$" == "Average Blur"){
+            blur($port[input_image]$, $port[output_image]$, Size($port[ksizex]$, $port[ksizey]$), Point(-1,-1));
         }
-        if("$prop[type]$" == "Homogeneous Blur"){
-            blur($port[input_image]$, $port[output_image]$, Size($port[input_integer1]$, $port[input_integer2]$), Point(-1,-1));
+        if("$prop[type]$" == "Gaussian Blur"){
+            GaussianBlur($port[input_image]$, $port[output_image]$, Size($port[ksizex]$, $port[ksizey]$), $prop[sigma1]$, $prop[sigma2]$);
         }
         if("$prop[type]$" == "Median Blur"){
-            medianBlur($port[input_image]$, $port[output_image]$, $port[input_integer1]$);
+            medianBlur($port[input_image]$, $port[output_image]$, $port[ksizex]$);
         }
     }
 """

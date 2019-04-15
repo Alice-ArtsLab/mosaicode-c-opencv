@@ -17,7 +17,7 @@ class Multiplication(BlockModel):
         BlockModel.__init__(self)
 
         self.label = "Multiplication"
-        self.color = "180:10:10:150"
+        self.color = "255:102:25:245"
         self.language = "c"
         self.framework = "opencv"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",

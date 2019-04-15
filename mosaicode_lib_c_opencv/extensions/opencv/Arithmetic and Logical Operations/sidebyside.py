@@ -17,7 +17,7 @@ class SideBySide(BlockModel):
         BlockModel.__init__(self)
 
         self.label = "Side By Side"
-        self.color = "10:180:10:150"
+        self.color = "255:102:25:245"
         self.language = "c"
         self.framework = "opencv"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",

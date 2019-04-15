@@ -19,7 +19,7 @@ class GetSize(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Get Size"
-        self.color = "250:20:30:150"
+        self.color = "255:217:25:245"
         self.group = "Experimental"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",

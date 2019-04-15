@@ -17,7 +17,7 @@ class Threshold(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Threshold"
-        self.color = "50:125:50:150"
+        self.color = "230:0:50:245"
         self.group = "Filters and Conversions"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"input_image",
