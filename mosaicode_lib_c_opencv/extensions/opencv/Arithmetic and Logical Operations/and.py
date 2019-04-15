@@ -19,7 +19,7 @@ class And(BlockModel):
         self.label = "And"
         self.language = "c"
         self.framework = "opencv"
-        self.color = "10:180:10:150"
+        self.color = "255:102:25:245"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"first_image",
                           "conn_type":"Input",

@@ -19,7 +19,7 @@ class Line(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Line"
-        self.color = "50:100:200:150"
+        self.color = "166:123:91:255"
         self.group = "Basic Shapes"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",

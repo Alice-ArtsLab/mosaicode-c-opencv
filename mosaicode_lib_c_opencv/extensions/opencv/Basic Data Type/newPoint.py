@@ -19,7 +19,7 @@ class NewPoint(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "New Point"
-        self.color = "50:50:200:150"
+        self.color = "189:51:164:255"
         self.out_types = ["mosaicode_lib_c_opencv.extensions.ports.point"]
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.point",
                         "name":"point",

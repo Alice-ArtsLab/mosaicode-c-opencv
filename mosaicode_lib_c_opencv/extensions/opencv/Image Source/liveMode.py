@@ -19,7 +19,7 @@ class LiveMode(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Live Mode"
-        self.color = "50:100:200:150"
+        self.color = "0:213:255:255"
         self.group = "Image Source"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"output_image",

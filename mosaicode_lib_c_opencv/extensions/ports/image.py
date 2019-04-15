@@ -6,7 +6,7 @@ class Image(Port):
         Port.__init__(self)
         self.language = "c"
         self.hint = "IMG"
-        self.color = "#F0F"
+        self.color = "#080808"
         self.multiple = False
         self.var_name = "$block[label]$_$block[id]$_$port[name]$"
         self.code = \
