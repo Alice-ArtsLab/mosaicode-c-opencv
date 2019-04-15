@@ -44,7 +44,8 @@ class Smooth(BlockModel):
                             "value":"Gaussian Blur",
                             "values": ["Gaussian Blur",
                                       "Average Blur",
-                                      "Median Blur"]
+                                      "Median Blur",
+                                      "Bilateral Filter"]
                             },
                             {"name": "ksizex",
                             "label": "Kernel X Size",
@@ -103,6 +104,9 @@ class Smooth(BlockModel):
         }
         if("$prop[type]$" == "Median Blur"){
             medianBlur($port[input_image]$, $port[output_image]$, $port[ksizex]$);
+        }
+        if("$prop[type]$" == "Bilateral Filter"){
+            bilateralFilter($port[input_image]$, $port[output_image]$, $prop[sigma1]$, $prop[sigma1]$*2, $prop[sigma1]$/2 );
         }
     }
 """
