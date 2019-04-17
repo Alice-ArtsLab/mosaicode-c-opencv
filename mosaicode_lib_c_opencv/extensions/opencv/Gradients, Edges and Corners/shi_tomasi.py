@@ -18,8 +18,8 @@ class ShiTomasi(BlockModel):
 		self.language = "c"
 		self.framework = "opencv"
 		self.label = "Shi Tomasi Corner Detector"
-		self.color = "0:179:30:235"
-		self.group = "Feature Detection"
+		self.color = "0:138:64:245"
+		self.group = "Gradients, Edges and Corners"
 		self.ports = [{"type": "mosaicode_lib_c_opencv.extensions.ports.image",
 						"name": "input_image",
 						"label": "Input Image",

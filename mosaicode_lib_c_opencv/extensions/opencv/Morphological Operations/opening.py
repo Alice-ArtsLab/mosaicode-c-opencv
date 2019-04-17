@@ -19,7 +19,7 @@ class Opening(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Opening"
-        self.color = "180:230:220:150"
+        self.color = "179:0:59:230"
         self.group = "Morphological Operations"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",

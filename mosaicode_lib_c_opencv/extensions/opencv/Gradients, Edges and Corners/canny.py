@@ -18,7 +18,7 @@ class Canny(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Canny"
-        self.color = "50:180:80:150"
+        self.color = "0:138:64:245"
         self.framework = "opencv"
         self.group = "Gradients, Edges and Corners"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",

@@ -19,7 +19,7 @@ class Log(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Log"
-        self.color = "230:230:60:150"
+        self.color = "179:255:25:245"
         self.group = "Math Functions"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"input_image",
