@@ -6,7 +6,7 @@ class Rect(Port):
         Port.__init__(self)
         self.language = "c"
         self.hint = "RECT"
-        self.color = "#00F"
+        self.color = "#33362C"
         self.multiple = False
         self.var_name = "$block[label]$_$block[id]$_$port[name]$"
         self.code = "$input$ = $output$;\n"

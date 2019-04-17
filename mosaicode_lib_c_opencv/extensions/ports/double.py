@@ -6,7 +6,7 @@ class Double(Port):
         Port.__init__(self)
         self.language = "c"
         self.hint = "DOUBLE"
-        self.color = "#000"
+        self.color = "#292B23"
         self.multiple = False
         self.var_name = "$block[label]$_$block[id]$_$port[name]$"
         self.code = "$input$ = $output$;\n"
