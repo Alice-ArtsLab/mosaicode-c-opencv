@@ -16,7 +16,7 @@ class Dilate(BlockModel):
         BlockModel.__init__(self)
 
         self.label = "Dilate"
-        self.color = "180:230:220:150"
+        self.color = "179:0:59:230"
         self.language = "c"
         self.framework = "opencv"
         self.group = "Morphological Operations"

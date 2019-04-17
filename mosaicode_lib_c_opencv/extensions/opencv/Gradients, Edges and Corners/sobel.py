@@ -19,7 +19,7 @@ class Sobel(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Sobel"
-        self.color = "250:180:80:150"
+        self.color = "0:138:64:245"
         self.group = "Gradients, Edges and Corners"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"input_image",

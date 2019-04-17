@@ -18,7 +18,7 @@ class Save(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Save Image"
-        self.color = "50:100:200:150"
+        self.color = "0:64:191:235"
         self.group = "General"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                         "name":"input_image",
