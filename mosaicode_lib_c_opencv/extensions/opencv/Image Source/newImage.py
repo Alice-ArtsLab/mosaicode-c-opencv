@@ -20,7 +20,11 @@ class NewImage(BlockModel):
         self.label = "New Image"
         self.color = "0:213:255:255"
         self.group = "Image Source"
-        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
+        self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.rect",
+                          "name":"input_rect",
+                          "conn_type":"Input",
+                          "label":"Input Rect"},
+                         {"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                           "name":"output_image",
                           "conn_type":"Output",
                           "label":"Image"}]
@@ -44,9 +48,14 @@ class NewImage(BlockModel):
 
 #----------------------------- C/OpenCv Code ----------------------------------
 
+        self.codes["declaration"] = \
+"""        
+    Rect $port[input_rect]$(0, 0, $prop[width]$, $prop[height]$);
+"""
+
         self.codes["execution"] = \
 """        
-    Mat $port[output_image]$ = Mat::zeros($prop[width]$, $prop[height]$, CV_8UC3);
+    Mat $port[output_image]$ = Mat::zeros($port[input_rect]$.width, $port[input_rect]$.height, CV_8UC3);
 """   
 
         self.codes["deallocation"] = \

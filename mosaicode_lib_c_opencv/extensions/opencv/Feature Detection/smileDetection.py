@@ -52,7 +52,7 @@ class SmileDetection(BlockModel):
 
 		self.codes["function"] = \
 """		
-    Scalar get_scalar_color$id$(const char * rgbColor){
+    Scalar get_scalar_color_$id$(const char * rgbColor){
     	if(strlen(rgbColor) < 13 || rgbColor[0] != '#')
         	return Scalar(0,0,0,0);
 
@@ -86,7 +86,7 @@ class SmileDetection(BlockModel):
 		self.codes["execution"] = \
 """		
 	if(!$port[input_image]$.empty()){
-		Scalar color = get_scalar_color$id$("$prop[color]$");
+		Scalar color = get_scalar_color_$id$("$prop[color]$");
         cvtColor($port[input_image]$, tmp_$id$, COLOR_BGR2GRAY);
 		cascade_$id$.detectMultiScale(tmp_$id$, $port[output_rects]$, 1.7, 22, 0, Size(25, 25));
 		$port[output_image]$ = $port[input_image]$.clone();

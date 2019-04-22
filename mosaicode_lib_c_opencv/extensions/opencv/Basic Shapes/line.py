@@ -80,7 +80,7 @@ class Line(BlockModel):
 
         self.codes["function"] = \
 """        
-    Scalar get_scalar_color(const char * rgbColor){
+    Scalar get_scalar_color_$id$(const char * rgbColor){
         if (strlen(rgbColor) < 13 || rgbColor[0] != '#')
             return Scalar(0,0,0,0);
         char r[4], g[4], b[4];
@@ -111,7 +111,7 @@ class Line(BlockModel):
 """        
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
-        Scalar color = get_scalar_color("$prop[color]$");
+        Scalar color = get_scalar_color_$id$("$prop[color]$");
         line($port[output_image]$, Point($prop[x1]$, $prop[y1]$), Point($prop[x2]$, $prop[y2]$), color, $prop[line]$, 8);
     }
 """    
