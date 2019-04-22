@@ -52,7 +52,7 @@ class Contours(BlockModel):
 
         self.codes["function"] = \
 """        
-    Scalar get_scalar_color$id$(const char * rgbColor){
+    Scalar get_scalar_color_$id$(const char * rgbColor){
         if(strlen(rgbColor) < 13 || rgbColor[0] != '#')
             return Scalar(0,0,0,0);
 
@@ -86,7 +86,7 @@ class Contours(BlockModel):
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
         for(int i = 0; i < $port[input_points]$.size(); i++){
-            drawContours($port[output_image]$, $port[input_points]$, i, get_scalar_color("$prop[color]$"), $prop[thickness]$, 8);
+            drawContours($port[output_image]$, $port[input_points]$, i, get_scalar_color_$id$("$prop[color]$"), $prop[thickness]$, 8);
         }
     }
 """

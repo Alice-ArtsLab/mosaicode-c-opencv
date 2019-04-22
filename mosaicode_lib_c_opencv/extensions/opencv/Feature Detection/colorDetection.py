@@ -44,30 +44,6 @@ class ColorDetection(BlockModel):
 
 # ------------------------------------- C/OpenCV Code -------------------------------------
 
-		self.codes["function"] = \
-"""		
-    Scalar get_scalar_color(const char * rgbColor){
-    	if(strlen(rgbColor) < 13 || rgbColor[0] != '#')
-        	return Scalar(0,0,0,0);
-
-        char r[4], g[4], b[4];
-        strncpy(r, rgbColor+1, 4);
-        strncpy(g, rgbColor+5, 4);
-        strncpy(b, rgbColor+9, 4);
-        
-        int ri, gi, bi = 0;
-        ri = (int)strtol(r, NULL, 16);
-        gi = (int)strtol(g, NULL, 16);
-        bi = (int)strtol(b, NULL, 16);
-        
-        ri /= 257;
-        gi /= 257;
-        bi /= 257;
-        
-        return Scalar(bi, gi, ri, 0);
-    }
-"""
-
 		self.codes["declaration"] = \
 """
 	Mat $port[input_image]$;

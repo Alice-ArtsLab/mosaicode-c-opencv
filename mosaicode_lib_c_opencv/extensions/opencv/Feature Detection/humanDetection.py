@@ -52,7 +52,7 @@ class HumanDetection(BlockModel):
 
 		self.codes["function"] = \
 """		
-    Scalar get_scalar_color$id$(const char * rgbColor){
+    Scalar get_scalar_color_$id$(const char * rgbColor){
     	if(strlen(rgbColor) < 13 || rgbColor[0] != '#')
         	return Scalar(0,0,0,0);
 
@@ -87,7 +87,7 @@ class HumanDetection(BlockModel):
 		self.codes["execution"] = \
 """		
 	if(!$port[input_image]$.empty()){
-		Scalar color = get_scalar_color$id$("$prop[color]$");
+		Scalar color = get_scalar_color_$id$("$prop[color]$");
         cvtColor($port[input_image]$, tmp_$id$, COLOR_RGB2GRAY);
         hog_$id$.detectMultiScale(tmp_$id$, $port[output_rects]$);
         $port[output_image]$ = $port[input_image]$.clone();

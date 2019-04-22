@@ -48,7 +48,7 @@ class FacialLandmark(BlockModel):
 
 		self.codes["function"] = \
 """		
-    Scalar get_scalar_color$id$(const char * rgbColor){
+    Scalar get_scalar_color_$id$(const char * rgbColor){
     	if(strlen(rgbColor) < 13 || rgbColor[0] != '#')
         	return Scalar(0,0,0,0);
 
@@ -84,7 +84,7 @@ class FacialLandmark(BlockModel):
 		self.codes["execution"] = \
 """		
 	if(!$port[input_image]$.empty()){
-		Scalar color = get_scalar_color$id$("$prop[color]$");
+		Scalar color = get_scalar_color_$id$("$prop[color]$");
 		face_cascade_$id$.load("/usr/share/mosaicode/extensions/c-opencv/databases/haarcascade_frontalface_alt.xml");
 		facemark_$id$->loadModel("/usr/share/mosaicode/extensions/c-opencv/databases/lbfmodel.yaml");
         cvtColor($port[input_image]$, tmp_$id$, COLOR_BGR2GRAY);

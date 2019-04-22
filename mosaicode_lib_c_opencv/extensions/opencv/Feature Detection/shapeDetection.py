@@ -72,7 +72,7 @@ class ShapeDetection(BlockModel):
 
 		self.codes["function"] = \
 """		
-    Scalar get_scalar_color(const char * rgbColor){
+    Scalar get_scalar_color_$id$(const char * rgbColor){
     	if(strlen(rgbColor) < 13 || rgbColor[0] != '#')
         	return Scalar(0,0,0,0);
 
@@ -112,19 +112,19 @@ class ShapeDetection(BlockModel):
         for(int i = 0; i < $port[output_points]$.size(); i++){
             approxPolyDP($port[output_points]$[i], approx_$id$, 0.02*arcLength($port[output_points]$[i], true), true);
             if(approx_$id$.size() == 3){
-                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[triangle_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color_$id$("$prop[triangle_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() == 4){
-                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[square_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color_$id$("$prop[square_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() >= 5 && approx_$id$.size() < 9){
-                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[polygon_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color_$id$("$prop[polygon_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() == 9){
-                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[semi_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color_$id$("$prop[semi_color]$"), $prop[thickness]$, 8);
             }
             if(approx_$id$.size() > 11){
-                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color("$prop[circle_color]$"), $prop[thickness]$, 8);
+                drawContours($port[output_image]$, $port[output_points]$, i, get_scalar_color_$id$("$prop[circle_color]$"), $prop[thickness]$, 8);
             }
         }
 	}

@@ -19,7 +19,7 @@ class Rectangle(BlockModel):
         self.language = "c"
         self.framework = "opencv"
         self.label = "Rectangle"
-        self.color = "64:25:255:245"
+        self.color = "166:123:91:255"
         self.group = "Basic Shapes"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
                        "name":"input_image",
@@ -93,7 +93,7 @@ class Rectangle(BlockModel):
 
         self.codes["function"] = \
 """        
-    Scalar get_scalar_color(const char * rgbColor){
+    Scalar get_scalar_color_$id$(const char * rgbColor){
         if (strlen(rgbColor) < 13 || rgbColor[0] != '#')
             return Scalar(0,0,0,0);
         char r[4], g[4], b[4];
@@ -125,7 +125,7 @@ class Rectangle(BlockModel):
 """        
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
-        Scalar color = get_scalar_color("$prop[color]$");
+        Scalar color = get_scalar_color_$id$("$prop[color]$");
         if(!$port[input_rects]$.empty()){
             if("$prop[fill]$" == "NO"){
                 for(int i = 0; i < $port[input_rects]$.size(); i++){

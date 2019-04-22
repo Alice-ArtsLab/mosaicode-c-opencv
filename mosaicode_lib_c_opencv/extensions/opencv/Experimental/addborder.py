@@ -59,7 +59,7 @@ class AddBorder(BlockModel):
     
         self.codes["function"] = \
 """        
-    Scalar get_scalar_color(const char * rgbColor){
+    Scalar get_scalar_color_$id$(const char * rgbColor){
         if (strlen(rgbColor) < 13 || rgbColor[0] != '#')
             return Scalar(0,0,0,0);
         char r[4], g[4], b[4];
@@ -91,7 +91,7 @@ class AddBorder(BlockModel):
 """        
     if(!$port[input_image]$.empty()){
         $port[output_image]$ = $port[input_image]$.clone();
-        Scalar color = get_scalar_color("$prop[color]$");
+        Scalar color = get_scalar_color_$id$("$prop[color]$");
         copyMakeBorder($port[input_image]$, $port[output_image]$, $port[border_size]$, $port[border_size]$, $port[border_size]$, $port[border_size]$, $prop[type]$, color);
     }
 """    

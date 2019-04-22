@@ -65,7 +65,7 @@ class FaceDetection(BlockModel):
 
 		self.codes["function"] = \
 """		
-    Scalar get_scalar_color$id$(const char * rgbColor){
+    Scalar get_scalar_color_$id$(const char * rgbColor){
     	if(strlen(rgbColor) < 13 || rgbColor[0] != '#')
         	return Scalar(0,0,0,0);
 
@@ -99,7 +99,7 @@ class FaceDetection(BlockModel):
 		self.codes["execution"] = \
 """		
 	if(!$port[input_image]$.empty()){
-		Scalar color = get_scalar_color$id$("$prop[color]$");
+		Scalar color = get_scalar_color_$id$("$prop[color]$");
 		cvtColor($port[input_image]$, tmp_$id$, COLOR_RGB2GRAY);
 		cascade_$id$.detectMultiScale($port[input_image]$, $port[output_rects]$, 1.3, 5);
 		$port[output_image]$ = $port[input_image]$.clone();
