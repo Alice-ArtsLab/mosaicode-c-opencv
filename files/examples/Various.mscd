@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosaicode>
+ <version value="0.0.1"/>
+ <zoom value="1.0"/>
+ <language value="c"/>
+ <blocks>
+  <block collapsed="False" id="1" type="mosaicode_lib_c_opencv.extensions.opencv.General.show">
+   <position x="800.0" y="30.0"/>
+   <property key="title" value="Subtraction"/>
+   <property key="window_type" value="WINDOW_AUTOSIZE"/>
+  </block>
+  <block collapsed="False" id="2" type="mosaicode_lib_c_opencv.extensions.opencv.Image Source.imageFile">
+   <position x="50.0" y="260.0"/>
+   <property key="filename" value="/home/fred/Downloads/pepper-composition-3-1545741-639x494.jpg"/>
+  </block>
+  <block collapsed="False" id="3" type="mosaicode_lib_c_opencv.extensions.opencv.Morphological Operations.opening">
+   <position x="320.0" y="30.0"/>
+   <property key="masksizex" value="3"/>
+   <property key="masksizey" value="3"/>
+  </block>
+  <block collapsed="False" id="4" type="mosaicode_lib_c_opencv.extensions.opencv.Morphological Operations.erode">
+   <position x="320.0" y="120.0"/>
+   <property key="masksizex" value="3"/>
+   <property key="masksizey" value="3"/>
+  </block>
+  <block collapsed="False" id="5" type="mosaicode_lib_c_opencv.extensions.opencv.Gradients, Edges and Corners.canny">
+   <position x="490.0" y="120.0"/>
+   <property key="apertureSize" value="5"/>
+   <property key="threshold1" value="16"/>
+   <property key="threshold2" value="33"/>
+  </block>
+  <block collapsed="False" id="6" type="mosaicode_lib_c_opencv.extensions.opencv.Arithmetic and Logical Operations.subtraction">
+   <position x="630.0" y="30.0"/>
+  </block>
+  <block collapsed="False" id="14" type="mosaicode_lib_c_opencv.extensions.opencv.General.show">
+   <position x="990.0" y="310.0"/>
+   <property key="title" value="Thresh"/>
+   <property key="window_type" value="WINDOW_AUTOSIZE"/>
+  </block>
+  <block collapsed="False" id="22" type="mosaicode_lib_c_opencv.extensions.opencv.General.show">
+   <position x="490.0" y="480.0"/>
+   <property key="title" value="Sub2"/>
+   <property key="window_type" value="WINDOW_AUTOSIZE"/>
+  </block>
+  <block collapsed="False" id="24" type="mosaicode_lib_c_opencv.extensions.opencv.Gradients, Edges and Corners.shi_tomasi">
+   <position x="250.0" y="490.0"/>
+   <property key="max_corners" value="50"/>
+  </block>
+  <block collapsed="False" id="28" type="mosaicode_lib_c_opencv.extensions.opencv.Filters and Conversions.histogramEqualization">
+   <position x="580.0" y="230.0"/>
+  </block>
+  <block collapsed="False" id="29" type="mosaicode_lib_c_opencv.extensions.opencv.Filters and Conversions.decomposeRGB">
+   <position x="270.0" y="260.0"/>
+  </block>
+  <block collapsed="False" id="30" type="mosaicode_lib_c_opencv.extensions.opencv.Filters and Conversions.histogramEqualization">
+   <position x="580.0" y="300.0"/>
+  </block>
+  <block collapsed="False" id="31" type="mosaicode_lib_c_opencv.extensions.opencv.Filters and Conversions.histogramEqualization">
+   <position x="580.0" y="380.0"/>
+  </block>
+  <block collapsed="False" id="32" type="mosaicode_lib_c_opencv.extensions.opencv.Filters and Conversions.composeRGB">
+   <position x="810.0" y="310.0"/>
+  </block>
+ </blocks>
+ <connections>
+  <connection from_block="2" from_out="0" to_block="4" to_in="0"/>
+  <connection from_block="2" from_out="0" to_block="3" to_in="0"/>
+  <connection from_block="4" from_out="1" to_block="5" to_in="0"/>
+  <connection from_block="3" from_out="3" to_block="6" to_in="0"/>
+  <connection from_block="5" from_out="4" to_block="6" to_in="1"/>
+  <connection from_block="6" from_out="2" to_block="1" to_in="0"/>
+  <connection from_block="24" from_out="2" to_block="22" to_in="0"/>
+  <connection from_block="2" from_out="0" to_block="24" to_in="0"/>
+  <connection from_block="2" from_out="0" to_block="29" to_in="0"/>
+  <connection from_block="29" from_out="1" to_block="28" to_in="0"/>
+  <connection from_block="29" from_out="2" to_block="30" to_in="0"/>
+  <connection from_block="29" from_out="3" to_block="31" to_in="0"/>
+  <connection from_block="28" from_out="1" to_block="32" to_in="0"/>
+  <connection from_block="30" from_out="1" to_block="32" to_in="1"/>
+  <connection from_block="31" from_out="1" to_block="32" to_in="2"/>
+  <connection from_block="32" from_out="3" to_block="14" to_in="0"/>
+ </connections>
+ <comments/>
+</mosaicode>
