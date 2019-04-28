@@ -41,8 +41,7 @@ class HistogramEqualization(BlockModel):
 		self.codes["execution"] = \
 """
 	if(!$port[input_image]$.empty()){
-        cvtColor($port[input_image]$, $port[output_image]$, COLOR_BGR2GRAY);
-        equalizeHist($port[output_image]$, $port[output_image]$);
+        equalizeHist($port[input_image]$, $port[output_image]$);
 	}
 """
 
