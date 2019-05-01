@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosaicode>
+ <version value="0.0.1"/>
+ <zoom value="1.0"/>
+ <language value="c"/>
+ <blocks>
+  <block collapsed="False" id="1" type="mosaicode_lib_c_opencv.extensions.opencv.Basic Shapes.circle">
+   <position x="370.0" y="160.0"/>
+   <property key="x" value="250"/>
+   <property key="y" value="250"/>
+   <property key="radius" value="246.0"/>
+   <property key="line" value="5"/>
+   <property key="color" value="#ffff00000000"/>
+   <property key="fill" value="NO"/>
+  </block>
+  <block collapsed="False" id="2" type="mosaicode_lib_c_opencv.extensions.opencv.Basic Shapes.circle">
+   <position x="180.0" y="290.0"/>
+   <property key="x" value="250"/>
+   <property key="y" value="250"/>
+   <property key="radius" value="180.0"/>
+   <property key="line" value="5"/>
+   <property key="color" value="#0a360000ffff"/>
+   <property key="fill" value="NO"/>
+  </block>
+  <block collapsed="False" id="3" type="mosaicode_lib_c_opencv.extensions.opencv.Basic Shapes.circle">
+   <position x="370.0" y="290.0"/>
+   <property key="x" value="250"/>
+   <property key="y" value="250"/>
+   <property key="radius" value="110.0"/>
+   <property key="line" value="5"/>
+   <property key="color" value="#0d5dffff0000"/>
+   <property key="fill" value="NO"/>
+  </block>
+  <block collapsed="False" id="4" type="mosaicode_lib_c_opencv.extensions.opencv.Image Source.imageFile">
+   <position x="280.0" y="20.0"/>
+   <property key="filename" value="/usr/share/mosaicode/extensions/c-opencv/images/orange-splash.jpg"/>
+  </block>
+  <block collapsed="False" id="6" type="mosaicode_lib_c_opencv.extensions.opencv.Basic Shapes.rectangle">
+   <position x="180.0" y="420.0"/>
+   <property key="x" value="200"/>
+   <property key="y" value="200"/>
+   <property key="width" value="100"/>
+   <property key="height" value="100"/>
+   <property key="line" value="5"/>
+   <property key="color" value="#ffff0000d39d"/>
+   <property key="fill" value="NO"/>
+  </block>
+  <block collapsed="False" id="7" type="mosaicode_lib_c_opencv.extensions.opencv.Basic Shapes.rectangle">
+   <position x="370.0" y="420.0"/>
+   <property key="x" value="150"/>
+   <property key="y" value="150"/>
+   <property key="width" value="200"/>
+   <property key="height" value="200"/>
+   <property key="line" value="5"/>
+   <property key="color" value="#ffff5fb60000"/>
+   <property key="fill" value="NO"/>
+  </block>
+  <block collapsed="False" id="8" type="mosaicode_lib_c_opencv.extensions.opencv.General.show">
+   <position x="270.0" y="540.0"/>
+   <property key="title" value="My Image"/>
+   <property key="window_type" value="WINDOW_AUTOSIZE"/>
+  </block>
+  <block collapsed="False" id="9" type="mosaicode_lib_c_opencv.extensions.opencv.Experimental.resize">
+   <position x="180.0" y="160.0"/>
+   <property key="size_x" value="500"/>
+   <property key="size_y" value="500"/>
+  </block>
+ </blocks>
+ <connections>
+  <connection from_block="1" from_out="2" to_block="2" to_in="0"/>
+  <connection from_block="2" from_out="2" to_block="3" to_in="0"/>
+  <connection from_block="3" from_out="2" to_block="6" to_in="0"/>
+  <connection from_block="6" from_out="2" to_block="7" to_in="0"/>
+  <connection from_block="7" from_out="2" to_block="8" to_in="0"/>
+  <connection from_block="4" from_out="0" to_block="9" to_in="0"/>
+  <connection from_block="9" from_out="1" to_block="1" to_in="0"/>
+ </connections>
+ <comments/>
+</mosaicode>

@@ -33,17 +33,17 @@ class Histogram(BlockModel):
                             "label": "Width",
                             "type": MOSAICODE_INT,
                             "lower": 256,
-                            "upper": 1000,
+                            "upper": 10000,
                             "step": 1,
-                            "value": 512
+                            "value": 256
                             },
                            {"name": "height",
                             "label": "Height",
                             "type": MOSAICODE_INT,
-                            "lower": 256,
-                            "upper": 1000,
+                            "lower": 100,
+                            "upper": 10000,
                             "step": 1,
-                            "value": 400
+                            "value": 200
                             }]
 
 #-------------------------------- C/OpenCV Code -------------------------------------                           

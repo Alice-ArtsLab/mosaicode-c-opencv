@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosaicode>
+ <version value="0.0.1"/>
+ <zoom value="1.0"/>
+ <language value="c"/>
+ <blocks>
+  <block collapsed="False" id="1" type="mosaicode_lib_c_opencv.extensions.opencv.General.show">
+   <position x="1090.0" y="310.0"/>
+   <property key="title" value="Input Frame / Ellipse Control"/>
+   <property key="window_type" value="WINDOW_AUTOSIZE"/>
+  </block>
+  <block collapsed="False" id="5" type="mosaicode_lib_c_opencv.extensions.opencv.Experimental.getSize">
+   <position x="310.0" y="170.0"/>
+  </block>
+  <block collapsed="False" id="9" type="mosaicode_lib_c_opencv.extensions.opencv.Image Source.liveMode">
+   <position x="100.0" y="310.0"/>
+   <property key="camera" value="0"/>
+  </block>
+  <block collapsed="False" id="11" type="mosaicode_lib_c_opencv.extensions.opencv.Basic Shapes.ellipse">
+   <position x="500.0" y="250.0"/>
+   <property key="x" value="1"/>
+   <property key="y" value="1"/>
+   <property key="width" value="42.0"/>
+   <property key="height" value="33.0"/>
+   <property key="angle" value="0"/>
+   <property key="start_angle" value="0"/>
+   <property key="end_angle" value="350"/>
+   <property key="line" value="1"/>
+   <property key="color" value="#ffff00000000"/>
+   <property key="fill" value="YES"/>
+  </block>
+  <block collapsed="False" id="12" type="mosaicode_lib_c_opencv.extensions.opencv.Arithmetic and Logical Operations.sidebyside">
+   <position x="700.0" y="310.0"/>
+  </block>
+  <block collapsed="False" id="15" type="mosaicode_lib_c_opencv.extensions.opencv.Experimental.resize">
+   <position x="900.0" y="310.0"/>
+   <property key="size_x" value="700"/>
+   <property key="size_y" value="600"/>
+  </block>
+  <block collapsed="False" id="16" type="mosaicode_lib_c_opencv.extensions.opencv.Feature Detection.smileDetection">
+   <position x="310.0" y="250.0"/>
+   <property key="color" value="#DDDDDD"/>
+   <property key="thickness" value="5"/>
+  </block>
+ </blocks>
+ <connections>
+  <connection from_block="11" from_out="2" to_block="12" to_in="1"/>
+  <connection from_block="5" from_out="1" to_block="11" to_in="0"/>
+  <connection from_block="9" from_out="0" to_block="5" to_in="0"/>
+  <connection from_block="12" from_out="2" to_block="15" to_in="0"/>
+  <connection from_block="15" from_out="1" to_block="1" to_in="0"/>
+  <connection from_block="9" from_out="0" to_block="12" to_in="0"/>
+  <connection from_block="9" from_out="0" to_block="16" to_in="0"/>
+  <connection from_block="16" from_out="2" to_block="11" to_in="1"/>
+ </connections>
+ <comments/>
+</mosaicode>
