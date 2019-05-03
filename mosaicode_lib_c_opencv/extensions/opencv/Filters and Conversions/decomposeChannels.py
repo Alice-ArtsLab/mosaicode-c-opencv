@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the DecomposeRGB class.
+This module contains the Decompose Channels class.
 """
 
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
 
-class DecomposeRGB(BlockModel):
+class DecomposeChannels(BlockModel):
     """
-    This class contains methods related the DecomposeRGB class.
+    This class contains methods related the DecomposeChannels class.
     """
 
     # -------------------------------------------------------------------------
@@ -19,7 +19,7 @@ class DecomposeRGB(BlockModel):
         
         self.language = "c"
         self.framework = "opencv"
-        self.label = "Decompose RGB"
+        self.label = "Decompose Channels"
         self.color = "230:0:50:245"
         self.group = "Filters and Conversions"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
