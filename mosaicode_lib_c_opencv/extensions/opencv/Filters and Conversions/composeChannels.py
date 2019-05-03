@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This module contains the ComposeRGB class.
+This module contains the Compose Channels class.
 """
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
 
-class ComposeRGB(BlockModel):
+class ComposeChannels(BlockModel):
     """
-    This class contains methods related the ComposeRGB class.
+    This class contains methods related the ComposeChannels class.
     """
 
     # -------------------------------------------------------------------------
@@ -18,7 +18,7 @@ class ComposeRGB(BlockModel):
 
         self.language = "c"
         self.framework = "opencv"
-        self.label = "Compose RGB"
+        self.label = "Compose Channels"
         self.color = "230:0:50:245"
         self.group = "Filters and Conversions"
         self.ports = [{"type":"mosaicode_lib_c_opencv.extensions.ports.image",
